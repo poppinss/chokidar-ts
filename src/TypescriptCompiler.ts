@@ -8,7 +8,8 @@
 */
 
 import * as pm from 'picomatch'
-import * as ts from 'typescript'
+
+import * as tsStatic from 'typescript'
 import * as chokidar from 'chokidar'
 import { join, relative } from 'path'
 import { EventEmitter } from 'events'
@@ -29,7 +30,7 @@ export class TypescriptCompiler extends EventEmitter {
    * mutate this object, when we detect a new file being added or removed
    * inside the watcher.
    */
-  private _sourceFiles: ts.MapLike<{ version: number }> = {}
+  private _sourceFiles: tsStatic.MapLike<{ version: number }> = {}
 
   /**
    * Include patterns defined inside `tsconfig.json` file.
@@ -45,15 +46,15 @@ export class TypescriptCompiler extends EventEmitter {
    * Reference to language service to compile files on demand inside
    * the watcher.
    */
-  private _languageService: ts.LanguageService
+  private _languageService: tsStatic.LanguageService
 
   /**
    * A copy of custom transformers
    */
-  private _transformers?: ts.CustomTransformers
+  private _transformers?: tsStatic.CustomTransformers
 
   constructor (
-    private _ts: typeof ts,
+    private _ts: typeof tsStatic,
     private _configPath: string,
     private _cwd: string,
   ) {
@@ -64,10 +65,19 @@ export class TypescriptCompiler extends EventEmitter {
   public on (event: 'add', cb: (filePath: string) => void): this
   public on (event: 'change', cb: (filePath: string) => void): this
   public on (event: 'unlink', cb: (filePath: string) => void): this
-  public on (event: 'config:error', cb: (error: ts.Diagnostic) => void): this
-  public on (event: 'config:success', cb: (config: ts.ParsedCommandLine) => void): this
-  public on (event: 'initial:build', cb: (hasError: boolean, diagnostics: ts.Diagnostic[]) => void): this
-  public on (event: 'subsequent:build', cb: (hasError: boolean, diagnostics: ts.Diagnostic[]) => void): this
+  public on (event: 'config:error', cb: (error: tsStatic.Diagnostic) => void): this
+  public on (event: 'config:success', cb: (config: tsStatic.ParsedCommandLine) => void): this
+
+  public on (
+    event: 'initial:build',
+    cb: (hasError: boolean, diagnostics: tsStatic.Diagnostic[]) => void,
+  ): this
+
+  public on (
+    event: 'subsequent:build',
+    cb: (hasError: boolean, diagnostics: tsStatic.Diagnostic[]) => void,
+  ): this
+
   public on (event: string, cb: any): this
   public on (event: string, cb: any): this {
     super.on(event, cb)
@@ -77,11 +87,11 @@ export class TypescriptCompiler extends EventEmitter {
   /**
    * Builds the initial typescript project and emit the diagnostic
    */
-  private _buildProject (fileNames: string[], options: ts.CompilerOptions): boolean {
+  private _buildProject (fileNames: string[], options: tsStatic.CompilerOptions): boolean {
     const program = this._ts.createProgram(fileNames, options)
     const result = program.emit(
       undefined,
-      ts.sys.writeFile,
+      this._ts.sys.writeFile,
       undefined,
       undefined,
       this._transformers,
@@ -96,7 +106,7 @@ export class TypescriptCompiler extends EventEmitter {
   /**
    * Loads the project config
    */
-  private _loadConfig (): ts.ParsedCommandLine | undefined {
+  private _loadConfig (): tsStatic.ParsedCommandLine | undefined {
     const parsedConfig = this._ts.getParsedCommandLineOfConfigFile(
       this._configPath,
       {},
@@ -146,7 +156,7 @@ export class TypescriptCompiler extends EventEmitter {
   /**
    * Creates a new service host
    */
-  private _getServiceHost (options: ts.CompilerOptions): ts.LanguageServiceHost {
+  private _getServiceHost (options: tsStatic.CompilerOptions): tsStatic.LanguageServiceHost {
     return {
       getScriptFileNames: () => Object.keys(this._sourceFiles),
       getScriptVersion: file => {
@@ -156,12 +166,12 @@ export class TypescriptCompiler extends EventEmitter {
         if (!existsSync(fileName)) {
           return undefined
         }
-        return ts.ScriptSnapshot.fromString(readFileSync(fileName).toString())
+        return this._ts.ScriptSnapshot.fromString(readFileSync(fileName).toString())
       },
       getCustomTransformers: () => this._transformers,
       getCurrentDirectory: () => this._cwd,
       getCompilationSettings: () => options,
-      getDefaultLibFileName: options => ts.getDefaultLibFilePath(options),
+      getDefaultLibFileName: options => this._ts.getDefaultLibFilePath(options),
       fileExists: this._ts.sys.fileExists,
       readFile: this._ts.sys.readFile,
       readDirectory: this._ts.sys.readDirectory,
@@ -172,10 +182,10 @@ export class TypescriptCompiler extends EventEmitter {
    * Creates the language service. We use this service process
    * changed files.
    */
-  private _createLanguageService (options: ts.CompilerOptions) {
+  private _createLanguageService (options: tsStatic.CompilerOptions) {
     this._languageService = this._ts.createLanguageService(
       this._getServiceHost(options),
-      ts.createDocumentRegistry(),
+      this._ts.createDocumentRegistry(),
     )
   }
 
@@ -220,7 +230,7 @@ export class TypescriptCompiler extends EventEmitter {
    * Returns diagnostics for a given file. The file must be
    * tracked by the `languageService` compiler first.
    */
-  private _getFileErrors (absPath: string): ts.Diagnostic[] {
+  private _getFileErrors (absPath: string): tsStatic.Diagnostic[] {
     return this._languageService
       .getCompilerOptionsDiagnostics()
       .concat(this._languageService.getSyntacticDiagnostics(absPath))
