@@ -14,6 +14,11 @@ import { join, relative } from 'path'
 import { EventEmitter } from 'events'
 import { existsSync, readFileSync, writeFileSync } from 'fs'
 
+type PluginFn = (
+  ts: typeof tsStatic,
+  config: tsStatic.CompilerOptions,
+) => tsStatic.TransformerFactory<tsStatic.SourceFile> | tsStatic.CustomTransformerFactory
+
 /**
  * Exposes the API to compile Typescript projects and watch for file changes
  * along with other files than the source typescript files.
@@ -50,7 +55,15 @@ export class TypescriptCompiler extends EventEmitter {
   /**
    * A copy of custom transformers
    */
-  private _transformers?: tsStatic.CustomTransformers
+  private _transformers: tsStatic.CustomTransformers = {
+    before: [],
+    after: [],
+  }
+
+  /**
+   * Registered list of plugins
+   */
+  private _plugins: { fn: PluginFn, lifecycle: 'after' | 'before' }[] = []
 
   constructor (
     private _ts: typeof tsStatic,
@@ -60,33 +73,21 @@ export class TypescriptCompiler extends EventEmitter {
     super()
   }
 
-  public on (event: 'watcher:ready', cb: () => void): this
-  public on (event: 'add', cb: (filePath: string) => void): this
-  public on (event: 'change', cb: (filePath: string) => void): this
-  public on (event: 'unlink', cb: (filePath: string) => void): this
-  public on (event: 'config:error', cb: (error: tsStatic.Diagnostic) => void): this
-  public on (event: 'config:success', cb: (config: tsStatic.ParsedCommandLine) => void): this
-
-  public on (
-    event: 'initial:build',
-    cb: (hasError: boolean, diagnostics: tsStatic.Diagnostic[]) => void,
-  ): this
-
-  public on (
-    event: 'subsequent:build',
-    cb: (hasError: boolean, diagnostics: tsStatic.Diagnostic[]) => void,
-  ): this
-
-  public on (event: string, cb: any): this
-  public on (event: string, cb: any): this {
-    super.on(event, cb)
-    return this
-  }
-
   /**
    * Builds the initial typescript project and emit the diagnostic
    */
   private _buildProject (fileNames: string[], options: tsStatic.CompilerOptions): boolean {
+    /**
+     * Calling plugins to setup transformers
+     */
+    this._plugins.forEach(({ fn, lifecycle }) => {
+      if (lifecycle === 'after') {
+        this._transformers.after!.push(fn(this._ts, options))
+      } else {
+        this._transformers.before!.push(fn(this._ts, options))
+      }
+    })
+
     const program = this._ts.createProgram(fileNames, options)
     const result = program.emit(
       undefined,
@@ -330,6 +331,37 @@ export class TypescriptCompiler extends EventEmitter {
      */
     this._sourceFiles[absPath] = { version: 1 }
     this._processSourceFile(absPath)
+  }
+
+  public on (event: 'watcher:ready', cb: () => void): this
+  public on (event: 'add', cb: (filePath: string) => void): this
+  public on (event: 'change', cb: (filePath: string) => void): this
+  public on (event: 'unlink', cb: (filePath: string) => void): this
+  public on (event: 'config:error', cb: (error: tsStatic.Diagnostic) => void): this
+  public on (event: 'config:success', cb: (config: tsStatic.ParsedCommandLine) => void): this
+
+  public on (
+    event: 'initial:build',
+    cb: (hasError: boolean, diagnostics: tsStatic.Diagnostic[]) => void,
+  ): this
+
+  public on (
+    event: 'subsequent:build',
+    cb: (hasError: boolean, diagnostics: tsStatic.Diagnostic[]) => void,
+  ): this
+
+  public on (event: string, cb: any): this
+  public on (event: string, cb: any): this {
+    super.on(event, cb)
+    return this
+  }
+
+  /**
+   * Hook plugin to define custom transformers
+   */
+  public use (transformer: PluginFn, lifecycle: 'before' | 'after'): this {
+    this._plugins.push({ fn: transformer, lifecycle })
+    return this
   }
 
   /**
