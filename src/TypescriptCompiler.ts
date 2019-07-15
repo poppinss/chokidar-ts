@@ -106,10 +106,10 @@ export class TypescriptCompiler extends EventEmitter {
   /**
    * Loads the project config
    */
-  private _loadConfig (): tsStatic.ParsedCommandLine | undefined {
+  private _loadConfig (optionsToExtends?: tsStatic.CompilerOptions): tsStatic.ParsedCommandLine | undefined {
     const parsedConfig = this._ts.getParsedCommandLineOfConfigFile(
       this._configPath,
-      {},
+      optionsToExtends || {},
       {
         ...this._ts.sys,
         useCaseSensitiveFileNames: true,
@@ -367,8 +367,8 @@ export class TypescriptCompiler extends EventEmitter {
   /**
    * Build typescript project
    */
-  public build (): boolean {
-    const config = this._loadConfig()
+  public build (compileOptionsToExtend?: tsStatic.CompilerOptions): boolean {
+    const config = this._loadConfig(compileOptionsToExtend)
     if (!config) {
       return false
     }
@@ -382,8 +382,9 @@ export class TypescriptCompiler extends EventEmitter {
   public watch (
     watchPattern: string | string[] = ['.'],
     options?: chokidar.WatchOptions,
+    compileOptionsToExtend?: tsStatic.CompilerOptions,
   ) {
-    const config = this._loadConfig()
+    const config = this._loadConfig(compileOptionsToExtend)
     if (!config) {
       return
     }
