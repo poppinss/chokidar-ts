@@ -7,8 +7,7 @@
 * file that was distributed with this source code.
 */
 
-import * as pm from 'picomatch'
-
+import * as nanomatch from 'nanomatch'
 import * as tsStatic from 'typescript'
 import * as chokidar from 'chokidar'
 import { join, relative } from 'path'
@@ -215,7 +214,7 @@ export class TypescriptCompiler extends EventEmitter {
      * Return `false` when file is not part of the include
      * patterns
      */
-    if (!pm.isMatch(absPath, this._includePatterns)) {
+    if (!nanomatch.isMatch(absPath, this._includePatterns)) {
       return false
     }
 
@@ -223,7 +222,7 @@ export class TypescriptCompiler extends EventEmitter {
      * If file is part of include patterns, then make sure that
      * this file is not excluded as well.
      */
-    return !pm.isMatch(absPath, this._excludePatterns)
+    return !nanomatch.isMatch(absPath, this._excludePatterns)
   }
 
   /**

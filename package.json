@@ -69,6 +69,6 @@
   },
   "dependencies": {
     "chokidar": "^3.0.2",
-    "picomatch": "^2.0.7"
+    "nanomatch": "^1.2.13"
   }
 }
