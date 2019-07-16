@@ -345,8 +345,6 @@ export class TypescriptCompiler extends EventEmitter {
   public on (event: 'add', cb: (filePath: string) => void): this
   public on (event: 'change', cb: (filePath: string) => void): this
   public on (event: 'unlink', cb: (filePath: string) => void): this
-  public on (event: 'config:error', cb: (error: tsStatic.Diagnostic) => void): this
-  public on (event: 'config:success', cb: (config: tsStatic.ParsedCommandLine) => void): this
 
   public on (
     event: 'initial:build',

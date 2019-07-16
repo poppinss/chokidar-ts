@@ -304,46 +304,6 @@ Name | Type |
 
 **Returns:** *this*
 
-▸ **on**(`event`: "config:error", `cb`: function): *this*
-
-*Overrides void*
-
-**Parameters:**
-
-▪ **event**: *"config:error"*
-
-▪ **cb**: *function*
-
-▸ (`error`: `tsStatic.Diagnostic`): *void*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`error` | `tsStatic.Diagnostic` |
-
-**Returns:** *this*
-
-▸ **on**(`event`: "config:success", `cb`: function): *this*
-
-*Overrides void*
-
-**Parameters:**
-
-▪ **event**: *"config:success"*
-
-▪ **cb**: *function*
-
-▸ (`config`: `tsStatic.ParsedCommandLine`): *void*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`config` | `tsStatic.ParsedCommandLine` |
-
-**Returns:** *this*
-
 ▸ **on**(`event`: "initial:build", `cb`: function): *this*
 
 *Overrides void*
