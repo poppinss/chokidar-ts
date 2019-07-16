@@ -367,34 +367,36 @@ export class TypescriptCompiler extends EventEmitter {
   /**
    * Build typescript project
    */
-  public build (compileOptionsToExtend?: tsStatic.CompilerOptions): boolean {
-    const config = this._loadConfig(compileOptionsToExtend)
-    if (!config) {
-      return false
-    }
+  public build (
+    parsedConfig: tsStatic.ParsedCommandLine,
+  ): boolean {
+    return this._buildProject(parsedConfig.fileNames, parsedConfig.options)
+  }
 
-    return this._buildProject(config.fileNames, config.options)
+  /**
+   * Parses and returns the config. Also an event will be
+   * emitted when config has errors.
+   */
+  public parseConfig (
+    compileOptionsToExtend?: tsStatic.CompilerOptions,
+  ): tsStatic.ParsedCommandLine | undefined {
+    return this._loadConfig(compileOptionsToExtend)
   }
 
   /**
    * Build the initial project and then start watcher
    */
   public watch (
+    parsedConfig: tsStatic.ParsedCommandLine,
     watchPattern: string | string[] = ['.'],
     options?: chokidar.WatchOptions,
-    compileOptionsToExtend?: tsStatic.CompilerOptions,
   ) {
-    const config = this._loadConfig(compileOptionsToExtend)
-    if (!config) {
-      return
-    }
-
     /**
      * Do initial project build, this will emit `initial:build`
      * event. If build fails, then we will not start the
      * watcher.
      */
-    const success = this._buildProject(config.fileNames, config.options)
+    const success = this._buildProject(parsedConfig.fileNames, parsedConfig.options)
     if (!success) {
       return
     }
@@ -405,7 +407,7 @@ export class TypescriptCompiler extends EventEmitter {
        */
       ignored: [
         'node_modules/**',
-        `${config.options.outDir}/**`,
+        `${parsedConfig.options.outDir}/**`,
         /(^|[\/\\])\../,
       ],
       cwd: this._cwd,
@@ -415,7 +417,7 @@ export class TypescriptCompiler extends EventEmitter {
     this.watcher = chokidar.watch(watchPattern, options)
     this.watcher.on('ready', () => {
       this.emit('watcher:ready')
-      this._createLanguageService(config.options)
+      this._createLanguageService(parsedConfig.options)
     })
 
     this.watcher.on('add', (path: string) => this._onNewFile(path))

@@ -65,7 +65,8 @@
   },
   "np": {
     "contents": ".",
-    "anyBranch": false
+    "anyBranch": false,
+    "releaseDraft": true
   },
   "dependencies": {
     "chokidar": "^3.0.2",
