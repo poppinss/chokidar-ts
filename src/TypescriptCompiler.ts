@@ -1,3 +1,7 @@
+/**
+ * @module @poppinss/chokidar-ts
+ */
+
 /*
 * @poppinss/chokidar-ts
 *
