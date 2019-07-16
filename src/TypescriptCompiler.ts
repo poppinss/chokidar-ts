@@ -106,7 +106,12 @@ export class TypescriptCompiler extends EventEmitter {
   /**
    * Loads the project config
    */
-  private _loadConfig (optionsToExtends?: tsStatic.CompilerOptions): tsStatic.ParsedCommandLine | undefined {
+  private _loadConfig (optionsToExtends?: tsStatic.CompilerOptions): {
+    error?: tsStatic.Diagnostic,
+    config?: tsStatic.ParsedCommandLine,
+  } {
+    let hardException: null | tsStatic.Diagnostic = null
+
     const parsedConfig = this._ts.getParsedCommandLineOfConfigFile(
       this._configPath,
       optionsToExtends || {},
@@ -114,20 +119,20 @@ export class TypescriptCompiler extends EventEmitter {
         ...this._ts.sys,
         useCaseSensitiveFileNames: true,
         onUnRecoverableConfigFileDiagnostic: (error) => {
-          this.emit('config:error', error)
+          hardException = error
         },
       },
     )
 
-    if (!parsedConfig) {
-      return
+    if (hardException) {
+      return { error: hardException }
     }
 
     /**
      * Setting include patterns, so that we can ignore typescript files
      * which are not part of the typescript project
      */
-    const includeSpecs = parsedConfig['configFileSpecs'].validatedIncludeSpecs
+    const includeSpecs = parsedConfig!['configFileSpecs'].validatedIncludeSpecs
     this._includePatterns = includeSpecs.map((path: string) => {
       return join(this._cwd, relative(this._cwd, path))
     })
@@ -136,7 +141,7 @@ export class TypescriptCompiler extends EventEmitter {
      * Setting exclude patterns, so that we can ignore typescript files
      * are excluded
      */
-    const excludeSpecs = parsedConfig['configFileSpecs'].validatedExcludeSpecs
+    const excludeSpecs = parsedConfig!['configFileSpecs'].validatedExcludeSpecs
     this._excludePatterns = excludeSpecs.map((path: string) => {
       return join(this._cwd, relative(this._cwd, path))
     })
@@ -145,12 +150,11 @@ export class TypescriptCompiler extends EventEmitter {
      * Setting source files. We are later use them with language
      * service
      */
-    parsedConfig.fileNames.forEach((file) => {
+    parsedConfig!.fileNames.forEach((file) => {
       this._sourceFiles[file] = { version: 1 }
     })
 
-    this.emit('config:success', parsedConfig)
-    return parsedConfig
+    return { config: parsedConfig }
   }
 
   /**
@@ -367,9 +371,7 @@ export class TypescriptCompiler extends EventEmitter {
   /**
    * Build typescript project
    */
-  public build (
-    parsedConfig: tsStatic.ParsedCommandLine,
-  ): boolean {
+  public build (parsedConfig: tsStatic.ParsedCommandLine): boolean {
     return this._buildProject(parsedConfig.fileNames, parsedConfig.options)
   }
 
@@ -379,7 +381,7 @@ export class TypescriptCompiler extends EventEmitter {
    */
   public parseConfig (
     compileOptionsToExtend?: tsStatic.CompilerOptions,
-  ): tsStatic.ParsedCommandLine | undefined {
+  ): { error?: tsStatic.Diagnostic, config?: tsStatic.ParsedCommandLine } {
     return this._loadConfig(compileOptionsToExtend)
   }
 
