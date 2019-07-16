@@ -335,12 +335,13 @@ Name | Type |
 
 ▪ **cb**: *function*
 
-▸ (`hasError`: boolean, `diagnostics`: `tsStatic.Diagnostic`[]): *void*
+▸ (`filePath`: string, `hasError`: boolean, `diagnostics`: `tsStatic.Diagnostic`[]): *void*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
+`filePath` | string |
 `hasError` | boolean |
 `diagnostics` | `tsStatic.Diagnostic`[] |
 

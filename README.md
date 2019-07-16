@@ -150,7 +150,7 @@ compiler.on('initial:build', (hasError, diagnostics) => {
   // start the HTTP server
 })
 
-compiler.on('subsequent:build', (hasError, diagnostics) => {
+compiler.on('subsequent:build', (filePath, hasError, diagnostics) => {
   // restart the HTTP server
 })
 

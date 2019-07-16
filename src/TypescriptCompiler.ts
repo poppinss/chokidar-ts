@@ -253,11 +253,11 @@ export class TypescriptCompiler extends EventEmitter {
     const output = this._languageService.getEmitOutput(absPath)
 
     if (output.emitSkipped) {
-      this.emit('subsequent:build', true, this._getFileErrors(absPath))
+      this.emit('subsequent:build', absPath, true, this._getFileErrors(absPath))
       return
     }
 
-    this.emit('subsequent:build', false, this._getFileErrors(absPath))
+    this.emit('subsequent:build', absPath, false, this._getFileErrors(absPath))
     output.outputFiles.forEach((one) => {
       writeFileSync(one.name, one.text, 'utf-8')
     })
@@ -353,7 +353,7 @@ export class TypescriptCompiler extends EventEmitter {
 
   public on (
     event: 'subsequent:build',
-    cb: (hasError: boolean, diagnostics: tsStatic.Diagnostic[]) => void,
+    cb: (filePath: string, hasError: boolean, diagnostics: tsStatic.Diagnostic[]) => void,
   ): this
 
   public on (event: string, cb: any): this
