@@ -16,7 +16,7 @@ import * as tsStatic from 'typescript'
 import * as chokidar from 'chokidar'
 import { join, relative } from 'path'
 import { EventEmitter } from 'events'
-import { existsSync, readFileSync, writeFileSync } from 'fs'
+import { outputFile } from 'fs-extra'
 
 type PluginFn = (
   ts: typeof tsStatic,
@@ -171,10 +171,11 @@ export class TypescriptCompiler extends EventEmitter {
         return this._sourceFiles[file] && this._sourceFiles[file].version.toString()
       },
       getScriptSnapshot: fileName => {
-        if (!existsSync(fileName)) {
+        const contents = this._ts.sys.readFile(fileName)
+        if (!contents) {
           return undefined
         }
-        return this._ts.ScriptSnapshot.fromString(readFileSync(fileName).toString())
+        return this._ts.ScriptSnapshot.fromString(contents.toString())
       },
       getCustomTransformers: () => this._transformers,
       getCurrentDirectory: () => this._cwd,
@@ -249,7 +250,7 @@ export class TypescriptCompiler extends EventEmitter {
    * Processing the source file by getting it's emit output
    * and writing it to the disk
    */
-  private _processSourceFile (absPath: string, relativePath: string) {
+  private async _processSourceFile (absPath: string, relativePath: string) {
     const output = this._languageService.getEmitOutput(absPath)
 
     if (output.emitSkipped) {
@@ -257,10 +258,18 @@ export class TypescriptCompiler extends EventEmitter {
       return
     }
 
+    /**
+     * Write all files in parallel
+     */
+    await Promise.all(output.outputFiles.map((one) => {
+      return outputFile(one.name, one.text, 'utf-8')
+    }))
+
+    /**
+     * Always emit after the files have been written, otherwise consumer relying
+     * on the output file will experience flaky behavior.
+     */
     this.emit('subsequent:build', relativePath, false, this._getFileErrors(absPath))
-    output.outputFiles.forEach((one) => {
-      writeFileSync(one.name, one.text, 'utf-8')
-    })
   }
 
   /**
