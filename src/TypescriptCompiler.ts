@@ -249,15 +249,15 @@ export class TypescriptCompiler extends EventEmitter {
    * Processing the source file by getting it's emit output
    * and writing it to the disk
    */
-  private _processSourceFile (absPath: string) {
+  private _processSourceFile (absPath: string, relativePath: string) {
     const output = this._languageService.getEmitOutput(absPath)
 
     if (output.emitSkipped) {
-      this.emit('subsequent:build', absPath, true, this._getFileErrors(absPath))
+      this.emit('subsequent:build', relativePath, true, this._getFileErrors(absPath))
       return
     }
 
-    this.emit('subsequent:build', absPath, false, this._getFileErrors(absPath))
+    this.emit('subsequent:build', relativePath, false, this._getFileErrors(absPath))
     output.outputFiles.forEach((one) => {
       writeFileSync(one.name, one.text, 'utf-8')
     })
@@ -290,7 +290,7 @@ export class TypescriptCompiler extends EventEmitter {
      * the file again from disk.
      */
     this._sourceFiles[absPath].version++
-    this._processSourceFile(absPath)
+    this._processSourceFile(absPath, filePath)
   }
 
   /**
@@ -338,7 +338,7 @@ export class TypescriptCompiler extends EventEmitter {
      * in subsequent events.
      */
     this._sourceFiles[absPath] = { version: 1 }
-    this._processSourceFile(absPath)
+    this._processSourceFile(absPath, filePath)
   }
 
   public on (event: 'watcher:ready', cb: () => void): this
