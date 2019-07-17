@@ -172,7 +172,7 @@ export class TypescriptCompiler extends EventEmitter {
       },
       getScriptSnapshot: fileName => {
         const contents = this._ts.sys.readFile(fileName)
-        if (!contents) {
+        if (contents === undefined) {
           return undefined
         }
         return this._ts.ScriptSnapshot.fromString(contents.toString())
