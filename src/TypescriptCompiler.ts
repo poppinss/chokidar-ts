@@ -308,6 +308,13 @@ export class TypescriptCompiler extends EventEmitter {
 
     const absPath = join(this._cwd, filePath)
     delete this._sourceFiles[absPath]
+
+    /**
+     * Emit `source:unlink`, since their is no simple
+     * way to find the output path for a source
+     * file
+     */
+    this.emit('source:unlink', filePath)
   }
 
   /**
@@ -345,6 +352,7 @@ export class TypescriptCompiler extends EventEmitter {
   public on (event: 'add', cb: (filePath: string) => void): this
   public on (event: 'change', cb: (filePath: string) => void): this
   public on (event: 'unlink', cb: (filePath: string) => void): this
+  public on (event: 'source:unlink', cb: (filePath: string) => void): this
 
   public on (
     event: 'initial:build',

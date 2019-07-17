@@ -304,6 +304,26 @@ Name | Type |
 
 **Returns:** *this*
 
+▸ **on**(`event`: "source:unlink", `cb`: function): *this*
+
+*Overrides void*
+
+**Parameters:**
+
+▪ **event**: *"source:unlink"*
+
+▪ **cb**: *function*
+
+▸ (`filePath`: string): *void*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`filePath` | string |
+
+**Returns:** *this*
+
 ▸ **on**(`event`: "initial:build", `cb`: function): *this*
 
 *Overrides void*

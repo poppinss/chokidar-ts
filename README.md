@@ -166,6 +166,10 @@ compiler.on('unlink', (filePath) => {
   // file other than `.ts` files has been removed
 })
 
+compiler.on('source:unlink', (filePath) => {
+  // source file removed
+})
+
 if (config) {
   compiler.watch(config)
 }
