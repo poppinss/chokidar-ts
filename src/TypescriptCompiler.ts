@@ -16,12 +16,28 @@ import * as tsStatic from 'typescript'
 import * as chokidar from 'chokidar'
 import { join, relative } from 'path'
 import { EventEmitter } from 'events'
+import { platform } from 'os'
 import { outputFile } from 'fs-extra'
 
 type PluginFn = (
   ts: typeof tsStatic,
   config: tsStatic.CompilerOptions,
 ) => tsStatic.TransformerFactory<tsStatic.SourceFile> | tsStatic.CustomTransformerFactory
+
+const isWindows = platform() === 'win32'
+const backslashReg = /\\/g
+
+/**
+ * Normalize slashes on Windows so that paths do not have backslashes.
+ * This is to make the paths reported by chokidar compatible with the ones
+ * found by the TypeScript compiler and to make correct patterns for nanomatch.
+ */
+function normalizeSlashes (path: string): string {
+  if (!isWindows) {
+    return path
+  }
+  return path.replace(backslashReg, '/')
+}
 
 /**
  * Exposes the API to compile Typescript projects and watch for file changes
@@ -138,7 +154,7 @@ export class TypescriptCompiler extends EventEmitter {
      */
     const includeSpecs = parsedConfig!['configFileSpecs'].validatedIncludeSpecs
     this._includePatterns = includeSpecs.map((path: string) => {
-      return join(this._cwd, relative(this._cwd, path))
+      return normalizeSlashes(join(this._cwd, relative(this._cwd, path)))
     })
 
     /**
@@ -147,7 +163,7 @@ export class TypescriptCompiler extends EventEmitter {
      */
     const excludeSpecs = parsedConfig!['configFileSpecs'].validatedExcludeSpecs
     this._excludePatterns = excludeSpecs.map((path: string) => {
-      return join(this._cwd, relative(this._cwd, path))
+      return normalizeSlashes(join(this._cwd, relative(this._cwd, path)))
     })
 
     /**
@@ -285,7 +301,7 @@ export class TypescriptCompiler extends EventEmitter {
       return
     }
 
-    const absPath = join(this._cwd, filePath)
+    const absPath = normalizeSlashes(join(this._cwd, filePath))
 
     /**
      * Ignore file when it's not part of the typescript project
@@ -315,7 +331,7 @@ export class TypescriptCompiler extends EventEmitter {
       return
     }
 
-    const absPath = join(this._cwd, filePath)
+    const absPath = normalizeSlashes(join(this._cwd, filePath))
     delete this._sourceFiles[absPath]
 
     /**
@@ -339,7 +355,7 @@ export class TypescriptCompiler extends EventEmitter {
       return
     }
 
-    const absPath = join(this._cwd, filePath)
+    const absPath = normalizeSlashes(join(this._cwd, filePath))
 
     /**
      * Ignore file when it's not part of the typescript project
@@ -441,8 +457,8 @@ export class TypescriptCompiler extends EventEmitter {
       this._createLanguageService(parsedConfig.options)
     })
 
-    this.watcher.on('add', (path: string) => this._onNewFile(path))
-    this.watcher.on('change', (path: string) => this._onChange(path))
-    this.watcher.on('unlink', (path: string) => this._onRemove(path))
+    this.watcher.on('add', (path: string) => this._onNewFile(normalizeSlashes(path)))
+    this.watcher.on('change', (path: string) => this._onChange(normalizeSlashes(path)))
+    this.watcher.on('unlink', (path: string) => this._onRemove(normalizeSlashes(path)))
   }
 }
