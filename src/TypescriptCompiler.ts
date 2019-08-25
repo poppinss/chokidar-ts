@@ -365,6 +365,8 @@ export class TypescriptCompiler extends EventEmitter {
    * Triggered when a new file is added to the project
    */
   private _onNewFile (filePath: string) {
+    console.log({ filePath })
+
     /**
      * Emit `add` when source file is not a typescript
      * file, since we don't handle them.
@@ -472,6 +474,7 @@ export class TypescriptCompiler extends EventEmitter {
 
     this.watcher = chokidar.watch(watchPattern, options)
     this.watcher.on('ready', () => {
+      console.log('chokidar ready')
       this.emit('watcher:ready')
       this._createLanguageService(parsedConfig.options)
     })

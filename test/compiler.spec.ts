@@ -123,6 +123,7 @@ test.group('Compiler', (group) => {
     })
 
     compiler.on('watcher:ready', async () => {
+      console.log('adding file')
       await fs.add('foo/hello.txt', '')
     })
 
