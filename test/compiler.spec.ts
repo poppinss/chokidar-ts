@@ -92,7 +92,7 @@ test.group('Compiler', (group) => {
       console.log({ filePath })
       assert.equal(filePath, normalize('foo/source.ts'))
       compiler.watcher!.close()
-      done()
+      process.nextTick(() => done())
     })
 
     compiler.on('watcher:ready', async () => {
@@ -119,7 +119,7 @@ test.group('Compiler', (group) => {
       console.log({ filePath })
       assert.equal(filePath, normalize('foo/hello.txt'))
       compiler.watcher!.close()
-      done()
+      process.nextTick(() => done())
     })
 
     compiler.on('watcher:ready', async () => {
@@ -150,7 +150,7 @@ test.group('Compiler', (group) => {
       await fs.add('foo/source.ts', '')
       setTimeout(() => {
         compiler.watcher!.close()
-        done()
+        process.nextTick(() => done())
       }, 4000)
     })
 
