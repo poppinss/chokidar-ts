@@ -72,6 +72,7 @@
     "releaseDraft": true
   },
   "dependencies": {
+    "@poppinss/dev-utils": "^1.0.0",
     "chokidar": "^3.0.2",
     "fs-extra": "^8.1.0",
     "nanomatch": "^1.2.13"

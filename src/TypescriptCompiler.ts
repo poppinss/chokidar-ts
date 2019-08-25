@@ -11,12 +11,12 @@
 * file that was distributed with this source code.
 */
 
+// import { platform } from 'os'
 import * as nanomatch from 'nanomatch'
 import * as tsStatic from 'typescript'
 import * as chokidar from 'chokidar'
-import { join, relative } from 'path'
+import { join, isAbsolute } from 'path'
 import { EventEmitter } from 'events'
-import { platform } from 'os'
 import { outputFile } from 'fs-extra'
 
 type PluginFn = (
@@ -24,20 +24,20 @@ type PluginFn = (
   config: tsStatic.CompilerOptions,
 ) => tsStatic.TransformerFactory<tsStatic.SourceFile> | tsStatic.CustomTransformerFactory
 
-const isWindows = platform() === 'win32'
-const backslashReg = /\\/g
+// const isWindows = platform() === 'win32'
+// const backslashReg = /\\/g
 
 /**
  * Normalize slashes on Windows so that paths do not have backslashes.
  * This is to make the paths reported by chokidar compatible with the ones
  * found by the TypeScript compiler and to make correct patterns for nanomatch.
  */
-function normalizeSlashes (path: string): string {
-  if (!isWindows) {
-    return path
-  }
-  return path.replace(backslashReg, '/')
-}
+// function normalizeSlashes (path: string): string {
+//   if (!isWindows) {
+//     return path
+//   }
+//   return path.replace(backslashReg, '/')
+// }
 
 /**
  * Exposes the API to compile Typescript projects and watch for file changes
@@ -91,6 +91,10 @@ export class TypescriptCompiler extends EventEmitter {
     private _cwd: string,
   ) {
     super()
+
+    if (!isAbsolute(this._configPath)) {
+      this._configPath = join(this._cwd, this._configPath)
+    }
   }
 
   /**
@@ -152,18 +156,18 @@ export class TypescriptCompiler extends EventEmitter {
      * Setting include patterns, so that we can ignore typescript files
      * which are not part of the typescript project
      */
-    const includeSpecs = parsedConfig!['configFileSpecs'].validatedIncludeSpecs
+    const includeSpecs = parsedConfig!['configFileSpecs'].validatedIncludeSpecs || []
     this._includePatterns = includeSpecs.map((path: string) => {
-      return normalizeSlashes(join(this._cwd, relative(this._cwd, path)))
+      return join(this._cwd, path)
     })
 
     /**
      * Setting exclude patterns, so that we can ignore typescript files
      * are excluded
      */
-    const excludeSpecs = parsedConfig!['configFileSpecs'].validatedExcludeSpecs
+    const excludeSpecs = parsedConfig!['configFileSpecs'].validatedExcludeSpecs || []
     this._excludePatterns = excludeSpecs.map((path: string) => {
-      return normalizeSlashes(join(this._cwd, relative(this._cwd, path)))
+      return join(this._cwd, path)
     })
 
     /**
@@ -223,19 +227,10 @@ export class TypescriptCompiler extends EventEmitter {
   }
 
   /**
-   * Returns a boolean telling if the absolute file to a path
-   * is part of the typescript project or not. It will look
-   * at the `includes` and `excludes` section of `tsconfig`
-   * to make the decision.
+   * Returns a boolean telling if the absolute path passes the
+   * includes and excludes defined in tsconfig file
    */
-  private _isTsSourceFile (absPath: string): boolean {
-    /**
-     * If file exists in the `sourceFiles`, then return true
-     */
-    if (this._sourceFiles[absPath]) {
-      return true
-    }
-
+  private _isIncludedInProjectFiles (absPath: string): boolean {
     /**
      * Return `false` when file is not part of the include
      * patterns
@@ -249,6 +244,23 @@ export class TypescriptCompiler extends EventEmitter {
      * this file is not excluded as well.
      */
     return !nanomatch.isMatch(absPath, this._excludePatterns)
+  }
+
+  /**
+   * Returns a boolean telling if the absolute file to a path
+   * is part of the typescript project or not. It will look
+   * at the `includes` and `excludes` section of `tsconfig`
+   * to make the decision.
+   */
+  private _isTsSourceFile (absPath: string): boolean {
+    /**
+     * If file exists in the `sourceFiles`, then return true
+     */
+    if (this._sourceFiles[absPath]) {
+      return true
+    }
+
+    return this._isIncludedInProjectFiles(absPath)
   }
 
   /**
@@ -301,7 +313,7 @@ export class TypescriptCompiler extends EventEmitter {
       return
     }
 
-    const absPath = normalizeSlashes(join(this._cwd, filePath))
+    const absPath = join(this._cwd, filePath)
 
     /**
      * Ignore file when it's not part of the typescript project
@@ -331,7 +343,7 @@ export class TypescriptCompiler extends EventEmitter {
       return
     }
 
-    const absPath = normalizeSlashes(join(this._cwd, filePath))
+    const absPath = join(this._cwd, filePath)
     delete this._sourceFiles[absPath]
 
     /**
@@ -355,7 +367,7 @@ export class TypescriptCompiler extends EventEmitter {
       return
     }
 
-    const absPath = normalizeSlashes(join(this._cwd, filePath))
+    const absPath = join(this._cwd, filePath)
 
     /**
      * Ignore file when it's not part of the typescript project
@@ -457,8 +469,8 @@ export class TypescriptCompiler extends EventEmitter {
       this._createLanguageService(parsedConfig.options)
     })
 
-    this.watcher.on('add', (path: string) => this._onNewFile(normalizeSlashes(path)))
-    this.watcher.on('change', (path: string) => this._onChange(normalizeSlashes(path)))
-    this.watcher.on('unlink', (path: string) => this._onRemove(normalizeSlashes(path)))
+    this.watcher.on('add', (path: string) => this._onNewFile(path))
+    this.watcher.on('change', (path: string) => this._onChange(path))
+    this.watcher.on('unlink', (path: string) => this._onRemove(path))
   }
 }
