@@ -53,7 +53,7 @@ test.group('Compiler', (group) => {
     assert.equal(config.error!.messageText, `File '${join(fs.basePath, 'foo.json')}' not found.`)
   })
 
-  test('normalize includes and excludes defined in tsconfig file', async (assert) => {
+  test('normalize slashes of includes and excludes defined in tsconfig file', async (assert) => {
     await fs.add('tsconfig.json', JSON.stringify({
       include: ['**/*'],
       exclude: ['node_modules', 'build'],
@@ -66,10 +66,12 @@ test.group('Compiler', (group) => {
     )
 
     compiler.parseConfig()
-    assert.deepEqual(compiler['_includePatterns'], [join(fs.basePath, '**', '*')])
+    assert.deepEqual(compiler['_includePatterns'], [
+      join(fs.basePath, '**', '*').replace(/\\/g, '/'),
+    ])
     assert.deepEqual(compiler['_excludePatterns'], [
-      join(fs.basePath, 'node_modules'),
-      join(fs.basePath, 'build'),
+      join(fs.basePath, 'node_modules').replace(/\\/g, '/'),
+      join(fs.basePath, 'build').replace(/\\/g, '/'),
     ])
   })
 
@@ -87,6 +89,7 @@ test.group('Compiler', (group) => {
 
     const config = compiler.parseConfig()
     compiler.on('subsequent:build', (filePath) => {
+      console.log({ filePath })
       assert.equal(filePath, normalize('foo/source.ts'))
       compiler.watcher!.close()
       done()
@@ -113,6 +116,7 @@ test.group('Compiler', (group) => {
 
     const config = compiler.parseConfig()
     compiler.on('add', (filePath) => {
+      console.log({ filePath })
       assert.equal(filePath, normalize('foo/hello.txt'))
       compiler.watcher!.close()
       done()
@@ -147,7 +151,7 @@ test.group('Compiler', (group) => {
       setTimeout(() => {
         compiler.watcher!.close()
         done()
-      }, 2000)
+      }, 4000)
     })
 
     compiler.watch(config.config!)
