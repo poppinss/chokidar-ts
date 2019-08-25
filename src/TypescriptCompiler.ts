@@ -11,11 +11,11 @@
 * file that was distributed with this source code.
 */
 
-// import { platform } from 'os'
+import { platform } from 'os'
 import * as nanomatch from 'nanomatch'
 import * as tsStatic from 'typescript'
 import * as chokidar from 'chokidar'
-import { join, isAbsolute } from 'path'
+import { join, isAbsolute, normalize } from 'path'
 import { EventEmitter } from 'events'
 import { outputFile } from 'fs-extra'
 
@@ -24,20 +24,19 @@ type PluginFn = (
   config: tsStatic.CompilerOptions,
 ) => tsStatic.TransformerFactory<tsStatic.SourceFile> | tsStatic.CustomTransformerFactory
 
-// const isWindows = platform() === 'win32'
-// const backslashReg = /\\/g
+const isWindows = platform() === 'win32'
+const backslashReg = /\\/g
 
 /**
- * Normalize slashes on Windows so that paths do not have backslashes.
- * This is to make the paths reported by chokidar compatible with the ones
- * found by the TypeScript compiler and to make correct patterns for nanomatch.
+ * Normalize slashes on Windows so that paths do not have backslashes. This is
+ * required since nanomatch cannot work with Windows paths
  */
-// function normalizeSlashes (path: string): string {
-//   if (!isWindows) {
-//     return path
-//   }
-//   return path.replace(backslashReg, '/')
-// }
+function normalizeSlashes (path: string): string {
+  if (!isWindows) {
+    return path
+  }
+  return path.replace(backslashReg, '/')
+}
 
 /**
  * Exposes the API to compile Typescript projects and watch for file changes
@@ -175,7 +174,7 @@ export class TypescriptCompiler extends EventEmitter {
      * service
      */
     parsedConfig!.fileNames.forEach((file) => {
-      this._sourceFiles[file] = { version: 1 }
+      this._sourceFiles[normalize(file)] = { version: 1 }
     })
 
     return { config: parsedConfig }
@@ -232,10 +231,15 @@ export class TypescriptCompiler extends EventEmitter {
    */
   private _isIncludedInProjectFiles (absPath: string): boolean {
     /**
+     * Converting to unix, so that nanomatch can work with the path
+     */
+    const unixPath = normalizeSlashes(absPath)
+
+    /**
      * Return `false` when file is not part of the include
      * patterns
      */
-    if (!nanomatch.isMatch(absPath, this._includePatterns)) {
+    if (!nanomatch.isMatch(unixPath, this._includePatterns)) {
       return false
     }
 
@@ -243,7 +247,7 @@ export class TypescriptCompiler extends EventEmitter {
      * If file is part of include patterns, then make sure that
      * this file is not excluded as well.
      */
-    return !nanomatch.isMatch(absPath, this._excludePatterns)
+    return !nanomatch.isMatch(unixPath, this._excludePatterns)
   }
 
   /**
