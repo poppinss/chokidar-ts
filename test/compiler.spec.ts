@@ -97,7 +97,7 @@ test.group('Compiler', (group) => {
     })
 
     compiler.watch(config.config!)
-  }).timeout(6000)
+  }).timeout(10000)
 
   test('emit relative path of non source file', async (assert, done) => {
     await fs.add('tsconfig.json', JSON.stringify({
@@ -123,7 +123,7 @@ test.group('Compiler', (group) => {
     })
 
     compiler.watch(config.config!)
-  }).timeout(6000)
+  }).timeout(10000)
 
   test('do not emit when file is excluded explicitly', async (_assert, done) => {
     await fs.add('tsconfig.json', JSON.stringify({
