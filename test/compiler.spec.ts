@@ -37,7 +37,7 @@ test.group('Compiler', (group) => {
     )
 
     const config = compiler.parseConfig()
-    assert.deepEqual(config.config!.fileNames, config.config!.fileNames.map((name) => {
+    assert.deepEqual(Object.keys(compiler['_sourceFiles']), config.config!.fileNames.map((name) => {
       return normalize(name)
     }))
   })

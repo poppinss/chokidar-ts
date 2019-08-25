@@ -15,7 +15,7 @@ import { platform } from 'os'
 import * as nanomatch from 'nanomatch'
 import * as tsStatic from 'typescript'
 import * as chokidar from 'chokidar'
-import { join, isAbsolute, win32 } from 'path'
+import { join, isAbsolute, normalize } from 'path'
 import { EventEmitter } from 'events'
 import { outputFile } from 'fs-extra'
 
@@ -174,8 +174,7 @@ export class TypescriptCompiler extends EventEmitter {
      * service
      */
     parsedConfig!.fileNames.forEach((file) => {
-      file = isWindows ? win32.normalize(file) : file
-      this._sourceFiles[file] = { version: 1 }
+      this._sourceFiles[normalize(file)] = { version: 1 }
     })
 
     return { config: parsedConfig }
@@ -236,6 +235,8 @@ export class TypescriptCompiler extends EventEmitter {
      */
     const unixPath = normalizeSlashes(absPath)
     console.log(unixPath)
+    console.log(this._includePatterns)
+    console.log(this._excludePatterns)
 
     /**
      * Return `false` when file is not part of the include
