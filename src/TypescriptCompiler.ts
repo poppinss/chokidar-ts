@@ -157,7 +157,7 @@ export class TypescriptCompiler extends EventEmitter {
      */
     const includeSpecs = parsedConfig!['configFileSpecs'].validatedIncludeSpecs || []
     this._includePatterns = includeSpecs.map((path: string) => {
-      return join(this._cwd, path)
+      return normalizeSlashes(join(this._cwd, path))
     })
 
     /**
@@ -166,7 +166,7 @@ export class TypescriptCompiler extends EventEmitter {
      */
     const excludeSpecs = parsedConfig!['configFileSpecs'].validatedExcludeSpecs || []
     this._excludePatterns = excludeSpecs.map((path: string) => {
-      return join(this._cwd, path)
+      return normalizeSlashes(join(this._cwd, path))
     })
 
     /**
