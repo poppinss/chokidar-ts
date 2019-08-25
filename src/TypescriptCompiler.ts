@@ -473,6 +473,7 @@ export class TypescriptCompiler extends EventEmitter {
     }, options)
 
     this.watcher = chokidar.watch(watchPattern, options)
+
     this.watcher.on('ready', () => {
       console.log('chokidar ready')
       this.emit('watcher:ready')

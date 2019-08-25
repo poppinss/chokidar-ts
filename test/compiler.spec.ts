@@ -88,18 +88,18 @@ test.group('Compiler', (group) => {
     )
 
     const config = compiler.parseConfig()
+    compiler.watch(config.config!)
+
     compiler.on('subsequent:build', (filePath) => {
       console.log({ filePath })
       assert.equal(filePath, normalize('foo/source.ts'))
       compiler.watcher!.close()
-      process.nextTick(() => done())
+      setTimeout(() => done(), 2000)
     })
 
     compiler.on('watcher:ready', async () => {
       await fs.add('foo/source.ts', '')
     })
-
-    compiler.watch(config.config!)
   }).timeout(10000)
 
   test('emit relative path of non source file', async (assert, done) => {
@@ -115,19 +115,19 @@ test.group('Compiler', (group) => {
     )
 
     const config = compiler.parseConfig()
+    compiler.watch(config.config!)
+
     compiler.on('add', (filePath) => {
       console.log({ filePath })
       assert.equal(filePath, normalize('foo/hello.txt'))
       compiler.watcher!.close()
-      process.nextTick(() => done())
+      setTimeout(() => done(), 2000)
     })
 
     compiler.on('watcher:ready', async () => {
       console.log('adding file')
       await fs.add('foo/hello.txt', '')
     })
-
-    compiler.watch(config.config!)
   }).timeout(10000)
 
   test('do not emit when file is excluded explicitly', async (_assert, done) => {
@@ -143,6 +143,8 @@ test.group('Compiler', (group) => {
     )
 
     const config = compiler.parseConfig()
+    compiler.watch(config.config!)
+
     compiler.on('subsequent:build', () => {
       done(new Error('Never expected to be called'))
     })
@@ -151,10 +153,8 @@ test.group('Compiler', (group) => {
       await fs.add('foo/source.ts', '')
       setTimeout(() => {
         compiler.watcher!.close()
-        process.nextTick(() => done())
+        setTimeout(() => done(), 2000)
       }, 4000)
     })
-
-    compiler.watch(config.config!)
-  }).timeout(6000)
+  }).timeout(10000)
 })
