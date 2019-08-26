@@ -91,7 +91,6 @@ test.group('Compiler', (group) => {
     compiler.watch(config.config!)
 
     compiler.on('subsequent:build', (filePath) => {
-      console.log({ filePath })
       assert.equal(filePath, normalize('foo/source.ts'))
       compiler.watcher!.close()
       setTimeout(() => done(), 2000)
@@ -118,14 +117,12 @@ test.group('Compiler', (group) => {
     compiler.watch(config.config!)
 
     compiler.on('add', (filePath) => {
-      console.log({ filePath })
       assert.equal(filePath, normalize('foo/hello.txt'))
       compiler.watcher!.close()
       setTimeout(() => done(), 2000)
     })
 
     compiler.on('watcher:ready', async () => {
-      console.log('adding file')
       await fs.add('foo/hello.txt', '')
     })
   }).timeout(10000)
