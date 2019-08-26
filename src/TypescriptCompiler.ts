@@ -18,6 +18,9 @@ import * as chokidar from 'chokidar'
 import { join, isAbsolute, normalize } from 'path'
 import { EventEmitter } from 'events'
 import { outputFile } from 'fs-extra'
+import Debug from 'debug'
+
+const debug = Debug('adonis:tsc')
 
 type PluginFn = (
   ts: typeof tsStatic,
@@ -25,6 +28,7 @@ type PluginFn = (
 ) => tsStatic.TransformerFactory<tsStatic.SourceFile> | tsStatic.CustomTransformerFactory
 
 const isWindows = platform() === 'win32'
+debug('is windows %s', isWindows)
 const backslashReg = /\\/g
 
 /**
@@ -84,6 +88,12 @@ export class TypescriptCompiler extends EventEmitter {
    */
   private _plugins: { fn: PluginFn, lifecycle: 'after' | 'before' }[] = []
 
+  /**
+   * Tracked files which are ignored by tsconfig file by defining
+   * includes or exlcudes.
+   */
+  private _ignoredSourceFiles: Set<string> = new Set()
+
   constructor (
     private _ts: typeof tsStatic,
     private _configPath: string,
@@ -94,6 +104,8 @@ export class TypescriptCompiler extends EventEmitter {
     if (!isAbsolute(this._configPath)) {
       this._configPath = join(this._cwd, this._configPath)
     }
+
+    debug('config path %s', this._configPath)
   }
 
   /**
@@ -159,6 +171,7 @@ export class TypescriptCompiler extends EventEmitter {
     this._includePatterns = includeSpecs.map((path: string) => {
       return normalizeSlashes(join(this._cwd, path))
     })
+    debug('include patterns %O', this._includePatterns)
 
     /**
      * Setting exclude patterns, so that we can ignore typescript files
@@ -168,6 +181,7 @@ export class TypescriptCompiler extends EventEmitter {
     this._excludePatterns = excludeSpecs.map((path: string) => {
       return normalizeSlashes(join(this._cwd, path))
     })
+    debug('exclude patterns %O', this._excludePatterns)
 
     /**
      * Setting source files. We are later use them with language
@@ -176,6 +190,7 @@ export class TypescriptCompiler extends EventEmitter {
     parsedConfig!.fileNames.forEach((file) => {
       this._sourceFiles[normalize(file)] = { version: 1 }
     })
+    debug('initial source files %O', this._sourceFiles)
 
     return { config: parsedConfig }
   }
@@ -230,19 +245,23 @@ export class TypescriptCompiler extends EventEmitter {
    * includes and excludes defined in tsconfig file
    */
   private _isIncludedInProjectFiles (absPath: string): boolean {
+    if (this._ignoredSourceFiles.has(absPath)) {
+      return false
+    }
+
     /**
      * Converting to unix, so that nanomatch can work with the path
      */
     const unixPath = normalizeSlashes(absPath)
-    console.log(unixPath)
-    console.log(this._includePatterns)
-    console.log(this._excludePatterns)
+    debug('nanomatch unix path %s', unixPath)
 
     /**
      * Return `false` when file is not part of the include
      * patterns
      */
     if (!nanomatch.isMatch(unixPath, this._includePatterns)) {
+      debug('file %s not under included pattern', absPath)
+      this._ignoredSourceFiles.add(absPath)
       return false
     }
 
@@ -250,7 +269,14 @@ export class TypescriptCompiler extends EventEmitter {
      * If file is part of include patterns, then make sure that
      * this file is not excluded as well.
      */
-    return !nanomatch.isMatch(unixPath, this._excludePatterns)
+    const excluded = nanomatch.isMatch(unixPath, this._excludePatterns)
+    if (excluded) {
+      debug('file %s under excluded pattern', absPath)
+      this._ignoredSourceFiles.add(absPath)
+      return false
+    }
+
+    return true
   }
 
   /**
@@ -311,6 +337,8 @@ export class TypescriptCompiler extends EventEmitter {
    * Triggered when an existing file is changed
    */
   private _onChange (filePath: string) {
+    debug('event:change %s', filePath)
+
     /**
      * Emit `change` when source file is not a typescript
      * file, since we don't handle them.
@@ -341,6 +369,8 @@ export class TypescriptCompiler extends EventEmitter {
    * Triggered when file is removed
    */
   private _onRemove (filePath: string) {
+    debug('event:remove %s', filePath)
+
     /**
      * Emit `unlink` when source file is not a typescript
      * file, since we don't handle them.
@@ -365,6 +395,8 @@ export class TypescriptCompiler extends EventEmitter {
    * Triggered when a new file is added to the project
    */
   private _onNewFile (filePath: string) {
+    debug('event:remove %s', filePath)
+
     /**
      * Emit `add` when source file is not a typescript
      * file, since we don't handle them.
@@ -471,7 +503,9 @@ export class TypescriptCompiler extends EventEmitter {
     }, options)
 
     this.watcher = chokidar.watch(watchPattern, options)
+
     this.watcher.on('ready', () => {
+      debug('watcher ready')
       this.emit('watcher:ready')
       this._createLanguageService(parsedConfig.options)
     })

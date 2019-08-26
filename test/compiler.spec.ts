@@ -53,7 +53,7 @@ test.group('Compiler', (group) => {
     assert.equal(config.error!.messageText, `File '${join(fs.basePath, 'foo.json')}' not found.`)
   })
 
-  test('normalize includes and excludes defined in tsconfig file', async (assert) => {
+  test('normalize slashes of includes and excludes defined in tsconfig file', async (assert) => {
     await fs.add('tsconfig.json', JSON.stringify({
       include: ['**/*'],
       exclude: ['node_modules', 'build'],
@@ -66,10 +66,12 @@ test.group('Compiler', (group) => {
     )
 
     compiler.parseConfig()
-    assert.deepEqual(compiler['_includePatterns'], [join(fs.basePath, '**', '*')])
+    assert.deepEqual(compiler['_includePatterns'], [
+      join(fs.basePath, '**', '*').replace(/\\/g, '/'),
+    ])
     assert.deepEqual(compiler['_excludePatterns'], [
-      join(fs.basePath, 'node_modules'),
-      join(fs.basePath, 'build'),
+      join(fs.basePath, 'node_modules').replace(/\\/g, '/'),
+      join(fs.basePath, 'build').replace(/\\/g, '/'),
     ])
   })
 
@@ -86,17 +88,17 @@ test.group('Compiler', (group) => {
     )
 
     const config = compiler.parseConfig()
+    compiler.watch(config.config!)
+
     compiler.on('subsequent:build', (filePath) => {
       assert.equal(filePath, normalize('foo/source.ts'))
       compiler.watcher!.close()
-      done()
+      setTimeout(() => done(), 2000)
     })
 
     compiler.on('watcher:ready', async () => {
       await fs.add('foo/source.ts', '')
     })
-
-    compiler.watch(config.config!)
   }).timeout(10000)
 
   test('emit relative path of non source file', async (assert, done) => {
@@ -112,17 +114,17 @@ test.group('Compiler', (group) => {
     )
 
     const config = compiler.parseConfig()
+    compiler.watch(config.config!)
+
     compiler.on('add', (filePath) => {
       assert.equal(filePath, normalize('foo/hello.txt'))
       compiler.watcher!.close()
-      done()
+      setTimeout(() => done(), 2000)
     })
 
     compiler.on('watcher:ready', async () => {
       await fs.add('foo/hello.txt', '')
     })
-
-    compiler.watch(config.config!)
   }).timeout(10000)
 
   test('do not emit when file is excluded explicitly', async (_assert, done) => {
@@ -138,6 +140,8 @@ test.group('Compiler', (group) => {
     )
 
     const config = compiler.parseConfig()
+    compiler.watch(config.config!)
+
     compiler.on('subsequent:build', () => {
       done(new Error('Never expected to be called'))
     })
@@ -146,10 +150,8 @@ test.group('Compiler', (group) => {
       await fs.add('foo/source.ts', '')
       setTimeout(() => {
         compiler.watcher!.close()
-        done()
-      }, 2000)
+        setTimeout(() => done(), 2000)
+      }, 4000)
     })
-
-    compiler.watch(config.config!)
-  }).timeout(6000)
+  }).timeout(10000)
 })
