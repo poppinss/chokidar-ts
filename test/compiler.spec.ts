@@ -151,7 +151,7 @@ test.group('Compiler', (group) => {
       setTimeout(() => {
         compiler.watcher!.close()
         setTimeout(() => done(), 2000)
-      }, 4000)
+      }, 2000)
     })
   }).timeout(10000)
 })
