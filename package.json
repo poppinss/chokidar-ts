@@ -69,7 +69,8 @@
   "np": {
     "contents": ".",
     "anyBranch": false,
-    "releaseDraft": true
+    "releaseDraft": true,
+    "tests": false
   },
   "dependencies": {
     "@poppinss/dev-utils": "^1.0.0",
