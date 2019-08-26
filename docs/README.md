@@ -1,9 +1,9 @@
-> **[@poppinss/chokidar-ts](README.md)**
+**[@poppinss/chokidar-ts](README.md)**
 
-[Globals](README.md) /
+[Globals](README.md)
 
-### Index
+## Index
 
-#### External modules
+### External modules
 
-* [@poppinss/chokidar-ts](modules/_poppinss_chokidar_ts.md)
+* ["TypescriptCompiler"](modules/_typescriptcompiler_.md)
