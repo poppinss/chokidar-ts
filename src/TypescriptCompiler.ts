@@ -12,9 +12,9 @@
 */
 
 import { platform } from 'os'
-import * as nanomatch from 'nanomatch'
-import * as tsStatic from 'typescript'
-import * as chokidar from 'chokidar'
+import nanomatch from 'nanomatch'
+import tsStatic from 'typescript'
+import chokidar from 'chokidar'
 import { join, isAbsolute, normalize } from 'path'
 import { EventEmitter } from 'events'
 import { outputFile } from 'fs-extra'
