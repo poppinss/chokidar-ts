@@ -11,14 +11,14 @@
 * file that was distributed with this source code.
 */
 
+import Debug from 'debug'
 import { platform } from 'os'
-import nanomatch from 'nanomatch'
-import tsStatic from 'typescript'
 import chokidar from 'chokidar'
-import { join, isAbsolute, normalize } from 'path'
+import tsStatic from 'typescript'
+import nanomatch from 'nanomatch'
 import { EventEmitter } from 'events'
 import { outputFile } from 'fs-extra'
-import Debug from 'debug'
+import { join, isAbsolute, normalize } from 'path'
 
 const debug = Debug('adonis:tsc')
 
@@ -51,6 +51,12 @@ export class TypescriptCompiler extends EventEmitter {
    * Only created when `watch` method is invoked
    */
   public watcher?: chokidar.FSWatcher
+
+  /**
+   * Reference to the host used for building the project. This
+   * value exists after the initial:build event
+   */
+  public host: tsStatic.CompilerHost
 
   /**
    * A copy of initial source files we collected after the first build. We
@@ -95,7 +101,7 @@ export class TypescriptCompiler extends EventEmitter {
   private _ignoredSourceFiles: Set<string> = new Set()
 
   constructor (
-    private _ts: typeof tsStatic,
+    public ts: typeof tsStatic,
     private _configPath: string,
     private _cwd: string,
   ) {
@@ -117,22 +123,24 @@ export class TypescriptCompiler extends EventEmitter {
      */
     this._plugins.forEach(({ fn, lifecycle }) => {
       if (lifecycle === 'after') {
-        this._transformers.after!.push(fn(this._ts, options))
+        this._transformers.after!.push(fn(this.ts, options))
       } else {
-        this._transformers.before!.push(fn(this._ts, options))
+        this._transformers.before!.push(fn(this.ts, options))
       }
     })
 
-    const program = this._ts.createProgram(fileNames, options)
+    this.host = this.ts.createCompilerHost(options)
+    const program = this.ts.createProgram(fileNames, options, this.host)
+
     const result = program.emit(
       undefined,
-      this._ts.sys.writeFile,
+      this.ts.sys.writeFile,
       undefined,
       undefined,
       this._transformers,
     )
 
-    const diagnostics = this._ts.getPreEmitDiagnostics(program).concat(result.diagnostics)
+    const diagnostics = this.ts.getPreEmitDiagnostics(program).concat(result.diagnostics)
 
     this.emit('initial:build', result.emitSkipped, diagnostics)
     return !result.emitSkipped
@@ -147,11 +155,11 @@ export class TypescriptCompiler extends EventEmitter {
   } {
     let hardException: null | tsStatic.Diagnostic = null
 
-    const parsedConfig = this._ts.getParsedCommandLineOfConfigFile(
+    const parsedConfig = this.ts.getParsedCommandLineOfConfigFile(
       this._configPath,
       optionsToExtends || {},
       {
-        ...this._ts.sys,
+        ...this.ts.sys,
         useCaseSensitiveFileNames: true,
         onUnRecoverableConfigFileDiagnostic: (error) => {
           hardException = error
@@ -205,19 +213,19 @@ export class TypescriptCompiler extends EventEmitter {
         return this._sourceFiles[file] && this._sourceFiles[file].version.toString()
       },
       getScriptSnapshot: fileName => {
-        const contents = this._ts.sys.readFile(fileName)
+        const contents = this.ts.sys.readFile(fileName)
         if (contents === undefined) {
           return undefined
         }
-        return this._ts.ScriptSnapshot.fromString(contents.toString())
+        return this.ts.ScriptSnapshot.fromString(contents.toString())
       },
       getCustomTransformers: () => this._transformers,
       getCurrentDirectory: () => this._cwd,
       getCompilationSettings: () => options,
-      getDefaultLibFileName: options => this._ts.getDefaultLibFilePath(options),
-      fileExists: this._ts.sys.fileExists,
-      readFile: this._ts.sys.readFile,
-      readDirectory: this._ts.sys.readDirectory,
+      getDefaultLibFileName: options => this.ts.getDefaultLibFilePath(options),
+      fileExists: this.ts.sys.fileExists,
+      readFile: this.ts.sys.readFile,
+      readDirectory: this.ts.sys.readDirectory,
     }
   }
 
@@ -226,9 +234,9 @@ export class TypescriptCompiler extends EventEmitter {
    * changed files.
    */
   private _createLanguageService (options: tsStatic.CompilerOptions) {
-    this._languageService = this._ts.createLanguageService(
+    this._languageService = this.ts.createLanguageService(
       this._getServiceHost(options),
-      this._ts.createDocumentRegistry(),
+      this.ts.createDocumentRegistry(),
     )
   }
 
