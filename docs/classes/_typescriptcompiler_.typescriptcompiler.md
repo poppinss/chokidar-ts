@@ -1,6 +1,4 @@
-**[@poppinss/chokidar-ts](../README.md)**
-
-[Globals](../README.md) › ["TypescriptCompiler"](../modules/_typescriptcompiler_.md) › [TypescriptCompiler](_typescriptcompiler_.typescriptcompiler.md)
+[@poppinss/chokidar-ts](../README.md) › ["TypescriptCompiler"](../modules/_typescriptcompiler_.md) › [TypescriptCompiler](_typescriptcompiler_.typescriptcompiler.md)
 
 # Class: TypescriptCompiler
 
@@ -11,7 +9,7 @@ along with other files than the source typescript files.
 
 * EventEmitter
 
-  * **TypescriptCompiler**
+  ↳ **TypescriptCompiler**
 
 ## Index
 
@@ -21,6 +19,8 @@ along with other files than the source typescript files.
 
 ### Properties
 
+* [host](_typescriptcompiler_.typescriptcompiler.md#host)
+* [ts](_typescriptcompiler_.typescriptcompiler.md#ts)
 * [watcher](_typescriptcompiler_.typescriptcompiler.md#optional-watcher)
 * [defaultMaxListeners](_typescriptcompiler_.typescriptcompiler.md#static-defaultmaxlisteners)
 
@@ -51,19 +51,34 @@ along with other files than the source typescript files.
 
 ###  constructor
 
-\+ **new TypescriptCompiler**(`_ts`: ts, `_configPath`: string, `_cwd`: string): *[TypescriptCompiler](_typescriptcompiler_.typescriptcompiler.md)*
+\+ **new TypescriptCompiler**(`ts`: ts, `_configPath`: string, `_cwd`: string): *[TypescriptCompiler](_typescriptcompiler_.typescriptcompiler.md)*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`_ts` | ts |
+`ts` | ts |
 `_configPath` | string |
 `_cwd` | string |
 
 **Returns:** *[TypescriptCompiler](_typescriptcompiler_.typescriptcompiler.md)*
 
 ## Properties
+
+###  host
+
+• **host**: *tsStatic.CompilerHost*
+
+Reference to the host used for building the project. This
+value exists after the initial:build event
+
+___
+
+###  ts
+
+• **ts**: *ts*
+
+___
 
 ### `Optional` watcher
 
@@ -135,7 +150,7 @@ ___
 
 Name | Type |
 ------ | ------ |
-`event` | string \| symbol |
+`event` | string &#124; symbol |
 `...args` | any[] |
 
 **Returns:** *boolean*
@@ -178,7 +193,7 @@ ___
 
 Name | Type |
 ------ | ------ |
-`type` | string \| symbol |
+`type` | string &#124; symbol |
 
 **Returns:** *number*
 
@@ -196,7 +211,7 @@ ___
 
 Name | Type |
 ------ | ------ |
-`event` | string \| symbol |
+`event` | string &#124; symbol |
 
 **Returns:** *Function[]*
 
@@ -489,7 +504,7 @@ ___
 
 Name | Type |
 ------ | ------ |
-`event` | string \| symbol |
+`event` | string &#124; symbol |
 
 **Returns:** *Function[]*
 
@@ -507,7 +522,7 @@ ___
 
 Name | Type |
 ------ | ------ |
-`event?` | string \| symbol |
+`event?` | string &#124; symbol |
 
 **Returns:** *this*
 
@@ -568,7 +583,7 @@ Hook plugin to define custom transformers
 Name | Type |
 ------ | ------ |
 `transformer` | PluginFn |
-`lifecycle` | "before" \| "after" |
+`lifecycle` | "before" &#124; "after" |
 
 **Returns:** *this*
 
@@ -585,7 +600,7 @@ Build the initial project and then start watcher
 Name | Type | Default |
 ------ | ------ | ------ |
 `parsedConfig` | tsStatic.ParsedCommandLine | - |
-`watchPattern` | string \| string[] |  ['.'] |
+`watchPattern` | string &#124; string[] |  ['.'] |
 `options?` | chokidar.WatchOptions | - |
 
 **Returns:** *void*
@@ -605,6 +620,6 @@ ___
 Name | Type |
 ------ | ------ |
 `emitter` | EventEmitter |
-`event` | string \| symbol |
+`event` | string &#124; symbol |
 
 **Returns:** *number*

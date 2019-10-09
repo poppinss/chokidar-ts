@@ -1,6 +1,6 @@
-**[@poppinss/chokidar-ts](README.md)**
+[@poppinss/chokidar-ts](README.md)
 
-[Globals](README.md)
+# @poppinss/chokidar-ts
 
 ## Index
 

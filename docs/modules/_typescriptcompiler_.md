@@ -1,6 +1,4 @@
-**[@poppinss/chokidar-ts](../README.md)**
-
-[Globals](../README.md) › ["TypescriptCompiler"](_typescriptcompiler_.md)
+[@poppinss/chokidar-ts](../README.md) › ["TypescriptCompiler"](_typescriptcompiler_.md)
 
 # External module: "TypescriptCompiler"
 
