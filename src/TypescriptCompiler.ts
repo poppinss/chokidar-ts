@@ -1,525 +1,60 @@
-/**
- * @module @poppinss/chokidar-ts
- */
-
 /*
-* @poppinss/chokidar-ts
-*
-* (c) Harminder Virk <virk@adonisjs.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
+ * @poppinss/chokidar-ts
+ *
+ * (c) Harminder Virk <virk@adonisjs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
 */
 
-import Debug from 'debug'
-import { platform } from 'os'
-import chokidar from 'chokidar'
+import { join } from 'path'
 import tsStatic from 'typescript'
-import nanomatch from 'nanomatch'
-import { EventEmitter } from 'events'
-import { outputFile } from 'fs-extra'
-import { join, isAbsolute, normalize } from 'path'
 
-const debug = Debug('adonis:tsc')
-
-type PluginFn = (
-  ts: typeof tsStatic,
-  config: tsStatic.CompilerOptions,
-) => tsStatic.TransformerFactory<tsStatic.SourceFile> | tsStatic.CustomTransformerFactory
-
-const isWindows = platform() === 'win32'
-debug('is windows %s', isWindows)
-const backslashReg = /\\/g
+import { Builder } from './Builder'
+import { Watcher } from './Watcher'
+import { PluginFn } from './Contracts'
+import { ConfigParser } from './ConfigParser'
+import { PluginManager } from './PluginManager'
 
 /**
- * Normalize slashes on Windows so that paths do not have backslashes. This is
- * required since nanomatch cannot work with Windows paths
+ * Typescript compiler exposes the API to build, watch or parse
+ * the typescript config file.
  */
-function normalizeSlashes (path: string): string {
-  if (!isWindows) {
-    return path
-  }
-  return path.replace(backslashReg, '/')
-}
-
-/**
- * Exposes the API to compile Typescript projects and watch for file changes
- * along with other files than the source typescript files.
- */
-export class TypescriptCompiler extends EventEmitter {
-  /**
-   * Only created when `watch` method is invoked
-   */
-  public watcher?: chokidar.FSWatcher
-
-  /**
-   * Reference to the host used for building the project. This
-   * value exists after the initial:build event
-   */
-  public host: tsStatic.CompilerHost
-
-  /**
-   * A copy of initial source files we collected after the first build. We
-   * mutate this object, when we detect a new file being added or removed
-   * inside the watcher.
-   */
-  private _sourceFiles: tsStatic.MapLike<{ version: number }> = {}
-
-  /**
-   * Include patterns defined inside `tsconfig.json` file.
-   */
-  private _includePatterns: string[] = []
-
-  /**
-   * Exlcude patterns defined inside `tsconfig.json` file.
-   */
-  private _excludePatterns: string[] = []
-
-  /**
-   * Reference to language service to compile files on demand inside
-   * the watcher.
-   */
-  private _languageService: tsStatic.LanguageService
-
-  /**
-   * A copy of custom transformers
-   */
-  private _transformers: tsStatic.CustomTransformers = {
-    before: [],
-    after: [],
-  }
-
-  /**
-   * Registered list of plugins
-   */
-  private _plugins: { fn: PluginFn, lifecycle: 'after' | 'before' }[] = []
-
-  /**
-   * Tracked files which are ignored by tsconfig file by defining
-   * includes or exlcudes.
-   */
-  private _ignoredSourceFiles: Set<string> = new Set()
+export class TypescriptCompiler {
+  private _pluginManager = new PluginManager()
 
   constructor (
     public ts: typeof tsStatic,
     private _configPath: string,
     private _cwd: string,
-  ) {
-    super()
-
-    if (!isAbsolute(this._configPath)) {
-      this._configPath = join(this._cwd, this._configPath)
-    }
-
-    debug('config path %s', this._configPath)
-  }
+  ) {}
 
   /**
-   * Builds the initial typescript project and emit the diagnostic
+   * Add plugin which can apply transformers to the typescript compiler
    */
-  private _buildProject (fileNames: string[], options: tsStatic.CompilerOptions): boolean {
-    /**
-     * Calling plugins to setup transformers
-     */
-    this._plugins.forEach(({ fn, lifecycle }) => {
-      if (lifecycle === 'after') {
-        this._transformers.after!.push(fn(this.ts, options))
-      } else {
-        this._transformers.before!.push(fn(this.ts, options))
-      }
-    })
-
-    this.host = this.ts.createCompilerHost(options)
-    const program = this.ts.createProgram(fileNames, options, this.host)
-
-    const result = program.emit(
-      undefined,
-      this.ts.sys.writeFile,
-      undefined,
-      undefined,
-      this._transformers,
-    )
-
-    const diagnostics = this.ts.getPreEmitDiagnostics(program).concat(result.diagnostics)
-
-    this.emit('initial:build', result.emitSkipped, diagnostics)
-    return !result.emitSkipped
-  }
-
-  /**
-   * Loads the project config
-   */
-  private _loadConfig (optionsToExtends?: tsStatic.CompilerOptions): {
-    error?: tsStatic.Diagnostic,
-    config?: tsStatic.ParsedCommandLine,
-  } {
-    let hardException: null | tsStatic.Diagnostic = null
-
-    const parsedConfig = this.ts.getParsedCommandLineOfConfigFile(
-      this._configPath,
-      optionsToExtends || {},
-      {
-        ...this.ts.sys,
-        useCaseSensitiveFileNames: true,
-        onUnRecoverableConfigFileDiagnostic: (error) => {
-          hardException = error
-        },
-      },
-    )
-
-    if (hardException) {
-      return { error: hardException }
-    }
-
-    /**
-     * Setting include patterns, so that we can ignore typescript files
-     * which are not part of the typescript project
-     */
-    const includeSpecs = parsedConfig!['configFileSpecs'].validatedIncludeSpecs || []
-    this._includePatterns = includeSpecs.map((path: string) => {
-      return normalizeSlashes(join(this._cwd, path))
-    })
-    debug('include patterns %O', this._includePatterns)
-
-    /**
-     * Setting exclude patterns, so that we can ignore typescript files
-     * are excluded
-     */
-    const excludeSpecs = parsedConfig!['configFileSpecs'].validatedExcludeSpecs || []
-    this._excludePatterns = excludeSpecs.map((path: string) => {
-      return normalizeSlashes(join(this._cwd, path))
-    })
-    debug('exclude patterns %O', this._excludePatterns)
-
-    /**
-     * Setting source files. We are later use them with language
-     * service
-     */
-    parsedConfig!.fileNames.forEach((file) => {
-      this._sourceFiles[normalize(file)] = { version: 1 }
-    })
-    debug('initial source files %O', this._sourceFiles)
-
-    return { config: parsedConfig }
-  }
-
-  /**
-   * Creates a new service host
-   */
-  private _getServiceHost (options: tsStatic.CompilerOptions): tsStatic.LanguageServiceHost {
-    return {
-      getScriptFileNames: () => Object.keys(this._sourceFiles),
-      getScriptVersion: file => {
-        return this._sourceFiles[file] && this._sourceFiles[file].version.toString()
-      },
-      getScriptSnapshot: fileName => {
-        const contents = this.ts.sys.readFile(fileName)
-        if (contents === undefined) {
-          return undefined
-        }
-        return this.ts.ScriptSnapshot.fromString(contents.toString())
-      },
-      getCustomTransformers: () => this._transformers,
-      getCurrentDirectory: () => this._cwd,
-      getCompilationSettings: () => options,
-      getDefaultLibFileName: options => this.ts.getDefaultLibFilePath(options),
-      fileExists: this.ts.sys.fileExists,
-      readFile: this.ts.sys.readFile,
-      readDirectory: this.ts.sys.readDirectory,
-    }
-  }
-
-  /**
-   * Creates the language service. We use this service process
-   * changed files.
-   */
-  private _createLanguageService (options: tsStatic.CompilerOptions) {
-    this._languageService = this.ts.createLanguageService(
-      this._getServiceHost(options),
-      this.ts.createDocumentRegistry(),
-    )
-  }
-
-  /**
-   * Returns a boolean telling if it is a typescript
-   * file or not.
-   */
-  private _isTsFile (filePath: string): boolean {
-    return filePath.endsWith('.ts')
-  }
-
-  /**
-   * Returns a boolean telling if the absolute path passes the
-   * includes and excludes defined in tsconfig file
-   */
-  private _isIncludedInProjectFiles (absPath: string): boolean {
-    if (this._ignoredSourceFiles.has(absPath)) {
-      return false
-    }
-
-    /**
-     * Converting to unix, so that nanomatch can work with the path
-     */
-    const unixPath = normalizeSlashes(absPath)
-    debug('nanomatch unix path %s', unixPath)
-
-    /**
-     * Return `false` when file is not part of the include
-     * patterns
-     */
-    if (!nanomatch.isMatch(unixPath, this._includePatterns)) {
-      debug('file %s not under included pattern', absPath)
-      this._ignoredSourceFiles.add(absPath)
-      return false
-    }
-
-    /**
-     * If file is part of include patterns, then make sure that
-     * this file is not excluded as well.
-     */
-    const excluded = nanomatch.isMatch(unixPath, this._excludePatterns)
-    if (excluded) {
-      debug('file %s under excluded pattern', absPath)
-      this._ignoredSourceFiles.add(absPath)
-      return false
-    }
-
-    return true
-  }
-
-  /**
-   * Returns a boolean telling if the absolute file to a path
-   * is part of the typescript project or not. It will look
-   * at the `includes` and `excludes` section of `tsconfig`
-   * to make the decision.
-   */
-  private _isTsSourceFile (absPath: string): boolean {
-    /**
-     * If file exists in the `sourceFiles`, then return true
-     */
-    if (this._sourceFiles[absPath]) {
-      return true
-    }
-
-    return this._isIncludedInProjectFiles(absPath)
-  }
-
-  /**
-   * Returns diagnostics for a given file. The file must be
-   * tracked by the `languageService` compiler first.
-   */
-  private _getFileErrors (absPath: string): tsStatic.Diagnostic[] {
-    return this._languageService
-      .getCompilerOptionsDiagnostics()
-      .concat(this._languageService.getSyntacticDiagnostics(absPath))
-      .concat(this._languageService.getSemanticDiagnostics(absPath))
-  }
-
-  /**
-   * Processing the source file by getting it's emit output
-   * and writing it to the disk
-   */
-  private async _processSourceFile (absPath: string, relativePath: string) {
-    const output = this._languageService.getEmitOutput(absPath)
-
-    if (output.emitSkipped) {
-      this.emit('subsequent:build', relativePath, true, this._getFileErrors(absPath))
-      return
-    }
-
-    /**
-     * Write all files in parallel
-     */
-    await Promise.all(output.outputFiles.map((one) => {
-      return outputFile(one.name, one.text, 'utf-8')
-    }))
-
-    /**
-     * Always emit after the files have been written, otherwise consumer relying
-     * on the output file will experience flaky behavior.
-     */
-    this.emit('subsequent:build', relativePath, false, this._getFileErrors(absPath))
-  }
-
-  /**
-   * Triggered when an existing file is changed
-   */
-  private _onChange (filePath: string) {
-    debug('event:change %s', filePath)
-
-    /**
-     * Emit `change` when source file is not a typescript
-     * file, since we don't handle them.
-     */
-    if (!this._isTsFile(filePath)) {
-      this.emit('change', filePath)
-      return
-    }
-
-    const absPath = join(this._cwd, filePath)
-
-    /**
-     * Ignore file when it's not part of the typescript project
-     */
-    if (!this._isTsSourceFile(absPath)) {
-      return
-    }
-
-    /**
-     * Bump the file version, so that the language service should read
-     * the file again from disk.
-     */
-    this._sourceFiles[absPath].version++
-    this._processSourceFile(absPath, filePath)
-  }
-
-  /**
-   * Triggered when file is removed
-   */
-  private _onRemove (filePath: string) {
-    debug('event:remove %s', filePath)
-
-    /**
-     * Emit `unlink` when source file is not a typescript
-     * file, since we don't handle them.
-     */
-    if (!this._isTsFile(filePath)) {
-      this.emit('unlink', filePath)
-      return
-    }
-
-    const absPath = join(this._cwd, filePath)
-    delete this._sourceFiles[absPath]
-
-    /**
-     * Emit `source:unlink`, since their is no simple
-     * way to find the output path for a source
-     * file
-     */
-    this.emit('source:unlink', filePath)
-  }
-
-  /**
-   * Triggered when a new file is added to the project
-   */
-  private _onNewFile (filePath: string) {
-    debug('event:remove %s', filePath)
-
-    /**
-     * Emit `add` when source file is not a typescript
-     * file, since we don't handle them.
-     */
-    if (!this._isTsFile(filePath)) {
-      this.emit('add', filePath)
-      return
-    }
-
-    const absPath = join(this._cwd, filePath)
-
-    /**
-     * Ignore file when it's not part of the typescript project
-     */
-    if (!this._isTsSourceFile(absPath)) {
-      return
-    }
-
-    /**
-     * Start tracking the file, so that language server can do it's job
-     * and also it will improve the performance of `_isTsSourceFile`
-     * in subsequent events.
-     */
-    this._sourceFiles[absPath] = { version: 1 }
-    this._processSourceFile(absPath, filePath)
-  }
-
-  public on (event: 'watcher:ready', cb: () => void): this
-  public on (event: 'add', cb: (filePath: string) => void): this
-  public on (event: 'change', cb: (filePath: string) => void): this
-  public on (event: 'unlink', cb: (filePath: string) => void): this
-  public on (event: 'source:unlink', cb: (filePath: string) => void): this
-
-  public on (
-    event: 'initial:build',
-    cb: (hasError: boolean, diagnostics: tsStatic.Diagnostic[]) => void,
-  ): this
-
-  public on (
-    event: 'subsequent:build',
-    cb: (filePath: string, hasError: boolean, diagnostics: tsStatic.Diagnostic[]) => void,
-  ): this
-
-  public on (event: string, cb: any): this
-  public on (event: string, cb: any): this {
-    super.on(event, cb)
+  public use (transformer: PluginFn, lifecycle: 'before' | 'after') {
+    this._pluginManager.use(transformer, lifecycle)
     return this
   }
 
   /**
-   * Hook plugin to define custom transformers
+   * Get builder instance
    */
-  public use (transformer: PluginFn, lifecycle: 'before' | 'after'): this {
-    this._plugins.push({ fn: transformer, lifecycle })
-    return this
+  public builder () {
+    return new Builder(join(this._cwd, this._configPath), this.ts, this._pluginManager)
   }
 
   /**
-   * Build typescript project
+   * Get watcher instance
    */
-  public build (parsedConfig: tsStatic.ParsedCommandLine): boolean {
-    return this._buildProject(parsedConfig.fileNames, parsedConfig.options)
+  public watcher () {
+    return new Watcher(this._cwd, join(this._cwd, this._configPath), this.ts, this._pluginManager)
   }
 
   /**
-   * Parses and returns the config. Also an event will be
-   * emitted when config has errors.
+   * Get config parser instance
    */
-  public parseConfig (
-    compileOptionsToExtend?: tsStatic.CompilerOptions,
-  ): { error?: tsStatic.Diagnostic, config?: tsStatic.ParsedCommandLine } {
-    return this._loadConfig(compileOptionsToExtend)
-  }
-
-  /**
-   * Build the initial project and then start watcher
-   */
-  public watch (
-    parsedConfig: tsStatic.ParsedCommandLine,
-    watchPattern: string | string[] = ['.'],
-    options?: chokidar.WatchOptions,
-  ) {
-    /**
-     * Do initial project build, this will emit `initial:build`
-     * event. If build fails, then we will not start the
-     * watcher.
-     */
-    const success = this._buildProject(parsedConfig.fileNames, parsedConfig.options)
-    if (!success) {
-      return
-    }
-
-    options = Object.assign({
-      /**
-       * Ignoring dot files, node_modules and the `outDir`.
-       */
-      ignored: [
-        'node_modules/**',
-        `${parsedConfig.options.outDir}/**`,
-        /(^|[\/\\])\../,
-      ],
-      cwd: this._cwd,
-      ignoreInitial: true,
-    }, options)
-
-    this.watcher = chokidar.watch(watchPattern, options)
-
-    this.watcher.on('ready', () => {
-      debug('watcher ready')
-      this.emit('watcher:ready')
-      this._createLanguageService(parsedConfig.options)
-    })
-
-    this.watcher.on('add', (path: string) => this._onNewFile(path))
-    this.watcher.on('change', (path: string) => this._onChange(path))
-    this.watcher.on('unlink', (path: string) => this._onRemove(path))
+  public configParser () {
+    return new ConfigParser(join(this._cwd, this._configPath), this.ts)
   }
 }
