@@ -9,9 +9,7 @@ const watcher = compiler.watcher()
 watcher.on('subsequent:build', ({ path, diagnostics, skipped }) => {
   console.log(path)
   console.log(skipped)
-  diagnostics.forEach((diagnostic) => {
-    console.log(diagnostic.file!.fileName, diagnostic.messageText)
-  })
+  console.log(ts.formatDiagnosticsWithColorAndContext(diagnostics, watcher.host))
 })
 
 const output = watcher.watch()

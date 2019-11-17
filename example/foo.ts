@@ -1,2 +1,2 @@
-import bar from './bar'
+import bar from 'Example/bar'
 console.log(bar.hello())

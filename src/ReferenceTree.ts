@@ -8,7 +8,7 @@
 */
 
 import Debug from 'debug'
-import { resolve, dirname, isAbsolute, extname } from 'path'
+import { isAbsolute } from 'path'
 import { ImportReferenceNode } from './Contracts'
 
 const debug = Debug('tsc:reference:tree')
@@ -27,15 +27,6 @@ export class ReferenceTree {
 
   constructor () {
     debug('initiating reference tree')
-  }
-
-  /**
-   * Returns true when reference path is not starting with
-   * `./` or `../` or '/', which basically means the
-   * path is for a native or a node module
-   */
-  private _isNativeOrNodeModule (modulePath: string): boolean {
-    return !/^\/|^\.\.\/|^\.\//.test(modulePath)
   }
 
   /**
@@ -75,38 +66,13 @@ export class ReferenceTree {
       throw new Error('ReferenceTree.add requires absolute path for the tracking file')
     }
 
-    const dir = dirname(modulePath)
-
     /**
      * Create node in the imports tree
      */
     this._bumpVersion(modulePath)
     const importRef = this._imports.get(modulePath)!
 
-    importReferences.forEach((reference) => {
-      if (this._isNativeOrNodeModule(reference)) {
-        debug('ignoring non-relative "%s" module', reference)
-        return
-      }
-
-      const referenceExtension = extname(reference)
-      if (!['.ts', ''].includes(referenceExtension)) {
-        debug('ignoring non js "%s" module', reference)
-        return
-      }
-
-      /**
-       * The typescript compiler returns the relative paths and hence we
-       * need to convert them to the absolute paths
-       */
-      reference = isAbsolute(reference) ? reference : resolve(dir, reference)
-      reference = referenceExtension === '' ? `${reference}.ts` : reference
-
-      /**
-       * Adding dependency
-       */
-      this._addDependency(reference, importRef)
-    })
+    importReferences.forEach((reference) => this._addDependency(reference, importRef))
   }
 
   /**

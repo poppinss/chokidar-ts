@@ -17,6 +17,7 @@ import { outputFile } from 'fs-extra'
 import { Builder } from './Builder'
 import { ReferenceTree } from './ReferenceTree'
 import { PluginManager } from './PluginManager'
+import { ModuleResolver } from './ModuleResolver'
 import { DiagnosticsStore } from './DiagnosticsStore'
 import { SourceFilesManager } from './SourceFilesManager'
 
@@ -31,10 +32,12 @@ export class Watcher extends Emittery {
   private _diagnosticsStore: DiagnosticsStore
   private _sourceFilesManager: SourceFilesManager
   private _languageService: tsStatic.LanguageService
+  private _moduleResolver: ModuleResolver
 
   public watcher: chokidar.FSWatcher
   public program: tsStatic.Program
   public host: tsStatic.CompilerHost
+  public compilerOptions?: tsStatic.CompilerOptions
 
   constructor (
     private _cwd: string,
@@ -58,6 +61,27 @@ export class Watcher extends Emittery {
   }
 
   /**
+   * Returns resolved imports from the source text
+   */
+  private _getSourceImports (filePath: string, fileText: string) {
+    const { importedFiles, ambientExternalModules } = this._ts.preProcessFile(fileText, true, true)
+
+    if (ambientExternalModules) {
+      this._moduleResolver.addAmbientModules(filePath, ambientExternalModules)
+    }
+
+    return importedFiles
+      .reduce((result: string[], { fileName }) => {
+        const resolvedImport = this._moduleResolver.resolve(fileName, filePath)
+        if (resolvedImport) {
+          result.push(resolvedImport)
+        }
+
+        return result
+      }, [])
+  }
+
+  /**
    * Initiates the source file manager to track the source files as they
    * are added, changed and removed
    */
@@ -78,6 +102,13 @@ export class Watcher extends Emittery {
   }
 
   /**
+   * Initiates the module resolver. We need it to resolve imports
+   */
+  private _initiateModuleResolver () {
+    this._moduleResolver = new ModuleResolver(this._ts, this.compilerOptions!, this.host)
+  }
+
+  /**
    * Initiates the reference tree to track module dependencies
    */
   private _initiateReferenceTree () {
@@ -89,8 +120,7 @@ export class Watcher extends Emittery {
         return
       }
 
-      const imports = this._ts.preProcessFile(sourceFile.text).importedFiles
-      this._referenceTree.add(filePath, imports.map((file) => file.fileName))
+      this._referenceTree.add(filePath, this._getSourceImports(filePath, sourceFile.text))
     })
   }
 
@@ -194,8 +224,7 @@ export class Watcher extends Emittery {
      * and reconcile the dependencies tree
      */
     output.outputFiles.forEach((file) => {
-      const imports = this._ts.preProcessFile(file.text).importedFiles
-      this._referenceTree.add(file.name, imports.map((file) => file.fileName))
+      this._referenceTree.add(file.name, this._getSourceImports(file.name, file.text))
     })
 
     return output
@@ -344,6 +373,7 @@ export class Watcher extends Emittery {
 
     this.program = builder.program
     this.host = builder.host
+    this.compilerOptions = builder.compilerOptions
 
     /**
      * Do not start watcher when config is missing
@@ -354,6 +384,7 @@ export class Watcher extends Emittery {
 
     this._initiateDiagnosticsStore(buildResponse.diagnostics)
     this._initiateSourceFileManager(buildResponse.config!)
+    this._initiateModuleResolver()
     this._initiateReferenceTree()
     this._initiateWatcher(buildResponse.config!.options.outDir!, watchPattern, watcherOptions)
 

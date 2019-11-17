@@ -1,5 +1,7 @@
+import { User } from '@ioc:chokidar'
+
 export default {
-  hello () {
-    return 'hey'
+  hello (): User {
+    return { username: 'virk' }
   },
 }

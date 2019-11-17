@@ -21,6 +21,7 @@ const debug = Debug('tsc:builder')
 export class Builder {
   public host: tsStatic.CompilerHost
   public program: tsStatic.Program
+  public compilerOptions?: tsStatic.CompilerOptions
 
   constructor (
     private _cwd: string,
@@ -67,6 +68,7 @@ export class Builder {
     const { options, fileNames } = config!
     this.host = this._ts.createCompilerHost(options)
     this.program = this._ts.createProgram(fileNames, options, this.host)
+    this.compilerOptions = options
 
     debug('emitting program')
     const result = this.program.emit(
