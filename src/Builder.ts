@@ -23,7 +23,8 @@ export class Builder {
   public program: tsStatic.Program
 
   constructor (
-    private _configPath: string,
+    private _cwd: string,
+    private _configFileName: string,
     private _ts: typeof tsStatic,
     private _pluginManager: PluginManager,
   ) {
@@ -34,7 +35,7 @@ export class Builder {
    * Build the project using the Typescript compiler API
    */
   public build (optionsToExtend?: tsStatic.CompilerOptions) {
-    const configParser = new ConfigParser(this._configPath, this._ts)
+    const configParser = new ConfigParser(this._cwd, this._configFileName, this._ts)
     const { error, config } = configParser.parse(optionsToExtend)
 
     /**

@@ -7,7 +7,6 @@
  * file that was distributed with this source code.
 */
 
-import { join } from 'path'
 import tsStatic from 'typescript'
 
 import { Builder } from './Builder'
@@ -25,7 +24,7 @@ export class TypescriptCompiler {
 
   constructor (
     public ts: typeof tsStatic,
-    private _configPath: string,
+    private _configFileName: string,
     private _cwd: string,
   ) {}
 
@@ -41,20 +40,20 @@ export class TypescriptCompiler {
    * Get builder instance
    */
   public builder () {
-    return new Builder(join(this._cwd, this._configPath), this.ts, this._pluginManager)
+    return new Builder(this._cwd, this._configFileName, this.ts, this._pluginManager)
   }
 
   /**
    * Get watcher instance
    */
   public watcher () {
-    return new Watcher(this._cwd, join(this._cwd, this._configPath), this.ts, this._pluginManager)
+    return new Watcher(this._cwd, this._configFileName, this.ts, this._pluginManager)
   }
 
   /**
    * Get config parser instance
    */
   public configParser () {
-    return new ConfigParser(join(this._cwd, this._configPath), this.ts)
+    return new ConfigParser(this._cwd, this._configFileName, this.ts)
   }
 }

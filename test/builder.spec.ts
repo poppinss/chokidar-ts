@@ -35,7 +35,7 @@ test.group('Builder', (group) => {
     await fs.add('foo/bar.ts', '')
     await fs.add('foo/baz.ts', '')
 
-    const builder = new Builder(join(fs.basePath, 'tsconfig.json'), ts, new PluginManager())
+    const builder = new Builder(fs.basePath, 'tsconfig.json', ts, new PluginManager())
     const response = builder.build()
 
     assert.isFalse(response.configError)
@@ -61,7 +61,7 @@ test.group('Builder', (group) => {
     await fs.add('foo/bar.ts', '')
     await fs.add('foo/baz.ts', '')
 
-    const builder = new Builder(join(fs.basePath, 'tsconfig.json'), ts, new PluginManager())
+    const builder = new Builder(fs.basePath, 'tsconfig.json', ts, new PluginManager())
     const response = builder.build()
 
     assert.isFalse(response.configError)
@@ -87,7 +87,7 @@ test.group('Builder', (group) => {
     await fs.add('foo/bar.ts', `import path from 'path'`)
     await fs.add('foo/baz.ts', '')
 
-    const builder = new Builder(join(fs.basePath, 'tsconfig.json'), ts, new PluginManager())
+    const builder = new Builder(fs.basePath, 'tsconfig.json', ts, new PluginManager())
     const response = builder.build()
 
     assert.isFalse(response.configError)
@@ -119,7 +119,7 @@ test.group('Builder', (group) => {
     await fs.add('foo/bar.ts', `import path from 'path'`)
     await fs.add('foo/baz.ts', '')
 
-    const builder = new Builder(join(fs.basePath, 'tsconfig.json'), ts, new PluginManager())
+    const builder = new Builder(fs.basePath, 'tsconfig.json', ts, new PluginManager())
     const response = builder.build()
 
     assert.isFalse(response.configError)

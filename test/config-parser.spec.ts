@@ -27,7 +27,7 @@ test.group('Config Parser', (group) => {
   })
 
   test('raise error when config file is missing', (assert) => {
-    const configParser = new ConfigParser(join(fs.basePath, 'tsconfig.json'), ts)
+    const configParser = new ConfigParser(fs.basePath, 'tsconfig.json', ts)
     const { error, config } = configParser.parse()
 
     assert.isUndefined(config)
@@ -41,7 +41,7 @@ test.group('Config Parser', (group) => {
       },
     }))
 
-    const configParser = new ConfigParser(join(fs.basePath, 'tsconfig.json'), ts)
+    const configParser = new ConfigParser(fs.basePath, 'tsconfig.json', ts)
     const { error, config } = configParser.parse()
 
     assert.isNull(error)
@@ -56,7 +56,7 @@ test.group('Config Parser', (group) => {
 
     await fs.add('bar/foo.ts', ``)
 
-    const configParser = new ConfigParser(join(fs.basePath, 'tsconfig.json'), ts)
+    const configParser = new ConfigParser(fs.basePath, 'tsconfig.json', ts)
     const { error, config } = configParser.parse()
 
     assert.isNull(error)
@@ -72,7 +72,7 @@ test.group('Config Parser', (group) => {
 
     await fs.add('bar/foo.ts', ``)
 
-    const configParser = new ConfigParser(join(fs.basePath, 'tsconfig.json'), ts)
+    const configParser = new ConfigParser(fs.basePath, 'tsconfig.json', ts)
     const { error, config } = configParser.parse()
 
     assert.isNull(error)
@@ -89,7 +89,7 @@ test.group('Config Parser', (group) => {
 
     await fs.add('bar/foo.ts', ``)
 
-    const configParser = new ConfigParser(join(fs.basePath, 'tsconfig.json'), ts)
+    const configParser = new ConfigParser(fs.basePath, 'tsconfig.json', ts)
     const { error, config } = configParser.parse()
 
     assert.isNull(error)

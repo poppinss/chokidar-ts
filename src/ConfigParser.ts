@@ -8,6 +8,7 @@
 */
 
 import Debug from 'debug'
+import { join } from 'path'
 import tsStatic from 'typescript'
 
 const debug = Debug('tsc:config:parser')
@@ -17,10 +18,11 @@ const debug = Debug('tsc:config:parser')
  */
 export class ConfigParser {
   constructor (
-    private _configPath: string,
+    private _cwd: string,
+    private _configFileName: string,
     private _ts: typeof tsStatic,
   ) {
-    debug('parsing config file "%s"', this._configPath)
+    debug('parsing config file "%s"', this._configFileName)
   }
 
   /**
@@ -33,11 +35,12 @@ export class ConfigParser {
     let hardException: null | tsStatic.Diagnostic = null
 
     const parsedConfig = this._ts.getParsedCommandLineOfConfigFile(
-      this._configPath,
+      join(this._cwd, this._configFileName),
       optionsToExtend || {},
       {
         ...this._ts.sys,
         useCaseSensitiveFileNames: true,
+        getCurrentDirectory: () => this._cwd,
         onUnRecoverableConfigFileDiagnostic: (error) => (hardException = error),
       },
     )

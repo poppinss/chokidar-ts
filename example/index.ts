@@ -15,6 +15,4 @@ watcher.on('subsequent:build', ({ path, diagnostics, skipped }) => {
 })
 
 const output = watcher.watch()
-output.diagnostics.forEach((diagnostic) => {
-  console.log(diagnostic.file!.fileName, diagnostic.messageText)
-})
+console.log(ts.formatDiagnosticsWithColorAndContext(output.diagnostics, watcher.host))

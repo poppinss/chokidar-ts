@@ -34,10 +34,11 @@ export class Watcher extends Emittery {
 
   public watcher: chokidar.FSWatcher
   public program: tsStatic.Program
+  public host: tsStatic.CompilerHost
 
   constructor (
     private _cwd: string,
-    private _configPath: string,
+    private _configFileName: string,
     private _ts: typeof tsStatic,
     private _pluginManager: PluginManager,
   ) {
@@ -338,9 +339,11 @@ export class Watcher extends Emittery {
     watcherOptions?: chokidar.WatchOptions,
     optionsToExtend?: tsStatic.CompilerOptions,
   ) {
-    const builder = new Builder(this._configPath, this._ts, this._pluginManager)
+    const builder = new Builder(this._cwd, this._configFileName, this._ts, this._pluginManager)
     const buildResponse = builder.build(optionsToExtend)
+
     this.program = builder.program
+    this.host = builder.host
 
     /**
      * Do not start watcher when config is missing
