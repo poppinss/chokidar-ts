@@ -10,10 +10,12 @@
 import test from 'japa'
 import ts from 'typescript'
 import { join } from 'path'
+import { Filesystem } from '@poppinss/dev-utils'
+
 import { Builder } from '../src/Builder'
 import { PluginManager } from '../src/PluginManager'
+import { normalizeSlash } from '../test-helpers'
 
-import { Filesystem } from '@poppinss/dev-utils'
 const fs = new Filesystem(join(__dirname, 'app'))
 
 test.group('Builder', (group) => {
@@ -94,7 +96,7 @@ test.group('Builder', (group) => {
     assert.equal(response.diagnostics[0].messageText, `Module '"path"' has no default export.`)
     assert.equal(
       response.diagnostics[0].file!.fileName,
-      join(fs.basePath, 'foo/bar.ts'),
+      normalizeSlash(join(fs.basePath, 'foo/bar.ts')),
     )
 
     const hasBarFile = await fs.fsExtra.pathExists(join(fs.basePath, './build/foo/bar.js'))
@@ -126,7 +128,7 @@ test.group('Builder', (group) => {
     assert.equal(response.diagnostics[0].messageText, `Module '"path"' has no default export.`)
     assert.equal(
       response.diagnostics[0].file!.fileName,
-      join(fs.basePath, 'foo/bar.ts'),
+      normalizeSlash(join(fs.basePath, 'foo/bar.ts')),
     )
 
     const hasBarFile = await fs.fsExtra.pathExists(join(fs.basePath, './build/foo/bar.js'))

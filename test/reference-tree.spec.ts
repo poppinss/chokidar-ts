@@ -29,16 +29,6 @@ test.group('Reference Tree', () => {
     assert.throw(fn, 'ReferenceTree.add requires absolute path for the tracking file')
   })
 
-  test('handle absolute reference paths', (assert) => {
-    const tree = new ReferenceTree()
-    tree.add(join(__dirname, './User.ts'), ['./Database', join(__dirname, '../Config')])
-
-    assert.deepEqual(tree.toJSON(), {
-      [join(__dirname, './Database.ts')]: [join(__dirname, './User.ts')],
-      [join(__dirname, '../Config.ts')]: [join(__dirname, './User.ts')],
-    })
-  })
-
   test('ignore reference files not ending with .ts', (assert) => {
     const tree = new ReferenceTree()
     tree.add(join(__dirname, './User.ts'), ['./Database.js', './Config'])

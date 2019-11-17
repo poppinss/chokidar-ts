@@ -7,7 +7,10 @@
  * file that was distributed with this source code.
 */
 
+import { platform } from 'os'
 import ts from 'typescript'
+
+const BACK_SLASH_REGEX = /\\/g
 
 export function parseTsConfig (configPath: string) {
   return ts.getParsedCommandLineOfConfigFile(configPath, {}, {
@@ -15,4 +18,12 @@ export function parseTsConfig (configPath: string) {
     useCaseSensitiveFileNames: true,
     onUnRecoverableConfigFileDiagnostic: () => {},
   })
+}
+
+export function normalizeSlash (path: string) {
+  if (platform() !== 'win32') {
+    return path
+  }
+
+  return path.replace(BACK_SLASH_REGEX, '/')
 }

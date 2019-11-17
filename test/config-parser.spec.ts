@@ -10,9 +10,11 @@
 import test from 'japa'
 import { join } from 'path'
 import ts from 'typescript'
-import { ConfigParser } from '../src/ConfigParser'
-
 import { Filesystem } from '@poppinss/dev-utils'
+
+import { ConfigParser } from '../src/ConfigParser'
+import { normalizeSlash } from '../test-helpers'
+
 const fs = new Filesystem(join(__dirname, 'app'))
 
 test.group('Config Parser', (group) => {
@@ -59,7 +61,7 @@ test.group('Config Parser', (group) => {
 
     assert.isNull(error)
     assert.lengthOf(config!.errors, 0)
-    assert.deepEqual(config!.fileNames, [join(fs.basePath, 'bar/foo.ts')])
+    assert.deepEqual(config!.fileNames, [normalizeSlash(join(fs.basePath, 'bar/foo.ts'))])
   })
 
   test('parse config file and respect exclude pattern', async (assert) => {
@@ -92,6 +94,6 @@ test.group('Config Parser', (group) => {
 
     assert.isNull(error)
     assert.lengthOf(config!.errors, 0)
-    assert.deepEqual(config!.fileNames, [join(fs.basePath, 'bar/foo.ts')])
+    assert.deepEqual(config!.fileNames, [normalizeSlash(join(fs.basePath, 'bar/foo.ts'))])
   })
 })
