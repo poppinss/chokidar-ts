@@ -8,7 +8,7 @@
 */
 
 import test from 'japa'
-import { join } from 'path'
+import { join, normalize } from 'path'
 import { Filesystem } from '@poppinss/dev-utils'
 import { SourceFilesManager } from '../src/SourceFilesManager'
 import { parseTsConfig } from '../test-helpers'
@@ -37,7 +37,7 @@ test.group('Source Files Manager', (group) => {
       {
         includes: config!['configFileSpecs'].validatedIncludeSpecs,
         excludes: config!['configFileSpecs'].validatedExcludeSpecs,
-        files: config!.fileNames,
+        files: config!.fileNames.map((fileName) => normalize(fileName)),
       },
     )
 
@@ -62,7 +62,7 @@ test.group('Source Files Manager', (group) => {
       {
         includes: config!['configFileSpecs'].validatedIncludeSpecs,
         excludes: config!['configFileSpecs'].validatedExcludeSpecs,
-        files: config!.fileNames,
+        files: config!.fileNames.map((fileName) => normalize(fileName)),
       },
     )
 
@@ -83,7 +83,7 @@ test.group('Source Files Manager', (group) => {
       {
         includes: config!['configFileSpecs'].validatedIncludeSpecs,
         excludes: config!['configFileSpecs'].validatedExcludeSpecs,
-        files: config!.fileNames,
+        files: config!.fileNames.map((fileName) => normalize(fileName)),
       },
     )
 
@@ -106,7 +106,7 @@ test.group('Source Files Manager', (group) => {
       {
         includes: config!['configFileSpecs'].validatedIncludeSpecs,
         excludes: config!['configFileSpecs'].validatedExcludeSpecs,
-        files: config!.fileNames,
+        files: config!.fileNames.map((fileName) => normalize(fileName)),
       },
     )
 
@@ -129,7 +129,7 @@ test.group('Source Files Manager', (group) => {
       {
         includes: config!['configFileSpecs'].validatedIncludeSpecs,
         excludes: config!['configFileSpecs'].validatedExcludeSpecs,
-        files: config!.fileNames,
+        files: config!.fileNames.map((fileName) => normalize(fileName)),
       },
     )
 
@@ -148,7 +148,7 @@ test.group('Source Files Manager', (group) => {
       {
         includes: config!['configFileSpecs'].validatedIncludeSpecs,
         excludes: config!['configFileSpecs'].validatedExcludeSpecs,
-        files: config!.fileNames,
+        files: config!.fileNames.map((fileName) => normalize(fileName)),
       },
     )
 
@@ -167,7 +167,7 @@ test.group('Source Files Manager', (group) => {
       {
         includes: config!['configFileSpecs'].validatedIncludeSpecs,
         excludes: config!['configFileSpecs'].validatedExcludeSpecs,
-        files: config!.fileNames,
+        files: config!.fileNames.map((fileName) => normalize(fileName)),
       },
     )
 
@@ -185,7 +185,7 @@ test.group('Source Files Manager', (group) => {
       {
         includes: config!['configFileSpecs'].validatedIncludeSpecs,
         excludes: config!['configFileSpecs'].validatedExcludeSpecs,
-        files: config!.fileNames,
+        files: config!.fileNames.map((fileName) => normalize(fileName)),
       },
     )
 
@@ -205,7 +205,7 @@ test.group('Source Files Manager', (group) => {
       {
         includes: config!['configFileSpecs'].validatedIncludeSpecs,
         excludes: config!['configFileSpecs'].validatedExcludeSpecs,
-        files: config!.fileNames,
+        files: config!.fileNames.map((fileName) => normalize(fileName)),
       },
     )
 
