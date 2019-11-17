@@ -52,6 +52,8 @@ export class SourceFilesManager {
    * and blacklisted patterns
    */
   private _matchAgainstPattern = mem((filePath: string) => {
+    filePath = this._normalizeSlashToUnix(filePath)
+
     if (!this._whitelisted(filePath)) {
       return false
     }
@@ -89,7 +91,6 @@ export class SourceFilesManager {
    * build.
    */
   public add (filePath: string): void {
-    filePath = this._normalizeSlashToUnix(filePath)
     this._projectFiles[filePath] = this._projectFiles[filePath] || { version: 1 }
     debug('adding new source file "%s"', filePath)
   }
@@ -112,9 +113,7 @@ export class SourceFilesManager {
    * Remove file from the list of existing source files
    */
   public remove (filePath: string) {
-    filePath = this._normalizeSlashToUnix(filePath)
     debug('removing source file "%s"', filePath)
-
     delete this._projectFiles[filePath]
   }
 
@@ -123,7 +122,6 @@ export class SourceFilesManager {
    * them against `includes`, `excludes` and custom set of `files`.
    */
   public isSourceFile (filePath: string): boolean {
-    filePath = this._normalizeSlashToUnix(filePath)
     return (!!this._projectFiles[filePath]) || this._matchAgainstPattern(filePath)
   }
 
@@ -131,7 +129,6 @@ export class SourceFilesManager {
    * Returns file version
    */
   public getFileVersion (filePath: string): null | number {
-    filePath = this._normalizeSlashToUnix(filePath)
     const projectFile = this._projectFiles[filePath]
     return projectFile ? projectFile.version : null
   }

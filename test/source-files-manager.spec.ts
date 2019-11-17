@@ -15,7 +15,7 @@ import { parseTsConfig } from '../test-helpers'
 
 const fs = new Filesystem(join(__dirname, 'app'))
 
-test.group('Project', (group) => {
+test.group('Source Files Manager', (group) => {
   group.afterEach(async () => {
     await fs.cleanup()
   })
