@@ -105,7 +105,7 @@ export class Watcher extends Emittery {
    * Initiates the module resolver. We need it to resolve imports
    */
   private _initiateModuleResolver () {
-    this._moduleResolver = new ModuleResolver(this._ts, this.compilerOptions!, this.host)
+    this._moduleResolver = new ModuleResolver(this._ts, this.compilerOptions!)
   }
 
   /**

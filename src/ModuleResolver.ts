@@ -26,7 +26,6 @@ export class ModuleResolver {
   constructor (
     private _ts: typeof tsStatic,
     private _compilerOptions: tsStatic.CompilerOptions,
-    private _host: tsStatic.CompilerHost,
   ) {}
 
   /**
@@ -58,7 +57,7 @@ export class ModuleResolver {
       importPath,
       modulePath,
       this._compilerOptions,
-      this._host,
+      this._ts.sys,
     )
 
     /**
