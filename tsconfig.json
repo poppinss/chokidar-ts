@@ -1,9 +1,3 @@
 {
-  "extends": "./node_modules/@adonisjs/mrm-preset/_tsconfig",
-  "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "Example/*": ["./example/*"]
-    }
-  }
+  "extends": "./node_modules/@adonisjs/mrm-preset/_tsconfig"
 }
