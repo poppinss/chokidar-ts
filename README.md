@@ -17,13 +17,13 @@ This module uses the compiler API of typescript to work as replacement for `tsc`
 - [Why this module?](#why-this-module)
 - [Goals](#goals)
 - [How it works?](#how-it-works)
-    - [parseConfig](#parseconfig)
-    - [build](#build)
-    - [watch](#watch)
-    - [use](#use)
+    - [ConfigParser](#configparser)
+    - [Builder](#builder)
+    - [Watcher](#watcher)
+- [Customer Transformers](#customer-transformers)
 - [Usage](#usage)
-    - [parseConfig(compileOptionsToExtend?: ts.CompilerOptions)](#parseconfigcompileoptionstoextend-tscompileroptions)
-    - [build(parsedConfig: tsStatic.ParsedCommandLine)](#buildparsedconfig-tsstaticparsedcommandline)
+    - [configParser(compileOptionsToExtend?: ts.CompilerOptions)](#configparsercompileoptionstoextend-tscompileroptions)
+    - [builder(options: ts.ParsedCommandLine)](#builderoptions-tsparsedcommandline)
     - [watch(parsedConfig: tsStatic.ParsedCommandLine, watchPattern?: [], options?: chokidar.WatchOptions)](#watchparsedconfig-tsstaticparsedcommandline-watchpattern--options-chokidarwatchoptions)
     - [use(transformer: PluginFn, lifecycle: 'before' | 'after')](#usetransformer-pluginfn-lifecycle-before--after)
 - [API Docs](#api-docs)
@@ -42,7 +42,7 @@ You must use `tsc`, since it is the official command line tool provided by the T
 
 > If all of the above problems doesn't impact your projects, then simply use `tsc` and do waste time looking for alternatives.
 
-Because of the above restrictions, communities like [webpack](https://github.com/TypeStrong/ts-loader) and [gulp](https://www.npmjs.com/package/gulp-typescript) also has to use the compiler API to add support for typescript in their build tools.
+Because of the above restrictions (and many more), communities like [webpack](https://github.com/TypeStrong/ts-loader) and [gulp](https://www.npmjs.com/package/gulp-typescript) also has to use the compiler API to add support for typescript in their build tools.
 
 ## Why this module?
 If you are user of Webpack or gulp and working in frontend space, then your life is all set, since they have first class support for Typescript projects.
@@ -64,15 +64,15 @@ The goal of this module is to stay as close as possible to the behavior of `tsc`
 ## How it works?
 I make sure not to over engineer the process of compiling the code and keep it identical to the workings of `tsc`.
 
-The module exposes 4 main functions.
+The module exposes 3 main sub-modules.
 
-#### parseConfig
-The `parseConfig` method will read the config from `tsconfig.json` file and returns it back to you. You can use it for tasks like, **using `outDir` value to cleanup the old build**.
+#### ConfigParser
+The `ConfigParser` module exposes the API to parse the typescript config
 
-#### build
-The `build` method will compile the Typescript source files to Javascript. It is identical to `tsc` command.
+#### Builder
+The `Builder` module exposes the API to build the entire project. It is similar to `tsc`.
 
-#### watch
+#### Watcher
 This is where things get's interesting. Instead of using the native `fs` events (which are super slow), we make use of `chokidar` to watch the entire project and handle file changes, as explained below.
 
 **Is Typescript file?**
@@ -83,8 +83,9 @@ We will emit `add`, `change` or `unlink` event, so that you (the module consumer
 
 By using this flow, you will always one watcher in your entire project, that will process the Typescript files, restart the Node.js server or copy files to build folder.
 
-#### use
-Define custom transformers to transform the AST. You can read more about the transform API by following this [article series](https://levelup.gitconnected.com/writing-typescript-custom-ast-transformer-part-1-7585d6916819).
+## Customer Transformers
+
+You can also define custom transformers to transform the AST. You can read more about the transform API by following this [article series](https://levelup.gitconnected.com/writing-typescript-custom-ast-transformer-part-1-7585d6916819).
 
 ## Usage
 Install the module from npm registry as follows:
@@ -102,23 +103,23 @@ and then use it as follows:
 import { TypescriptCompiler } from '@poppinss/chokidar-ts'
 
 const compiler = new TypescriptCompiler(
-  require('typescript/lib/typescript'),
-  'tsconfig.json',
   __dirname,
+  'tsconfig.json',
+  require('typescript/lib/typescript'),
 )
 ```
 
-The consturctor accepts three arguments:
+The constructor accepts three arguments:
 
-1. `typescript`: You must pass in the typescript reference, that is used by your project.
+1. `project root`: The path to the project root.
 2. `config file`: The name of the config file from where to read the configuration.
-3. `project root`: The path to the project root.
+3. `typescript`: You must pass in the typescript reference, that is used by your project.
 
-#### parseConfig(compileOptionsToExtend?: ts.CompilerOptions)
+#### configParser(compileOptionsToExtend?: ts.CompilerOptions)
 Parse the project config. Optionally, you can define your custom compiler options. There are helpful, when you want to overwrite some of the values from the `tsconfig.json` file.
 
 ```ts
-const { error, config } = compiler.parseConfig()
+const { error, config } = compiler.configParser().parse()
 
 /**
  * Unable to read the config at all
@@ -139,7 +140,7 @@ if (config && config.errors.length) {
 // Use config
 ```
 
-#### build(parsedConfig: tsStatic.ParsedCommandLine)
+#### builder(options: ts.ParsedCommandLine)
 Build the project. It is same as running `tsc` command. However, the `incremental: true` will have no impact, since typescript team hasn't exposed the API for creating incremental builds.
 
 ```ts

@@ -23,9 +23,9 @@ export class TypescriptCompiler {
   private _pluginManager = new PluginManager()
 
   constructor (
-    public ts: typeof tsStatic,
-    private _configFileName: string,
     private _cwd: string,
+    private _configFileName: string,
+    public ts: typeof tsStatic,
   ) {}
 
   /**
@@ -39,15 +39,15 @@ export class TypescriptCompiler {
   /**
    * Get builder instance
    */
-  public builder () {
-    return new Builder(this._cwd, this._configFileName, this.ts, this._pluginManager)
+  public builder (options: tsStatic.ParsedCommandLine) {
+    return new Builder(this.ts, options, this._pluginManager)
   }
 
   /**
    * Get watcher instance
    */
-  public watcher () {
-    return new Watcher(this._cwd, this._configFileName, this.ts, this._pluginManager)
+  public watcher (options: tsStatic.ParsedCommandLine) {
+    return new Watcher(this._cwd, this.ts, options, this._pluginManager)
   }
 
   /**

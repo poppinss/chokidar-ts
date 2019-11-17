@@ -13,6 +13,7 @@ import { join } from 'path'
 import { Filesystem } from '@poppinss/dev-utils'
 
 import { Builder } from '../src/Builder'
+import { ConfigParser } from '../src/ConfigParser'
 import { PluginManager } from '../src/PluginManager'
 import { normalizeSlash } from '../test-helpers'
 
@@ -35,10 +36,12 @@ test.group('Builder', (group) => {
     await fs.add('foo/bar.ts', '')
     await fs.add('foo/baz.ts', '')
 
-    const builder = new Builder(fs.basePath, 'tsconfig.json', ts, new PluginManager())
+    const configParser = new ConfigParser(fs.basePath, 'tsconfig.json', ts)
+    const config = configParser.parse()
+
+    const builder = new Builder(ts, config.config!, new PluginManager())
     const response = builder.build()
 
-    assert.isFalse(response.configError)
     assert.isFalse(response.skipped)
     assert.deepEqual(response.diagnostics, [])
 
@@ -61,10 +64,12 @@ test.group('Builder', (group) => {
     await fs.add('foo/bar.ts', '')
     await fs.add('foo/baz.ts', '')
 
-    const builder = new Builder(fs.basePath, 'tsconfig.json', ts, new PluginManager())
+    const configParser = new ConfigParser(fs.basePath, 'tsconfig.json', ts)
+    const config = configParser.parse()
+
+    const builder = new Builder(ts, config.config!, new PluginManager())
     const response = builder.build()
 
-    assert.isFalse(response.configError)
     assert.isFalse(response.skipped)
     assert.deepEqual(response.diagnostics, [])
 
@@ -87,10 +92,12 @@ test.group('Builder', (group) => {
     await fs.add('foo/bar.ts', `import path from 'path'`)
     await fs.add('foo/baz.ts', '')
 
-    const builder = new Builder(fs.basePath, 'tsconfig.json', ts, new PluginManager())
+    const configParser = new ConfigParser(fs.basePath, 'tsconfig.json', ts)
+    const config = configParser.parse()
+
+    const builder = new Builder(ts, config.config!, new PluginManager())
     const response = builder.build()
 
-    assert.isFalse(response.configError)
     assert.isFalse(response.skipped)
     assert.lengthOf(response.diagnostics, 1)
     assert.equal(response.diagnostics[0].messageText, `Module '"path"' has no default export.`)
@@ -119,10 +126,12 @@ test.group('Builder', (group) => {
     await fs.add('foo/bar.ts', `import path from 'path'`)
     await fs.add('foo/baz.ts', '')
 
-    const builder = new Builder(fs.basePath, 'tsconfig.json', ts, new PluginManager())
+    const configParser = new ConfigParser(fs.basePath, 'tsconfig.json', ts)
+    const config = configParser.parse()
+
+    const builder = new Builder(ts, config.config!, new PluginManager())
     const response = builder.build()
 
-    assert.isFalse(response.configError)
     assert.isTrue(response.skipped)
     assert.lengthOf(response.diagnostics, 2)
     assert.equal(response.diagnostics[0].messageText, `Module '"path"' has no default export.`)

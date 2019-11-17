@@ -41,8 +41,8 @@ export class Watcher extends Emittery {
 
   constructor (
     private _cwd: string,
-    private _configFileName: string,
     private _ts: typeof tsStatic,
+    private _config: tsStatic.ParsedCommandLine,
     private _pluginManager: PluginManager,
   ) {
     super()
@@ -366,32 +366,24 @@ export class Watcher extends Emittery {
   public watch (
     watchPattern: string | string[] = ['.'],
     watcherOptions?: chokidar.WatchOptions,
-    optionsToExtend?: tsStatic.CompilerOptions,
   ) {
-    const builder = new Builder(this._cwd, this._configFileName, this._ts, this._pluginManager)
-    const buildResponse = builder.build(optionsToExtend)
+    const builder = new Builder(this._ts, this._config, this._pluginManager)
+    const buildResponse = builder.build()
 
     this.program = builder.program
     this.host = builder.host
     this.compilerOptions = builder.compilerOptions
 
-    /**
-     * Do not start watcher when config is missing
-     */
-    if (!buildResponse.config) {
-      return buildResponse
-    }
-
     this._initiateDiagnosticsStore(buildResponse.diagnostics)
-    this._initiateSourceFileManager(buildResponse.config!)
+    this._initiateSourceFileManager(this._config)
     this._initiateModuleResolver()
     this._initiateReferenceTree()
-    this._initiateWatcher(buildResponse.config!.options.outDir!, watchPattern, watcherOptions)
+    this._initiateWatcher(this._config.options.outDir!, watchPattern, watcherOptions)
 
     this.watcher.on('ready', () => {
       debug('watcher ready')
       this.emit('watcher:ready')
-      this._initiateLanguageService(buildResponse.config!.options)
+      this._initiateLanguageService(this._config!.options)
     })
 
     this.watcher.on('add', (path: string) => this._onNewFile(path))
