@@ -34,7 +34,7 @@ export class Watcher extends Emittery {
   private _languageService: tsStatic.LanguageService
   private _moduleResolver: ModuleResolver
 
-  public watcher: chokidar.FSWatcher
+  public chokidar: chokidar.FSWatcher
   public program: tsStatic.Program
   public host: tsStatic.CompilerHost
   public compilerOptions?: tsStatic.CompilerOptions
@@ -143,7 +143,7 @@ export class Watcher extends Emittery {
     }, watcherOptions)
 
     debug('initating watcher with %j options', watcherOptions)
-    this.watcher = chokidar.watch(watchPattern, watcherOptions)
+    this.chokidar = chokidar.watch(watchPattern, watcherOptions)
   }
 
   /**
@@ -255,13 +255,6 @@ export class Watcher extends Emittery {
     const output = this._reBuildSourceFile(absPath)
 
     /**
-     * Re-build source file dependencies, since the changes in the public
-     * API may impact the dependencies as well
-     */
-    const dependencies = this._referenceTree.getDependencies(absPath)
-    dependencies.forEach((dependency) => this._reBuildSourceFile(dependency))
-
-    /**
      * Write files to the disk, when the emitting
      * is enabled
      */
@@ -279,6 +272,13 @@ export class Watcher extends Emittery {
       skipped: output.emitSkipped,
       diagnostics: this._diagnosticsStore.toJSON(),
     })
+
+    /**
+     * Re-build source file dependencies, since the changes in the public
+     * API may impact the dependencies as well
+     */
+    const dependencies = this._referenceTree.getDependencies(absPath)
+    dependencies.forEach((dependency) => this._reBuildSourceFile(dependency))
   }
 
   /**
@@ -380,15 +380,15 @@ export class Watcher extends Emittery {
     this._initiateReferenceTree()
     this._initiateWatcher(this._config.options.outDir!, watchPattern, watcherOptions)
 
-    this.watcher.on('ready', () => {
+    this.chokidar.on('ready', () => {
       debug('watcher ready')
       this.emit('watcher:ready')
       this._initiateLanguageService(this._config!.options)
     })
 
-    this.watcher.on('add', (path: string) => this._onNewFile(path))
-    this.watcher.on('change', (path: string) => this._onChange(path))
-    this.watcher.on('unlink', (path: string) => this._onRemove(path))
+    this.chokidar.on('add', (path: string) => this._onNewFile(path))
+    this.chokidar.on('change', (path: string) => this._onChange(path))
+    this.chokidar.on('unlink', (path: string) => this._onRemove(path))
 
     return buildResponse
   }
