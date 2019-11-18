@@ -30,15 +30,15 @@ the typescript config file.
 
 ###  constructor
 
-\+ **new TypescriptCompiler**(`ts`: ts, `_configFileName`: string, `_cwd`: string): *[TypescriptCompiler](_src_typescriptcompiler_.typescriptcompiler.md)*
+\+ **new TypescriptCompiler**(`_cwd`: string, `_configFileName`: string, `ts`: ts): *[TypescriptCompiler](_src_typescriptcompiler_.typescriptcompiler.md)*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`ts` | ts |
-`_configFileName` | string |
 `_cwd` | string |
+`_configFileName` | string |
+`ts` | ts |
 
 **Returns:** *[TypescriptCompiler](_src_typescriptcompiler_.typescriptcompiler.md)*
 
@@ -52,9 +52,15 @@ Name | Type |
 
 ###  builder
 
-▸ **builder**(): *[Builder](_src_builder_.builder.md)‹›*
+▸ **builder**(`options`: tsStatic.ParsedCommandLine): *[Builder](_src_builder_.builder.md)‹›*
 
 Get builder instance
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`options` | tsStatic.ParsedCommandLine |
 
 **Returns:** *[Builder](_src_builder_.builder.md)‹›*
 
@@ -89,8 +95,14 @@ ___
 
 ###  watcher
 
-▸ **watcher**(): *[Watcher](_src_watcher_.watcher.md)‹›*
+▸ **watcher**(`options`: tsStatic.ParsedCommandLine): *[Watcher](_src_watcher_.watcher.md)‹›*
 
 Get watcher instance
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`options` | tsStatic.ParsedCommandLine |
 
 **Returns:** *[Watcher](_src_watcher_.watcher.md)‹›*

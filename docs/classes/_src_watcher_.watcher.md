@@ -31,10 +31,10 @@ for changes.
 
 ### Properties
 
+* [chokidar](_src_watcher_.watcher.md#chokidar)
 * [compilerOptions](_src_watcher_.watcher.md#optional-compileroptions)
 * [host](_src_watcher_.watcher.md#host)
 * [program](_src_watcher_.watcher.md#program)
-* [watcher](_src_watcher_.watcher.md#watcher)
 
 ### Methods
 
@@ -69,20 +69,26 @@ Removes an event subscription.
 
 ###  constructor
 
-\+ **new Watcher**(`_cwd`: string, `_configFileName`: string, `_ts`: ts, `_pluginManager`: [PluginManager](_src_pluginmanager_.pluginmanager.md)): *[Watcher](_src_watcher_.watcher.md)*
+\+ **new Watcher**(`_cwd`: string, `_ts`: ts, `_config`: tsStatic.ParsedCommandLine, `_pluginManager`: [PluginManager](_src_pluginmanager_.pluginmanager.md)): *[Watcher](_src_watcher_.watcher.md)*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
 `_cwd` | string |
-`_configFileName` | string |
 `_ts` | ts |
+`_config` | tsStatic.ParsedCommandLine |
 `_pluginManager` | [PluginManager](_src_pluginmanager_.pluginmanager.md) |
 
 **Returns:** *[Watcher](_src_watcher_.watcher.md)*
 
 ## Properties
+
+###  chokidar
+
+• **chokidar**: *FSWatcher*
+
+___
 
 ### `Optional` compilerOptions
 
@@ -99,12 +105,6 @@ ___
 ###  program
 
 • **program**: *tsStatic.Program*
-
-___
-
-###  watcher
-
-• **watcher**: *FSWatcher*
 
 ## Methods
 
@@ -563,7 +563,7 @@ ___
 
 ###  watch
 
-▸ **watch**(`watchPattern`: string | string[], `watcherOptions?`: chokidar.WatchOptions, `optionsToExtend?`: tsStatic.CompilerOptions): *object*
+▸ **watch**(`watchPattern`: string | string[], `watcherOptions?`: chokidar.WatchOptions): *object*
 
 Build and watch project for changes
 
@@ -573,7 +573,6 @@ Name | Type | Default |
 ------ | ------ | ------ |
 `watchPattern` | string &#124; string[] |  ['.'] |
 `watcherOptions?` | chokidar.WatchOptions | - |
-`optionsToExtend?` | tsStatic.CompilerOptions | - |
 
 **Returns:** *object*
 

@@ -28,15 +28,14 @@ Exposes the API to build the project similar to `tsc` command.
 
 ###  constructor
 
-\+ **new Builder**(`_cwd`: string, `_configFileName`: string, `_ts`: ts, `_pluginManager`: [PluginManager](_src_pluginmanager_.pluginmanager.md)): *[Builder](_src_builder_.builder.md)*
+\+ **new Builder**(`_ts`: ts, `_config`: tsStatic.ParsedCommandLine, `_pluginManager`: [PluginManager](_src_pluginmanager_.pluginmanager.md)): *[Builder](_src_builder_.builder.md)*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`_cwd` | string |
-`_configFileName` | string |
 `_ts` | ts |
+`_config` | tsStatic.ParsedCommandLine |
 `_pluginManager` | [PluginManager](_src_pluginmanager_.pluginmanager.md) |
 
 **Returns:** *[Builder](_src_builder_.builder.md)*
@@ -63,14 +62,8 @@ ___
 
 ###  build
 
-▸ **build**(`optionsToExtend?`: tsStatic.CompilerOptions): *object*
+▸ **build**(): *object*
 
 Build the project using the Typescript compiler API
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`optionsToExtend?` | tsStatic.CompilerOptions |
 
 **Returns:** *object*
