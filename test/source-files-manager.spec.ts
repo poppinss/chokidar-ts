@@ -15,6 +15,10 @@ import { parseTsConfig } from '../test-helpers'
 
 const fs = new Filesystem(join(__dirname, 'app'))
 
+function joinUnix (...paths: string[]): string {
+  return join(...paths).replace(/\\/g, '/')
+}
+
 test.group('Source Files Manager', (group) => {
   group.afterEach(async () => {
     await fs.cleanup()
@@ -42,7 +46,7 @@ test.group('Source Files Manager', (group) => {
     )
 
     assert.deepEqual(sourceFilesManager.toJSON(), {
-      [join(fs.basePath, 'foo', 'bar', 'baz.ts')]: {
+      [joinUnix(fs.basePath, 'foo', 'bar', 'baz.ts')]: {
         version: 1,
       },
     })
@@ -89,7 +93,7 @@ test.group('Source Files Manager', (group) => {
 
     sourceFilesManager.add(join(fs.basePath, './foo', 'baz.ts'))
     assert.deepEqual(sourceFilesManager.toJSON(), {
-      [join(fs.basePath, './foo', 'baz.ts')]: { version: 1 },
+      [joinUnix(fs.basePath, './foo', 'baz.ts')]: { version: 1 },
     })
   })
 
@@ -112,7 +116,7 @@ test.group('Source Files Manager', (group) => {
 
     sourceFilesManager.bumpVersion(join(fs.basePath, './foo', 'bar', 'baz.ts'))
     assert.deepEqual(sourceFilesManager.toJSON(), {
-      [join(fs.basePath, './foo', 'bar', 'baz.ts')]: { version: 2 },
+      [joinUnix(fs.basePath, './foo', 'bar', 'baz.ts')]: { version: 2 },
     })
   })
 
