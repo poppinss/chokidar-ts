@@ -46,7 +46,7 @@ test.group('Config Parser', (group) => {
 
     assert.isNull(error)
     assert.lengthOf(config!.errors, 2)
-    assert.equal(config!.errors[0].messageText, `Unknown compiler option 'foo'.`)
+    assert.equal(config!.errors[0].messageText, 'Unknown compiler option \'foo\'.')
   })
 
   test('parse config file and populate include files', async (assert) => {
@@ -54,7 +54,7 @@ test.group('Config Parser', (group) => {
       include: ['./**/*'],
     }))
 
-    await fs.add('bar/foo.ts', ``)
+    await fs.add('bar/foo.ts', '')
 
     const configParser = new ConfigParser(fs.basePath, 'tsconfig.json', ts)
     const { error, config } = configParser.parse()
@@ -70,7 +70,7 @@ test.group('Config Parser', (group) => {
       exclude: ['./bar/foo.ts'],
     }))
 
-    await fs.add('bar/foo.ts', ``)
+    await fs.add('bar/foo.ts', '')
 
     const configParser = new ConfigParser(fs.basePath, 'tsconfig.json', ts)
     const { error, config } = configParser.parse()
@@ -87,7 +87,7 @@ test.group('Config Parser', (group) => {
       files: ['./bar/foo.ts'],
     }))
 
-    await fs.add('bar/foo.ts', ``)
+    await fs.add('bar/foo.ts', '')
 
     const configParser = new ConfigParser(fs.basePath, 'tsconfig.json', ts)
     const { error, config } = configParser.parse()

@@ -32,7 +32,7 @@ test.group('Source Files Manager', (group) => {
     await fs.add('tsconfig.json', JSON.stringify({
       include: ['./**/*'],
     }))
-    await fs.add('foo/bar/baz.ts', `import path from 'path'`)
+    await fs.add('foo/bar/baz.ts', 'import path from \'path\'')
 
     const config = parseTsConfig(join(fs.basePath, 'tsconfig.json'))
 
@@ -57,7 +57,7 @@ test.group('Source Files Manager', (group) => {
       include: ['./**/*'],
       exclude: ['./foo/bar/*.ts'],
     }))
-    await fs.add('foo/bar/baz.ts', `import path from 'path'`)
+    await fs.add('foo/bar/baz.ts', 'import path from \'path\'')
 
     const config = parseTsConfig(join(fs.basePath, 'tsconfig.json'))
 
@@ -78,7 +78,7 @@ test.group('Source Files Manager', (group) => {
       include: ['./**/*'],
       exclude: ['./foo/bar/*.ts'],
     }))
-    await fs.add('foo/bar/baz.ts', `import path from 'path'`)
+    await fs.add('foo/bar/baz.ts', 'import path from \'path\'')
 
     const config = parseTsConfig(join(fs.basePath, 'tsconfig.json'))
 
@@ -101,7 +101,7 @@ test.group('Source Files Manager', (group) => {
     await fs.add('tsconfig.json', JSON.stringify({
       include: ['./**/*'],
     }))
-    await fs.add('foo/bar/baz.ts', `import path from 'path'`)
+    await fs.add('foo/bar/baz.ts', 'import path from \'path\'')
 
     const config = parseTsConfig(join(fs.basePath, 'tsconfig.json'))
 
@@ -124,7 +124,7 @@ test.group('Source Files Manager', (group) => {
     await fs.add('tsconfig.json', JSON.stringify({
       include: ['./**/*'],
     }))
-    await fs.add('foo/bar/baz.ts', `import path from 'path'`)
+    await fs.add('foo/bar/baz.ts', 'import path from \'path\'')
 
     const config = parseTsConfig(join(fs.basePath, 'tsconfig.json'))
 

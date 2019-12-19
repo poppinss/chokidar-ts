@@ -155,7 +155,7 @@ export class Watcher extends Emittery {
      * Compiler host for the language service. This is pretty much a copy/paste
      * from the Typescript compiler API documentation
      */
-    const languageServiceHost = {
+    const languageServiceHost: tsStatic.LanguageServiceHost = {
       readFile: this._ts.sys.readFile,
       fileExists: this._ts.sys.fileExists,
       readDirectory: this._ts.sys.readDirectory,
@@ -163,7 +163,7 @@ export class Watcher extends Emittery {
       getCurrentDirectory: () => this._cwd,
       getCompilationSettings: () => options,
       getScriptFileNames: () => Object.keys(this._sourceFilesManager.toJSON()),
-      getDefaultLibFileName: options => this._ts.getDefaultLibFilePath(options),
+      getDefaultLibFileName: libOptions => this._ts.getDefaultLibFilePath(libOptions),
       getCustomTransformers: () => this._pluginManager.getTransformers(this._ts, options),
 
       getScriptVersion: file => {
