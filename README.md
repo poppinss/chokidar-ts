@@ -5,9 +5,10 @@
 # Chokidar Ts
 > Typescript compiler using chokidar vs native Fs events.
 
-[![circleci-image]][circleci-url] [![appveyor-image]][appveyor-url] [![npm-image]][npm-url] ![][typescript-image] [![license-image]][license-url]
+[![appveyor-image]][appveyor-url] [![circleci-image]][circleci-url] [![typescript-image]][typescript-url] [![npm-image]][npm-url] [![license-image]][license-url]
 
 This module uses the compiler API of typescript to work as replacement for `tsc` and `tsc --watch` and uses [chokidar](https://github.com/paulmillr/chokidar) for watching file changes.
+
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -21,6 +22,7 @@ This module uses the compiler API of typescript to work as replacement for `tsc`
     - [Builder](#builder)
     - [Watcher](#watcher)
 - [Customer Transformers](#customer-transformers)
+- [Installation](#installation)
 - [Usage](#usage)
     - [configParser(compileOptionsToExtend?: ts.CompilerOptions)](#configparsercompileoptionstoextend-tscompileroptions)
     - [builder(options: ts.ParsedCommandLine)](#builderoptions-tsparsedcommandline)
@@ -29,7 +31,6 @@ This module uses the compiler API of typescript to work as replacement for `tsc`
 - [API Docs](#api-docs)
 - [Debug](#debug)
 - [Reference Tree](#reference-tree)
-- [Maintainers](#maintainers)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -81,13 +82,13 @@ Handle the event internally and process the file using the Language service API.
 **If not a typescript file?**
 We will emit `add`, `change` or `unlink` event, so that you (the module consumer) can use and decide what to do on that event. For example: If filePath is `.env`, then restart the Node.js server.
 
-By using this flow, you will always one watcher in your entire project, that will process the Typescript files, restart the Node.js server or copy files to build folder.
+By using this flow, you will always have one watcher in your entire project, that will process the Typescript files, restart the Node.js server or copy files to build folder.
 
 ## Customer Transformers
 
 You can also define custom transformers to transform the AST. You can read more about the transform API by following this [article series](https://levelup.gitconnected.com/writing-typescript-custom-ast-transformer-part-1-7585d6916819).
 
-## Usage
+## Installation
 Install the module from npm registry as follows:
 
 ```sh
@@ -97,8 +98,7 @@ npm i @poppinss/chokidar-ts
 yarn add @poppinss/chokidar-ts
 ```
 
-and then use it as follows:
-
+## Usage
 ```ts
 import { TypescriptCompiler } from '@poppinss/chokidar-ts'
 
@@ -144,19 +144,34 @@ if (config && config.errors.length) {
 
 Build the project. It is same as running `tsc` command. However, the `incremental: true` will have no impact. 
 
-The `build` command is used to build the project from scratch, it indirectly means, we should cleanup the old build before running this command and hence `incremental: true` is has no impact once old build is deleted.
+The `build` command is used to build the project from scratch, it indirectly means, we should cleanup the old build before running this command and hence `incremental: true` has no impact once old build is deleted.
 
 **Why Delete the Old Build?**
 
-Because, the typescript compiler is not smart enough to delete the compiled file once the source file has been deleted.
+Because, the typescript compiler is not smart enough to delete the compiled file once the source file has been deleted and you will end up having files inside your build directory which doesn't even exists inside the source. 
+
+Deleting the build and re-building the project results in the most consistent and reliable output.
 
 ```ts
 const { error, config } = compiler.configParser().parse()
-if (error || !config || config.errors.length) {
- return 
-} 
+if (error || !config) {
+  console.log(error)
+  return
+}
+
+if (config.errors.length) {
+  console.log(config.errors)
+  return
+}
 
 const { diagnostics, skipped } = compiler.builder(config!).build()
+
+if (diagnostics.length) {
+  console.log('Built with few errors')
+  console.log(diagnostics)
+} else {
+  console.log('Built successfully')
+}
 ```
 
 #### watcher(options: ts.ParsedCommandLine)
@@ -165,9 +180,15 @@ Returns an instance of watcher that uses `chokidar` and Typescript `LanguageServ
 
 ```ts
 const { error, config } = compiler.configParser().parse()
-if (error || !config || config.errors.length) {
- return 
-} 
+if (error || !config) {
+  console.log(error)
+  return
+}
+
+if (config.errors.length) {
+  console.log(config.errors)
+  return
+}
 
 const watcher = compiler.watcher(config!)
 
@@ -199,7 +220,7 @@ watcher.watch(['.'], {
   ignored: ['node_modules', 'build']
 })
 
-// Stop the watcher
+// Stop the watcher anytime you want to
 watcher.chokidar.close()
 ```
 
@@ -257,19 +278,17 @@ To achieve the defined behavior, we maintain a reference tree of all the source 
 
 Reference tree for `node_modules` is not maintained. So, if you update a package, you will have to re-start the compiler. 
 
-## Maintainers
-[Harminder virk](https://github.com/thetutlage)
-
 [appveyor-image]: https://img.shields.io/appveyor/ci/thetutlage/chokidar-ts/master.svg?style=for-the-badge&logo=appveyor
 [appveyor-url]: https://ci.appveyor.com/project/thetutlage/chokidar-ts "appveyor"
 
 [circleci-image]: https://img.shields.io/circleci/project/github/poppinss/chokidar-ts/master.svg?style=for-the-badge&logo=circleci
 [circleci-url]: https://circleci.com/gh/poppinss/chokidar-ts "circleci"
 
+[typescript-image]: https://img.shields.io/badge/Typescript-294E80.svg?style=for-the-badge&logo=typescript
+[typescript-url]:  "typescript"
+
 [npm-image]: https://img.shields.io/npm/v/@poppinss/chokidar-ts.svg?style=for-the-badge&logo=npm
 [npm-url]: https://npmjs.org/package/@poppinss/chokidar-ts "npm"
 
-[typescript-image]: https://img.shields.io/badge/Typescript-294E80.svg?style=for-the-badge&logo=typescript
-
-[license-url]: LICENSE.md
-[license-image]: https://img.shields.io/aur/license/pac.svg?style=for-the-badge
+[license-image]: https://img.shields.io/npm/l/@poppinss/chokidar-ts?color=blueviolet&style=for-the-badge
+[license-url]: LICENSE.md "license"
