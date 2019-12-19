@@ -15,13 +15,13 @@ import { PluginFn } from './Contracts'
  * transformers
  */
 export class PluginManager {
-  private _plugins: { fn: PluginFn, lifecycle: 'after' | 'before' }[] = []
+  private plugins: { fn: PluginFn, lifecycle: 'after' | 'before' }[] = []
 
   /**
    * Hook plugin to define custom transformers
    */
   public use (transformer: PluginFn, lifecycle: 'before' | 'after'): this {
-    this._plugins.push({ fn: transformer, lifecycle })
+    this.plugins.push({ fn: transformer, lifecycle })
     return this
   }
 
@@ -29,7 +29,7 @@ export class PluginManager {
    * Returns transformers based upon the registered plugins
    */
   public getTransformers (ts: typeof tsStatic, options: tsStatic.CompilerOptions) {
-    return this._plugins.reduce((transformers: tsStatic.CustomTransformers, { fn, lifecycle }) => {
+    return this.plugins.reduce((transformers: tsStatic.CustomTransformers, { fn, lifecycle }) => {
       if (lifecycle === 'after') {
         transformers.after!.push(fn(ts, options))
       } else {

@@ -22,8 +22,8 @@ const debug = Debug('tsc:reference:tree')
  * a given file.
  */
 export class ReferenceTree {
-  private _tree: Map<string, Set<ImportReferenceNode>> = new Map()
-  private _imports: Map<string, ImportReferenceNode> = new Map()
+  private tree: Map<string, Set<ImportReferenceNode>> = new Map()
+  private imports: Map<string, ImportReferenceNode> = new Map()
 
   constructor () {
     debug('initiating reference tree')
@@ -32,27 +32,27 @@ export class ReferenceTree {
   /**
    * Creates the top level node in the depdencies map
    */
-  private _addDependencyNode (modulePath: string) {
-    if (!this._tree.has(modulePath)) {
-      this._tree.set(modulePath, new Set())
+  private addDependencyNode (modulePath: string) {
+    if (!this.tree.has(modulePath)) {
+      this.tree.set(modulePath, new Set())
     }
   }
 
   /**
    * Adds the dependency on the module node
    */
-  private _addDependency (dependencyPath: string, importRef: ImportReferenceNode) {
-    this._addDependencyNode(dependencyPath)
+  private addDependency (dependencyPath: string, importRef: ImportReferenceNode) {
+    this.addDependencyNode(dependencyPath)
     debug('adding "%s" as dependency for "%s" module', dependencyPath, importRef.modulePath)
-    this._tree.get(dependencyPath)!.add(importRef)
+    this.tree.get(dependencyPath)!.add(importRef)
   }
 
   /**
    * Updates the import verion
    */
-  private _bumpVersion (modulePath: string) {
-    const oldVersion = this._imports.get(modulePath)
-    this._imports.set(modulePath, {
+  private bumpVersion (modulePath: string) {
+    const oldVersion = this.imports.get(modulePath)
+    this.imports.set(modulePath, {
       version: oldVersion ? oldVersion.version++ : 1,
       modulePath,
     })
@@ -69,10 +69,10 @@ export class ReferenceTree {
     /**
      * Create node in the imports tree
      */
-    this._bumpVersion(modulePath)
-    const importRef = this._imports.get(modulePath)!
+    this.bumpVersion(modulePath)
+    const importRef = this.imports.get(modulePath)!
 
-    importReferences.forEach((reference) => this._addDependency(reference, importRef))
+    importReferences.forEach((reference) => this.addDependency(reference, importRef))
   }
 
   /**
@@ -80,14 +80,14 @@ export class ReferenceTree {
    */
   public remove (modulePath: string) {
     debug('removing module "%s"', modulePath)
-    this._imports.delete(modulePath)
+    this.imports.delete(modulePath)
   }
 
   /**
    * Returns an array of dependencies for a given module
    */
   public getDependencies (modulePath: string): string[] {
-    const dependenciesRefs = this._tree.get(modulePath)
+    const dependenciesRefs = this.tree.get(modulePath)
     if (!dependenciesRefs) {
       return []
     }
@@ -95,7 +95,8 @@ export class ReferenceTree {
     const serialized: string[] = []
 
     dependenciesRefs.forEach((ref) => {
-      const originalRef = this._imports.get(ref.modulePath)
+      const originalRef = this.imports.get(ref.modulePath)
+
       /**
        * Cleaning up non existing dependencies
        */
@@ -125,7 +126,7 @@ export class ReferenceTree {
   public toJSON () {
     const serialized: { [key: string]: string[] } = {}
 
-    this._tree.forEach((_value, modulePath) => {
+    this.tree.forEach((_, modulePath) => {
       const dependencies = this.getDependencies(modulePath)
       if (dependencies.length) {
         serialized[modulePath] = dependencies

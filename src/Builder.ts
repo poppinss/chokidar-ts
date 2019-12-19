@@ -7,9 +7,8 @@
  * file that was distributed with this source code.
 */
 
-import tsStatic from 'typescript'
 import Debug from 'debug'
-
+import tsStatic from 'typescript'
 import { PluginManager } from './PluginManager'
 
 const debug = Debug('tsc:builder')
@@ -23,9 +22,9 @@ export class Builder {
   public compilerOptions?: tsStatic.CompilerOptions
 
   constructor (
-    private _ts: typeof tsStatic,
-    private _config: tsStatic.ParsedCommandLine,
-    private _pluginManager: PluginManager,
+    private ts: typeof tsStatic,
+    private config: tsStatic.ParsedCommandLine,
+    private pluginManager: PluginManager,
   ) {
     debug('initiating builder')
   }
@@ -34,21 +33,21 @@ export class Builder {
    * Build the project using the Typescript compiler API
    */
   public build () {
-    const { options, fileNames } = this._config
-    this.host = this._ts.createCompilerHost(options)
-    this.program = this._ts.createProgram(fileNames, options, this.host)
+    const { options, fileNames } = this.config
+    this.host = this.ts.createCompilerHost(options)
+    this.program = this.ts.createProgram(fileNames, options, this.host)
     this.compilerOptions = options
 
     debug('emitting program')
     const result = this.program.emit(
       undefined,
-      this._ts.sys.writeFile,
+      this.ts.sys.writeFile,
       undefined,
       undefined,
-      this._pluginManager.getTransformers(this._ts, options),
+      this.pluginManager.getTransformers(this.ts, options),
     )
 
-    const diagnostics = this._ts.getPreEmitDiagnostics(this.program).concat(result.diagnostics)
+    const diagnostics = this.ts.getPreEmitDiagnostics(this.program).concat(result.diagnostics)
     debug('initial build has "%d" errors', diagnostics.length)
 
     return {

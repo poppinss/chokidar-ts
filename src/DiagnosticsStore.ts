@@ -19,7 +19,7 @@ const debug = Debug('tsc:diagnostic:store')
  * that file itself.
  */
 export class DiagnosticsStore {
-  private _diagnostics: Map<string, tsStatic.Diagnostic[]> = new Map()
+  private diagnostics: Map<string, tsStatic.Diagnostic[]> = new Map()
 
   constructor () {
     debug('initiating diagnostics store')
@@ -37,11 +37,11 @@ export class DiagnosticsStore {
       const fileName = diagnostic.file.fileName
       debug('adding diagnostics for "%s" file', fileName)
 
-      if (!this._diagnostics.has(fileName)) {
-        this._diagnostics.set(fileName, [])
+      if (!this.diagnostics.has(fileName)) {
+        this.diagnostics.set(fileName, [])
       }
 
-      this._diagnostics.get(fileName)!.push(diagnostic)
+      this.diagnostics.get(fileName)!.push(diagnostic)
     })
   }
 
@@ -59,16 +59,16 @@ export class DiagnosticsStore {
     }
 
     debug('adding diagnostics for "%s" file', filePath)
-    this._diagnostics.set(filePath, diagnostics)
+    this.diagnostics.set(filePath, diagnostics)
   }
 
   /**
    * Remove diagnostics for a given file
    */
   public remove (filePath: string): void {
-    if (this._diagnostics.has(filePath)) {
+    if (this.diagnostics.has(filePath)) {
       debug('removing diagnostics for "%s" file', filePath)
-      this._diagnostics.delete(filePath)
+      this.diagnostics.delete(filePath)
     }
   }
 
@@ -77,7 +77,7 @@ export class DiagnosticsStore {
    */
   public toJSON () {
     let serialized: tsStatic.Diagnostic[] = []
-    this._diagnostics.forEach((diagnostics) => serialized = serialized.concat(diagnostics))
+    this.diagnostics.forEach((diagnostics) => serialized = serialized.concat(diagnostics))
     return serialized
   }
 }

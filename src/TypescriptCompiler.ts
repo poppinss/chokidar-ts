@@ -20,11 +20,11 @@ import { PluginManager } from './PluginManager'
  * the typescript config file.
  */
 export class TypescriptCompiler {
-  private _pluginManager = new PluginManager()
+  private pluginManager = new PluginManager()
 
   constructor (
-    private _cwd: string,
-    private _configFileName: string,
+    private cwd: string,
+    private configFileName: string,
     public ts: typeof tsStatic,
   ) {}
 
@@ -32,7 +32,7 @@ export class TypescriptCompiler {
    * Add plugin which can apply transformers to the typescript compiler
    */
   public use (transformer: PluginFn, lifecycle: 'before' | 'after') {
-    this._pluginManager.use(transformer, lifecycle)
+    this.pluginManager.use(transformer, lifecycle)
     return this
   }
 
@@ -40,20 +40,20 @@ export class TypescriptCompiler {
    * Get builder instance
    */
   public builder (options: tsStatic.ParsedCommandLine) {
-    return new Builder(this.ts, options, this._pluginManager)
+    return new Builder(this.ts, options, this.pluginManager)
   }
 
   /**
    * Get watcher instance
    */
   public watcher (options: tsStatic.ParsedCommandLine) {
-    return new Watcher(this._cwd, this.ts, options, this._pluginManager)
+    return new Watcher(this.cwd, this.ts, options, this.pluginManager)
   }
 
   /**
    * Get config parser instance
    */
   public configParser () {
-    return new ConfigParser(this._cwd, this._configFileName, this.ts)
+    return new ConfigParser(this.cwd, this.configFileName, this.ts)
   }
 }
