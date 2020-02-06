@@ -100,7 +100,10 @@ test.group('Builder', (group) => {
 
     assert.isFalse(response.skipped)
     assert.lengthOf(response.diagnostics, 1)
-    assert.equal(response.diagnostics[0].messageText, 'Module \'"path"\' has no default export.')
+    assert.equal(
+      response.diagnostics[0].messageText,
+      'Module \'"path"\' can only be default-imported using the \'esModuleInterop\' flag',
+    )
     assert.equal(
       response.diagnostics[0].file!.fileName,
       normalizeSlash(join(fs.basePath, 'foo/bar.ts')),
@@ -134,7 +137,10 @@ test.group('Builder', (group) => {
 
     assert.isTrue(response.skipped)
     assert.lengthOf(response.diagnostics, 2)
-    assert.equal(response.diagnostics[0].messageText, 'Module \'"path"\' has no default export.')
+    assert.equal(
+      response.diagnostics[0].messageText,
+      'Module \'"path"\' can only be default-imported using the \'esModuleInterop\' flag',
+    )
     assert.equal(
       response.diagnostics[0].file!.fileName,
       normalizeSlash(join(fs.basePath, 'foo/bar.ts')),
