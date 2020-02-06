@@ -20,7 +20,7 @@ transformers
 
 ###  getTransformers
 
-▸ **getTransformers**(`ts`: ts, `options`: tsStatic.CompilerOptions): *CustomTransformers*
+▸ **getTransformers**(`ts`: typeof tsStatic, `options`: tsStatic.CompilerOptions): *CustomTransformers*
 
 Returns transformers based upon the registered plugins
 
@@ -28,7 +28,7 @@ Returns transformers based upon the registered plugins
 
 Name | Type |
 ------ | ------ |
-`ts` | ts |
+`ts` | typeof tsStatic |
 `options` | tsStatic.CompilerOptions |
 
 **Returns:** *CustomTransformers*

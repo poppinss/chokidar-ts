@@ -22,15 +22,15 @@ Exposes the API to parse typescript config
 
 ###  constructor
 
-\+ **new ConfigParser**(`_cwd`: string, `_configFileName`: string, `_ts`: ts): *[ConfigParser](_src_configparser_.configparser.md)*
+\+ **new ConfigParser**(`cwd`: string, `configFileName`: string, `ts`: typeof tsStatic): *[ConfigParser](_src_configparser_.configparser.md)*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`_cwd` | string |
-`_configFileName` | string |
-`_ts` | ts |
+`cwd` | string |
+`configFileName` | string |
+`ts` | typeof tsStatic |
 
 **Returns:** *[ConfigParser](_src_configparser_.configparser.md)*
 
@@ -49,3 +49,7 @@ Name | Type |
 `optionsToExtend?` | tsStatic.CompilerOptions |
 
 **Returns:** *object*
+
+* **config**? : *tsStatic.ParsedCommandLine*
+
+* **error**: *tsStatic.Diagnostic | null*

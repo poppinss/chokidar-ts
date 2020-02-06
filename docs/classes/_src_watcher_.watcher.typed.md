@@ -20,7 +20,7 @@ emitter.emit('end'); // TS compilation error
 
 ## Type parameters
 
-▪ **EventDataMap**: *Events*
+▪ **EventDataMap**: *[Events](../interfaces/_src_watcher_.watcher.events.md)*
 
 ▪ **EmptyEvents**: *string*
 
@@ -186,14 +186,14 @@ ___
 
 ▪ **listener**: *function*
 
-▸ (`eventName`: Extract‹keyof EventDataMap, string› | EmptyEvents, `eventData?`: undefined | EventDataMap[Extract<keyof EventDataMap, string>]): *void*
+▸ (`eventName`: Extract‹keyof EventDataMap, string› | EmptyEvents, `eventData?`: EventDataMap[Extract<keyof EventDataMap, string>]): *void*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
 `eventName` | Extract‹keyof EventDataMap, string› &#124; EmptyEvents |
-`eventData?` | undefined &#124; EventDataMap[Extract<keyof EventDataMap, string>] |
+`eventData?` | EventDataMap[Extract<keyof EventDataMap, string>] |
 
 **Returns:** *void*
 
@@ -249,14 +249,14 @@ ___
 
 ▪ **listener**: *function*
 
-▸ (`eventName`: Extract‹keyof EventDataMap, string› | EmptyEvents, `eventData?`: undefined | EventDataMap[Extract<keyof EventDataMap, string>]): *void*
+▸ (`eventName`: Extract‹keyof EventDataMap, string› | EmptyEvents, `eventData?`: EventDataMap[Extract<keyof EventDataMap, string>]): *void*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
 `eventName` | Extract‹keyof EventDataMap, string› &#124; EmptyEvents |
-`eventData?` | undefined &#124; EventDataMap[Extract<keyof EventDataMap, string>] |
+`eventData?` | EventDataMap[Extract<keyof EventDataMap, string>] |
 
 **Returns:** *Emittery.UnsubscribeFn*
 

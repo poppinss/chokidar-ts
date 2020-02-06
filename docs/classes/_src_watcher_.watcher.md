@@ -69,16 +69,16 @@ Removes an event subscription.
 
 ###  constructor
 
-\+ **new Watcher**(`_cwd`: string, `_ts`: ts, `_config`: tsStatic.ParsedCommandLine, `_pluginManager`: [PluginManager](_src_pluginmanager_.pluginmanager.md)): *[Watcher](_src_watcher_.watcher.md)*
+\+ **new Watcher**(`cwd`: string, `ts`: typeof tsStatic, `config`: tsStatic.ParsedCommandLine, `pluginManager`: [PluginManager](_src_pluginmanager_.pluginmanager.md)): *[Watcher](_src_watcher_.watcher.md)*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`_cwd` | string |
-`_ts` | ts |
-`_config` | tsStatic.ParsedCommandLine |
-`_pluginManager` | [PluginManager](_src_pluginmanager_.pluginmanager.md) |
+`cwd` | string |
+`ts` | typeof tsStatic |
+`config` | tsStatic.ParsedCommandLine |
+`pluginManager` | [PluginManager](_src_pluginmanager_.pluginmanager.md) |
 
 **Returns:** *[Watcher](_src_watcher_.watcher.md)*
 
@@ -112,7 +112,7 @@ ___
 
 ▸ **anyEvent**(): *AsyncIterableIterator‹unknown›*
 
-*Inherited from void*
+*Inherited from [Watcher](_src_watcher_.watcher.md).[anyEvent](_src_watcher_.watcher.md#anyevent)*
 
 Get an async iterator which buffers a tuple of an event name and data each time an event is emitted.
 
@@ -155,7 +155,7 @@ ___
 
 ▸ **bindMethods**(`target`: object, `methodNames?`: keyof string[]): *void*
 
-*Inherited from void*
+*Inherited from [Watcher](_src_watcher_.watcher.md).[bindMethods](_src_watcher_.watcher.md#bindmethods)*
 
 Bind the given `methodNames`, or all `Emittery` methods if `methodNames` is not defined, into the `target` object.
 
@@ -185,7 +185,7 @@ ___
 
 ▸ **clearListeners**(`eventName?`: undefined | string): *void*
 
-*Inherited from void*
+*Inherited from [Watcher](_src_watcher_.watcher.md).[clearListeners](_src_watcher_.watcher.md#clearlisteners)*
 
 Clear all event listeners on the instance.
 
@@ -205,7 +205,7 @@ ___
 
 ▸ **emit**(`eventName`: string, `eventData?`: unknown): *Promise‹void›*
 
-*Inherited from void*
+*Inherited from [Watcher](_src_watcher_.watcher.md).[emit](_src_watcher_.watcher.md#emit)*
 
 Trigger an event asynchronously, optionally with some data. Listeners are called in the order they were added, but executed concurrently.
 
@@ -226,7 +226,7 @@ ___
 
 ▸ **emitSerial**(`eventName`: string, `eventData?`: unknown): *Promise‹void›*
 
-*Inherited from void*
+*Inherited from [Watcher](_src_watcher_.watcher.md).[emitSerial](_src_watcher_.watcher.md#emitserial)*
 
 Same as `emit()`, but it waits for each listener to resolve before triggering the next one. This can be useful if your events depend on each other. Although ideally they should not. Prefer `emit()` whenever possible.
 
@@ -249,7 +249,7 @@ ___
 
 ▸ **events**(`eventName`: string): *AsyncIterableIterator‹unknown›*
 
-*Inherited from void*
+*Inherited from [Watcher](_src_watcher_.watcher.md).[events](_src_watcher_.watcher.md#events)*
 
 Get an async iterator which buffers data each time an event is emitted.
 
@@ -317,7 +317,7 @@ ___
 
 ▸ **listenerCount**(`eventName?`: undefined | string): *number*
 
-*Inherited from void*
+*Inherited from [Watcher](_src_watcher_.watcher.md).[listenerCount](_src_watcher_.watcher.md#listenercount)*
 
 The number of listeners for the `eventName` or all events if not specified.
 
@@ -335,7 +335,7 @@ ___
 
 ▸ **off**(`eventName`: string, `listener`: function): *void*
 
-*Inherited from void*
+*Inherited from [Watcher](_src_watcher_.watcher.md).[off](_src_watcher_.watcher.md#off)*
 
 Remove an event subscription.
 
@@ -361,7 +361,7 @@ ___
 
 ▸ **offAny**(`listener`: function): *void*
 
-*Inherited from void*
+*Inherited from [Watcher](_src_watcher_.watcher.md).[offAny](_src_watcher_.watcher.md#offany)*
 
 Remove an `onAny` subscription.
 
@@ -492,9 +492,13 @@ Name | Type |
 
 **Parameters:**
 
+▪ **data**: *object*
+
 Name | Type |
 ------ | ------ |
-`data` | object |
+`diagnostics` | tsStatic.Diagnostic[] |
+`path` | string |
+`skipped` | boolean |
 
 **Returns:** *Emittery.UnsubscribeFn*
 
@@ -517,7 +521,7 @@ ___
 
 ▸ **onAny**(`listener`: function): *Emittery.UnsubscribeFn*
 
-*Inherited from void*
+*Inherited from [Watcher](_src_watcher_.watcher.md).[onAny](_src_watcher_.watcher.md#onany)*
 
 Subscribe to be notified about any event.
 
@@ -544,7 +548,7 @@ ___
 
 ▸ **once**(`eventName`: string): *Promise‹unknown›*
 
-*Inherited from void*
+*Inherited from [Watcher](_src_watcher_.watcher.md).[once](_src_watcher_.watcher.md#once)*
 
 Subscribe to an event only once. It will be unsubscribed after the first
 event.
@@ -571,10 +575,14 @@ Build and watch project for changes
 
 Name | Type | Default |
 ------ | ------ | ------ |
-`watchPattern` | string &#124; string[] |  ['.'] |
+`watchPattern` | string &#124; string[] | ['.'] |
 `watcherOptions?` | chokidar.WatchOptions | - |
 
 **Returns:** *object*
+
+* **diagnostics**: *Diagnostic[]*
+
+* **skipped**: *boolean* = result.emitSkipped
 
 ___
 
@@ -582,7 +590,7 @@ ___
 
 ▸ **mixin**(`emitteryPropertyName`: string, `methodNames?`: keyof string[]): *Function*
 
-*Inherited from void*
+*Inherited from [Watcher](_src_watcher_.watcher.md).[mixin](_src_watcher_.watcher.md#static-mixin)*
 
 In TypeScript, it returns a decorator which mixins `Emittery` as property `emitteryPropertyName` and `methodNames`, or all `Emittery` methods if `methodNames` is not defined, into the target class.
 

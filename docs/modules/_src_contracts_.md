@@ -22,6 +22,10 @@ unnecessary loops
 
 #### Type declaration:
 
+* **modulePath**: *string*
+
+* **version**: *number*
+
 ___
 
 ###  PluginFn
@@ -32,13 +36,13 @@ Shape of Plugin function
 
 #### Type declaration:
 
-▸ (`ts`: ts, `config`: tsStatic.CompilerOptions): *tsStatic.TransformerFactory‹tsStatic.SourceFile› | tsStatic.CustomTransformerFactory*
+▸ (`ts`: typeof tsStatic, `config`: tsStatic.CompilerOptions): *tsStatic.TransformerFactory‹tsStatic.SourceFile› | tsStatic.CustomTransformerFactory*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`ts` | ts |
+`ts` | typeof tsStatic |
 `config` | tsStatic.CompilerOptions |
 
 ___
@@ -50,3 +54,9 @@ ___
 Options accepted by source files manager
 
 #### Type declaration:
+
+* **excludes**? : *string[]*
+
+* **files**: *string[]*
+
+* **includes**? : *string[]*

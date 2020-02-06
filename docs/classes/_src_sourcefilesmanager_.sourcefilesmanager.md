@@ -29,14 +29,14 @@ are added and removed regularly.
 
 ###  constructor
 
-\+ **new SourceFilesManager**(`_appRoot`: string, `_options`: [SourceFilesManagerOptions](../modules/_src_contracts_.md#sourcefilesmanageroptions)): *[SourceFilesManager](_src_sourcefilesmanager_.sourcefilesmanager.md)*
+\+ **new SourceFilesManager**(`appRoot`: string, `options`: [SourceFilesManagerOptions](../modules/_src_contracts_.md#sourcefilesmanageroptions)): *[SourceFilesManager](_src_sourcefilesmanager_.sourcefilesmanager.md)*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`_appRoot` | string |
-`_options` | [SourceFilesManagerOptions](../modules/_src_contracts_.md#sourcefilesmanageroptions) |
+`appRoot` | string |
+`options` | [SourceFilesManagerOptions](../modules/_src_contracts_.md#sourcefilesmanageroptions) |
 
 **Returns:** *[SourceFilesManager](_src_sourcefilesmanager_.sourcefilesmanager.md)*
 

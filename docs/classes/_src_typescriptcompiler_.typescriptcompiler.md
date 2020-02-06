@@ -30,15 +30,15 @@ the typescript config file.
 
 ###  constructor
 
-\+ **new TypescriptCompiler**(`_cwd`: string, `_configFileName`: string, `ts`: ts): *[TypescriptCompiler](_src_typescriptcompiler_.typescriptcompiler.md)*
+\+ **new TypescriptCompiler**(`cwd`: string, `configFileName`: string, `ts`: typeof tsStatic): *[TypescriptCompiler](_src_typescriptcompiler_.typescriptcompiler.md)*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`_cwd` | string |
-`_configFileName` | string |
-`ts` | ts |
+`cwd` | string |
+`configFileName` | string |
+`ts` | typeof tsStatic |
 
 **Returns:** *[TypescriptCompiler](_src_typescriptcompiler_.typescriptcompiler.md)*
 
@@ -46,7 +46,7 @@ Name | Type |
 
 ###  ts
 
-• **ts**: *ts*
+• **ts**: *typeof tsStatic*
 
 ## Methods
 

@@ -26,14 +26,14 @@ they are changed during the watch mode.
 
 ###  constructor
 
-\+ **new ModuleResolver**(`_ts`: ts, `_compilerOptions`: tsStatic.CompilerOptions): *[ModuleResolver](_src_moduleresolver_.moduleresolver.md)*
+\+ **new ModuleResolver**(`ts`: typeof tsStatic, `compilerOptions`: tsStatic.CompilerOptions): *[ModuleResolver](_src_moduleresolver_.moduleresolver.md)*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`_ts` | ts |
-`_compilerOptions` | tsStatic.CompilerOptions |
+`ts` | typeof tsStatic |
+`compilerOptions` | tsStatic.CompilerOptions |
 
 **Returns:** *[ModuleResolver](_src_moduleresolver_.moduleresolver.md)*
 

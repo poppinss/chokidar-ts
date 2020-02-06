@@ -28,15 +28,15 @@ Exposes the API to build the project similar to `tsc` command.
 
 ###  constructor
 
-\+ **new Builder**(`_ts`: ts, `_config`: tsStatic.ParsedCommandLine, `_pluginManager`: [PluginManager](_src_pluginmanager_.pluginmanager.md)): *[Builder](_src_builder_.builder.md)*
+\+ **new Builder**(`ts`: typeof tsStatic, `config`: tsStatic.ParsedCommandLine, `pluginManager`: [PluginManager](_src_pluginmanager_.pluginmanager.md)): *[Builder](_src_builder_.builder.md)*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`_ts` | ts |
-`_config` | tsStatic.ParsedCommandLine |
-`_pluginManager` | [PluginManager](_src_pluginmanager_.pluginmanager.md) |
+`ts` | typeof tsStatic |
+`config` | tsStatic.ParsedCommandLine |
+`pluginManager` | [PluginManager](_src_pluginmanager_.pluginmanager.md) |
 
 **Returns:** *[Builder](_src_builder_.builder.md)*
 
@@ -67,3 +67,7 @@ ___
 Build the project using the Typescript compiler API
 
 **Returns:** *object*
+
+* **diagnostics**: *Diagnostic[]*
+
+* **skipped**: *boolean* = result.emitSkipped
