@@ -51,13 +51,20 @@ export class Watcher extends Emittery {
 
   /**
    * Returns a boolean telling if it is a script file or not.
-   * Typescript can process `.js` and `.ts` files both.
    *
-   * Even though it can also handle `.json` files, we don't suppor them
-   * yet.
+   * We check for the `compilerOptions.allowJs` before marking
+   * `.js` files as a script files.
    */
   private isScriptFile (filePath: string): boolean {
-    return filePath.endsWith('.ts') || filePath.endsWith('.js')
+    if (filePath.endsWith('.ts')) {
+      return true
+    }
+
+    if (this.compilerOptions!.allowJs && filePath.endsWith('.js')) {
+      return true
+    }
+
+    return false
   }
 
   /**
