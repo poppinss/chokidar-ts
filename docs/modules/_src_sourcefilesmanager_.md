@@ -1,6 +1,6 @@
 [@poppinss/chokidar-ts](../README.md) › ["src/SourceFilesManager"](_src_sourcefilesmanager_.md)
 
-# External module: "src/SourceFilesManager"
+# Module: "src/SourceFilesManager"
 
 ## Index
 

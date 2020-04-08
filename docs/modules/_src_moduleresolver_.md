@@ -1,6 +1,6 @@
 [@poppinss/chokidar-ts](../README.md) › ["src/ModuleResolver"](_src_moduleresolver_.md)
 
-# External module: "src/ModuleResolver"
+# Module: "src/ModuleResolver"
 
 ## Index
 

@@ -1,6 +1,6 @@
 [@poppinss/chokidar-ts](../README.md) › ["src/Builder"](_src_builder_.md)
 
-# External module: "src/Builder"
+# Module: "src/Builder"
 
 ## Index
 

@@ -1,6 +1,6 @@
 [@poppinss/chokidar-ts](../README.md) › ["src/PluginManager"](_src_pluginmanager_.md)
 
-# External module: "src/PluginManager"
+# Module: "src/PluginManager"
 
 ## Index
 

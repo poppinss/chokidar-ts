@@ -4,7 +4,7 @@
 
 ## Index
 
-### External modules
+### Modules
 
 * ["contracts/ab"](modules/_contracts_ab_.md)
 * ["src/Builder"](modules/_src_builder_.md)

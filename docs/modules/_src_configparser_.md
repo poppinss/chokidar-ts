@@ -1,6 +1,6 @@
 [@poppinss/chokidar-ts](../README.md) › ["src/ConfigParser"](_src_configparser_.md)
 
-# External module: "src/ConfigParser"
+# Module: "src/ConfigParser"
 
 ## Index
 

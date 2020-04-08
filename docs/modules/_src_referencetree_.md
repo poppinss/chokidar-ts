@@ -1,6 +1,6 @@
 [@poppinss/chokidar-ts](../README.md) › ["src/ReferenceTree"](_src_referencetree_.md)
 
-# External module: "src/ReferenceTree"
+# Module: "src/ReferenceTree"
 
 ## Index
 

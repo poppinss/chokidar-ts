@@ -1,6 +1,6 @@
 [@poppinss/chokidar-ts](../README.md) › ["src/Contracts"](_src_contracts_.md)
 
-# External module: "src/Contracts"
+# Module: "src/Contracts"
 
 ## Index
 
@@ -9,6 +9,7 @@
 * [ImportReferenceNode](_src_contracts_.md#importreferencenode)
 * [PluginFn](_src_contracts_.md#pluginfn)
 * [SourceFilesManagerOptions](_src_contracts_.md#sourcefilesmanageroptions)
+* [WatcherEvents](_src_contracts_.md#watcherevents)
 
 ## Type aliases
 
@@ -60,3 +61,29 @@ Options accepted by source files manager
 * **files**: *string[]*
 
 * **includes**? : *string[]*
+
+___
+
+###  WatcherEvents
+
+Ƭ **WatcherEvents**: *object*
+
+Events emitted by the watcher
+
+#### Type declaration:
+
+* **add**: *string*
+
+* **change**: *string*
+
+* **source:unlink**: *string*
+
+* **subsequent:build**(): *object*
+
+  * **diagnostics**: *tsStatic.Diagnostic[]*
+
+  * **path**: *string*
+
+  * **skipped**: *boolean*
+
+* **unlink**: *string*

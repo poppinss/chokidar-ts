@@ -1,6 +1,6 @@
 [@poppinss/chokidar-ts](../README.md) › ["src/DiagnosticsStore"](_src_diagnosticsstore_.md)
 
-# External module: "src/DiagnosticsStore"
+# Module: "src/DiagnosticsStore"
 
 ## Index
 

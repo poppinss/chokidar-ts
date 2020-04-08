@@ -1,6 +1,6 @@
 [@poppinss/chokidar-ts](../README.md) › ["src/Watcher"](_src_watcher_.md)
 
-# External module: "src/Watcher"
+# Module: "src/Watcher"
 
 ## Index
 

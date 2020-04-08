@@ -7,23 +7,11 @@ for changes.
 
 ## Hierarchy
 
-* Emittery
+* Typed‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents), "watcher:ready"›
 
   ↳ **Watcher**
 
 ## Index
-
-### Classes
-
-* [Typed](_src_watcher_.watcher.typed.md)
-
-### Interfaces
-
-* [Events](../interfaces/_src_watcher_.watcher.events.md)
-
-### Type aliases
-
-* [UnsubscribeFn](_src_watcher_.watcher.md#static-unsubscribefn)
 
 ### Constructors
 
@@ -35,6 +23,8 @@ for changes.
 * [compilerOptions](_src_watcher_.watcher.md#optional-compileroptions)
 * [host](_src_watcher_.watcher.md#host)
 * [program](_src_watcher_.watcher.md#program)
+* [listenerAdded](_src_watcher_.watcher.md#static-listeneradded)
+* [listenerRemoved](_src_watcher_.watcher.md#static-listenerremoved)
 
 ### Methods
 
@@ -52,18 +42,6 @@ for changes.
 * [once](_src_watcher_.watcher.md#once)
 * [watch](_src_watcher_.watcher.md#watch)
 * [mixin](_src_watcher_.watcher.md#static-mixin)
-
-## Type aliases
-
-### `Static` UnsubscribeFn
-
-Ƭ **UnsubscribeFn**: *function*
-
-Removes an event subscription.
-
-#### Type declaration:
-
-▸ (): *void*
 
 ## Constructors
 
@@ -106,48 +84,81 @@ ___
 
 • **program**: *tsStatic.Program*
 
-## Methods
+___
 
-###  anyEvent
+### `Static` listenerAdded
 
-▸ **anyEvent**(): *AsyncIterableIterator‹unknown›*
+▪ **listenerAdded**: *keyof symbol*
 
-*Inherited from [Watcher](_src_watcher_.watcher.md).[anyEvent](_src_watcher_.watcher.md#anyevent)*
+*Inherited from [Watcher](_src_watcher_.watcher.md).[listenerAdded](_src_watcher_.watcher.md#static-listeneradded)*
 
-Get an async iterator which buffers a tuple of an event name and data each time an event is emitted.
+Fires when an event listener was added.
 
-Call `return()` on the iterator to remove the subscription.
-
-In the same way as for `events`, you can subscribe by using the `for await` statement.
+An object with `listener` and `eventName` (if `on` or `off` was used) is provided as event data.
 
 **`example`** 
 ```
 import Emittery = require('emittery');
 
 const emitter = new Emittery();
-const iterator = emitter.anyEvent();
 
-emitter.emit('🦄', '🌈1'); // Buffered
-emitter.emit('🌟', '🌈2'); // Buffered
+emitter.on(Emittery.listenerAdded, ({listener, eventName}) => {
+console.log(listener);
+//=> data => {}
 
-iterator.next()
-.then(({value, done}) => {
-// done is false
-// value is ['🦄', '🌈1']
-return iterator.next();
-})
-.then(({value, done}) => {
-// done is false
-// value is ['🌟', '🌈2']
-// revoke subscription
-return iterator.return();
-})
-.then(({done}) => {
-// done is true
+console.log(eventName);
+//=> '🦄'
+});
+
+emitter.on('🦄', data => {
+// Handle data
 });
 ```
 
-**Returns:** *AsyncIterableIterator‹unknown›*
+___
+
+### `Static` listenerRemoved
+
+▪ **listenerRemoved**: *keyof symbol*
+
+*Inherited from [Watcher](_src_watcher_.watcher.md).[listenerRemoved](_src_watcher_.watcher.md#static-listenerremoved)*
+
+Fires when an event listener was removed.
+
+An object with `listener` and `eventName` (if `on` or `off` was used) is provided as event data.
+
+**`example`** 
+```
+import Emittery = require('emittery');
+
+const emitter = new Emittery();
+
+const off = emitter.on('🦄', data => {
+// Handle data
+});
+
+emitter.on(Emittery.listenerRemoved, ({listener, eventName}) => {
+console.log(listener);
+//=> data => {}
+
+console.log(eventName);
+//=> '🦄'
+});
+
+off();
+```
+
+## Methods
+
+###  anyEvent
+
+▸ **anyEvent**(): *AsyncIterableIterator‹[EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›, WatcherEvents[EventNameFromDataMap<WatcherEvents>]]›*
+
+*Inherited from [Watcher](_src_watcher_.watcher.md).[anyEvent](_src_watcher_.watcher.md#anyevent)*
+
+*Overrides void*
+
+**Returns:** *AsyncIterableIterator‹[EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›, WatcherEvents[EventNameFromDataMap<WatcherEvents>]]›*
 
 ___
 
@@ -183,7 +194,7 @@ ___
 
 ###  clearListeners
 
-▸ **clearListeners**(`eventName?`: undefined | string): *void*
+▸ **clearListeners**(`eventName?`: EventName): *void*
 
 *Inherited from [Watcher](_src_watcher_.watcher.md).[clearListeners](_src_watcher_.watcher.md#clearlisteners)*
 
@@ -195,7 +206,7 @@ If `eventName` is given, only the listeners for that event are cleared.
 
 Name | Type |
 ------ | ------ |
-`eventName?` | undefined &#124; string |
+`eventName?` | EventName |
 
 **Returns:** *void*
 
@@ -203,119 +214,111 @@ ___
 
 ###  emit
 
-▸ **emit**(`eventName`: string, `eventData?`: unknown): *Promise‹void›*
+▸ **emit**<**Name**>(`eventName`: Name, `eventData`: WatcherEvents[Name]): *Promise‹void›*
 
 *Inherited from [Watcher](_src_watcher_.watcher.md).[emit](_src_watcher_.watcher.md#emit)*
 
-Trigger an event asynchronously, optionally with some data. Listeners are called in the order they were added, but executed concurrently.
+*Overrides void*
+
+**Type parameters:**
+
+▪ **Name**: *EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`eventName` | string |
-`eventData?` | unknown |
+`eventName` | Name |
+`eventData` | WatcherEvents[Name] |
 
 **Returns:** *Promise‹void›*
 
-A promise that resolves when all the event listeners are done. *Done* meaning executed if synchronous or resolved when an async/promise-returning function. You usually wouldn't want to wait for this, but you could for example catch possible errors. If any of the listeners throw/reject, the returned promise will be rejected with the error, but the other listeners will not be affected.
+▸ **emit**<**Name**>(`eventName`: Name): *Promise‹void›*
+
+*Inherited from [Watcher](_src_watcher_.watcher.md).[emit](_src_watcher_.watcher.md#emit)*
+
+*Overrides void*
+
+**Type parameters:**
+
+▪ **Name**: *"watcher:ready"*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`eventName` | Name |
+
+**Returns:** *Promise‹void›*
 
 ___
 
 ###  emitSerial
 
-▸ **emitSerial**(`eventName`: string, `eventData?`: unknown): *Promise‹void›*
+▸ **emitSerial**<**Name**>(`eventName`: Name, `eventData`: WatcherEvents[Name]): *Promise‹void›*
 
 *Inherited from [Watcher](_src_watcher_.watcher.md).[emitSerial](_src_watcher_.watcher.md#emitserial)*
 
-Same as `emit()`, but it waits for each listener to resolve before triggering the next one. This can be useful if your events depend on each other. Although ideally they should not. Prefer `emit()` whenever possible.
+*Overrides void*
 
-If any of the listeners throw/reject, the returned promise will be rejected with the error and the remaining listeners will *not* be called.
+**Type parameters:**
+
+▪ **Name**: *EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`eventName` | string |
-`eventData?` | unknown |
+`eventName` | Name |
+`eventData` | WatcherEvents[Name] |
 
 **Returns:** *Promise‹void›*
 
-A promise that resolves when all the event listeners are done.
+▸ **emitSerial**<**Name**>(`eventName`: Name): *Promise‹void›*
+
+*Inherited from [Watcher](_src_watcher_.watcher.md).[emitSerial](_src_watcher_.watcher.md#emitserial)*
+
+*Overrides void*
+
+**Type parameters:**
+
+▪ **Name**: *"watcher:ready"*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`eventName` | Name |
+
+**Returns:** *Promise‹void›*
 
 ___
 
 ###  events
 
-▸ **events**(`eventName`: string): *AsyncIterableIterator‹unknown›*
+▸ **events**<**Name**>(`eventName`: Name): *AsyncIterableIterator‹WatcherEvents[Name]›*
 
 *Inherited from [Watcher](_src_watcher_.watcher.md).[events](_src_watcher_.watcher.md#events)*
 
-Get an async iterator which buffers data each time an event is emitted.
+*Overrides void*
 
-Call `return()` on the iterator to remove the subscription.
+**Type parameters:**
 
-**`example`** 
-```
-import Emittery = require('emittery');
-
-const emitter = new Emittery();
-const iterator = emitter.events('🦄');
-
-emitter.emit('🦄', '🌈1'); // Buffered
-emitter.emit('🦄', '🌈2'); // Buffered
-
-iterator
-.next()
-.then(({value, done}) => {
-// done === false
-// value === '🌈1'
-return iterator.next();
-})
-.then(({value, done}) => {
-// done === false
-// value === '🌈2'
-// Revoke subscription
-return iterator.return();
-})
-.then(({done}) => {
-// done === true
-});
-```
-
-In practice you would usually consume the events using the [for await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of) statement. In that case, to revoke the subscription simply break the loop.
-
-**`example`** 
-```
-import Emittery = require('emittery');
-
-const emitter = new Emittery();
-const iterator = emitter.events('🦄');
-
-emitter.emit('🦄', '🌈1'); // Buffered
-emitter.emit('🦄', '🌈2'); // Buffered
-
-// In an async context.
-for await (const data of iterator) {
-if (data === '🌈2') {
-break; // Revoke the subscription when we see the value `🌈2`.
-}
-}
-```
+▪ **Name**: *EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`eventName` | string |
+`eventName` | Name |
 
-**Returns:** *AsyncIterableIterator‹unknown›*
+**Returns:** *AsyncIterableIterator‹WatcherEvents[Name]›*
 
 ___
 
 ###  listenerCount
 
-▸ **listenerCount**(`eventName?`: undefined | string): *number*
+▸ **listenerCount**(`eventName?`: EventName): *number*
 
 *Inherited from [Watcher](_src_watcher_.watcher.md).[listenerCount](_src_watcher_.watcher.md#listenercount)*
 
@@ -325,7 +328,7 @@ The number of listeners for the `eventName` or all events if not specified.
 
 Name | Type |
 ------ | ------ |
-`eventName?` | undefined &#124; string |
+`eventName?` | EventName |
 
 **Returns:** *number*
 
@@ -333,25 +336,49 @@ ___
 
 ###  off
 
-▸ **off**(`eventName`: string, `listener`: function): *void*
+▸ **off**<**Name**>(`eventName`: Name, `listener`: function): *void*
 
 *Inherited from [Watcher](_src_watcher_.watcher.md).[off](_src_watcher_.watcher.md#off)*
 
-Remove an event subscription.
+*Overrides void*
+
+**Type parameters:**
+
+▪ **Name**: *EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›*
 
 **Parameters:**
 
-▪ **eventName**: *string*
+▪ **eventName**: *Name*
 
 ▪ **listener**: *function*
 
-▸ (`eventData?`: unknown): *void*
+▸ (`eventData`: WatcherEvents[Name]): *void*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`eventData?` | unknown |
+`eventData` | WatcherEvents[Name] |
+
+**Returns:** *void*
+
+▸ **off**<**Name**>(`eventName`: Name, `listener`: function): *void*
+
+*Inherited from [Watcher](_src_watcher_.watcher.md).[off](_src_watcher_.watcher.md#off)*
+
+*Overrides void*
+
+**Type parameters:**
+
+▪ **Name**: *"watcher:ready"*
+
+**Parameters:**
+
+▪ **eventName**: *Name*
+
+▪ **listener**: *function*
+
+▸ (): *void*
 
 **Returns:** *void*
 
@@ -363,20 +390,20 @@ ___
 
 *Inherited from [Watcher](_src_watcher_.watcher.md).[offAny](_src_watcher_.watcher.md#offany)*
 
-Remove an `onAny` subscription.
+*Overrides void*
 
 **Parameters:**
 
 ▪ **listener**: *function*
 
-▸ (`eventName`: string, `eventData?`: unknown): *void*
+▸ (`eventName`: EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)› | "watcher:ready", `eventData?`: WatcherEvents[EventNameFromDataMap<WatcherEvents>]): *void*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`eventName` | string |
-`eventData?` | unknown |
+`eventName` | EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)› &#124; "watcher:ready" |
+`eventData?` | WatcherEvents[EventNameFromDataMap<WatcherEvents>] |
 
 **Returns:** *void*
 
@@ -384,134 +411,49 @@ ___
 
 ###  on
 
-▸ **on**(`event`: "watcher:ready", `cb`: function): *Emittery.UnsubscribeFn*
+▸ **on**<**Name**>(`eventName`: Name, `listener`: function): *Emittery.UnsubscribeFn*
+
+*Inherited from [Watcher](_src_watcher_.watcher.md).[on](_src_watcher_.watcher.md#on)*
 
 *Overrides void*
 
+**Type parameters:**
+
+▪ **Name**: *EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›*
+
 **Parameters:**
 
-▪ **event**: *"watcher:ready"*
+▪ **eventName**: *Name*
 
-▪ **cb**: *function*
+▪ **listener**: *function*
+
+▸ (`eventData`: WatcherEvents[Name]): *void*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`eventData` | WatcherEvents[Name] |
+
+**Returns:** *Emittery.UnsubscribeFn*
+
+▸ **on**<**Name**>(`eventName`: Name, `listener`: function): *Emittery.UnsubscribeFn*
+
+*Inherited from [Watcher](_src_watcher_.watcher.md).[on](_src_watcher_.watcher.md#on)*
+
+*Overrides void*
+
+**Type parameters:**
+
+▪ **Name**: *"watcher:ready"*
+
+**Parameters:**
+
+▪ **eventName**: *Name*
+
+▪ **listener**: *function*
 
 ▸ (): *void*
-
-**Returns:** *Emittery.UnsubscribeFn*
-
-▸ **on**(`event`: "add", `cb`: function): *Emittery.UnsubscribeFn*
-
-*Overrides void*
-
-**Parameters:**
-
-▪ **event**: *"add"*
-
-▪ **cb**: *function*
-
-▸ (`filePath`: string): *void*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`filePath` | string |
-
-**Returns:** *Emittery.UnsubscribeFn*
-
-▸ **on**(`event`: "change", `cb`: function): *Emittery.UnsubscribeFn*
-
-*Overrides void*
-
-**Parameters:**
-
-▪ **event**: *"change"*
-
-▪ **cb**: *function*
-
-▸ (`filePath`: string): *void*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`filePath` | string |
-
-**Returns:** *Emittery.UnsubscribeFn*
-
-▸ **on**(`event`: "unlink", `cb`: function): *Emittery.UnsubscribeFn*
-
-*Overrides void*
-
-**Parameters:**
-
-▪ **event**: *"unlink"*
-
-▪ **cb**: *function*
-
-▸ (`filePath`: string): *void*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`filePath` | string |
-
-**Returns:** *Emittery.UnsubscribeFn*
-
-▸ **on**(`event`: "source:unlink", `cb`: function): *Emittery.UnsubscribeFn*
-
-*Overrides void*
-
-**Parameters:**
-
-▪ **event**: *"source:unlink"*
-
-▪ **cb**: *function*
-
-▸ (`filePath`: string): *void*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`filePath` | string |
-
-**Returns:** *Emittery.UnsubscribeFn*
-
-▸ **on**(`event`: "subsequent:build", `cb`: function): *Emittery.UnsubscribeFn*
-
-*Overrides void*
-
-**Parameters:**
-
-▪ **event**: *"subsequent:build"*
-
-▪ **cb**: *function*
-
-▸ (`data`: object): *void*
-
-**Parameters:**
-
-▪ **data**: *object*
-
-Name | Type |
------- | ------ |
-`diagnostics` | tsStatic.Diagnostic[] |
-`path` | string |
-`skipped` | boolean |
-
-**Returns:** *Emittery.UnsubscribeFn*
-
-▸ **on**(`event`: string, `cb`: any): *Emittery.UnsubscribeFn*
-
-*Overrides void*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`event` | string |
-`cb` | any |
 
 **Returns:** *Emittery.UnsubscribeFn*
 
@@ -523,45 +465,62 @@ ___
 
 *Inherited from [Watcher](_src_watcher_.watcher.md).[onAny](_src_watcher_.watcher.md#onany)*
 
-Subscribe to be notified about any event.
+*Overrides void*
 
 **Parameters:**
 
 ▪ **listener**: *function*
 
-▸ (`eventName`: string, `eventData?`: unknown): *unknown*
+▸ (`eventName`: EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)› | "watcher:ready", `eventData?`: WatcherEvents[EventNameFromDataMap<WatcherEvents>]): *void*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`eventName` | string |
-`eventData?` | unknown |
+`eventName` | EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)› &#124; "watcher:ready" |
+`eventData?` | WatcherEvents[EventNameFromDataMap<WatcherEvents>] |
 
 **Returns:** *Emittery.UnsubscribeFn*
-
-A method to unsubscribe.
 
 ___
 
 ###  once
 
-▸ **once**(`eventName`: string): *Promise‹unknown›*
+▸ **once**<**Name**>(`eventName`: Name): *Promise‹WatcherEvents[Name]›*
 
 *Inherited from [Watcher](_src_watcher_.watcher.md).[once](_src_watcher_.watcher.md#once)*
 
-Subscribe to an event only once. It will be unsubscribed after the first
-event.
+*Overrides void*
+
+**Type parameters:**
+
+▪ **Name**: *EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`eventName` | string |
+`eventName` | Name |
 
-**Returns:** *Promise‹unknown›*
+**Returns:** *Promise‹WatcherEvents[Name]›*
 
-The event data when `eventName` is emitted.
+▸ **once**<**Name**>(`eventName`: Name): *Promise‹void›*
+
+*Inherited from [Watcher](_src_watcher_.watcher.md).[once](_src_watcher_.watcher.md#once)*
+
+*Overrides void*
+
+**Type parameters:**
+
+▪ **Name**: *"watcher:ready"*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`eventName` | Name |
+
+**Returns:** *Promise‹void›*
 
 ___
 
