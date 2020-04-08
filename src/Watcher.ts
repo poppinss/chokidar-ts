@@ -15,6 +15,7 @@ import tsStatic from 'typescript'
 import { outputFile } from 'fs-extra'
 
 import { Builder } from './Builder'
+import { WatcherEvents } from './Contracts'
 import { ReferenceTree } from './ReferenceTree'
 import { PluginManager } from './PluginManager'
 import { ModuleResolver } from './ModuleResolver'
@@ -27,7 +28,7 @@ const debug = Debug('tsc:watcher')
  * Exposes the API to build the typescript project and then watch it
  * for changes.
  */
-export class Watcher extends Emittery {
+export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
   private referenceTree: ReferenceTree
   private diagnosticsStore: DiagnosticsStore
   private sourceFilesManager: SourceFilesManager
@@ -345,26 +346,6 @@ export class Watcher extends Emittery {
      */
     debug('source file removed "%s"', filePath)
     this.emit('source:unlink', filePath)
-  }
-
-  public on (event: 'watcher:ready', cb: () => void): Emittery.UnsubscribeFn
-  public on (event: 'add', cb: (filePath: string) => void): Emittery.UnsubscribeFn
-  public on (event: 'change', cb: (filePath: string) => void): Emittery.UnsubscribeFn
-  public on (event: 'unlink', cb: (filePath: string) => void): Emittery.UnsubscribeFn
-  public on (event: 'source:unlink', cb: (filePath: string) => void): Emittery.UnsubscribeFn
-
-  public on (
-    event: 'subsequent:build',
-    cb: (data: {
-      path: string,
-      skipped: boolean,
-      diagnostics: tsStatic.Diagnostic[],
-    }) => void,
-  ): Emittery.UnsubscribeFn
-
-  public on (event: string, cb: any): Emittery.UnsubscribeFn
-  public on (event: string, cb: any): Emittery.UnsubscribeFn {
-    return super.on(event, cb)
   }
 
   /**
