@@ -6,7 +6,6 @@
 
 ### Modules
 
-* ["contracts/ab"](modules/_contracts_ab_.md)
 * ["src/Builder"](modules/_src_builder_.md)
 * ["src/ConfigParser"](modules/_src_configparser_.md)
 * ["src/Contracts"](modules/_src_contracts_.md)
