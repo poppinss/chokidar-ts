@@ -23,8 +23,8 @@ for changes.
 * [compilerOptions](_src_watcher_.watcher.md#optional-compileroptions)
 * [host](_src_watcher_.watcher.md#host)
 * [program](_src_watcher_.watcher.md#program)
-* [listenerAdded](_src_watcher_.watcher.md#static-listeneradded)
-* [listenerRemoved](_src_watcher_.watcher.md#static-listenerremoved)
+* [listenerAdded](_src_watcher_.watcher.md#static-readonly-listeneradded)
+* [listenerRemoved](_src_watcher_.watcher.md#static-readonly-listenerremoved)
 
 ### Methods
 
@@ -86,11 +86,11 @@ ___
 
 ___
 
-### `Static` listenerAdded
+### `Static` `Readonly` listenerAdded
 
 ▪ **listenerAdded**: *keyof symbol*
 
-*Inherited from [Watcher](_src_watcher_.watcher.md).[listenerAdded](_src_watcher_.watcher.md#static-listeneradded)*
+*Inherited from [Watcher](_src_watcher_.watcher.md).[listenerAdded](_src_watcher_.watcher.md#static-readonly-listeneradded)*
 
 Fires when an event listener was added.
 
@@ -117,11 +117,11 @@ emitter.on('🦄', data => {
 
 ___
 
-### `Static` listenerRemoved
+### `Static` `Readonly` listenerRemoved
 
 ▪ **listenerRemoved**: *keyof symbol*
 
-*Inherited from [Watcher](_src_watcher_.watcher.md).[listenerRemoved](_src_watcher_.watcher.md#static-listenerremoved)*
+*Inherited from [Watcher](_src_watcher_.watcher.md).[listenerRemoved](_src_watcher_.watcher.md#static-readonly-listenerremoved)*
 
 Fires when an event listener was removed.
 
