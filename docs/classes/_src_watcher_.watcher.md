@@ -7,7 +7,7 @@ for changes.
 
 ## Hierarchy
 
-* Typed‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents), "watcher:ready"›
+- Typed‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents), "watcher:ready"›
 
   ↳ **Watcher**
 
@@ -15,88 +15,89 @@ for changes.
 
 ### Constructors
 
-* [constructor](_src_watcher_.watcher.md#constructor)
+- [constructor](_src_watcher_.watcher.md#constructor)
 
 ### Properties
 
-* [chokidar](_src_watcher_.watcher.md#chokidar)
-* [compilerOptions](_src_watcher_.watcher.md#optional-compileroptions)
-* [host](_src_watcher_.watcher.md#host)
-* [program](_src_watcher_.watcher.md#program)
-* [listenerAdded](_src_watcher_.watcher.md#static-readonly-listeneradded)
-* [listenerRemoved](_src_watcher_.watcher.md#static-readonly-listenerremoved)
+- [chokidar](_src_watcher_.watcher.md#chokidar)
+- [compilerOptions](_src_watcher_.watcher.md#optional-compileroptions)
+- [host](_src_watcher_.watcher.md#host)
+- [program](_src_watcher_.watcher.md#program)
+- [listenerAdded](_src_watcher_.watcher.md#static-readonly-listeneradded)
+- [listenerRemoved](_src_watcher_.watcher.md#static-readonly-listenerremoved)
 
 ### Methods
 
-* [anyEvent](_src_watcher_.watcher.md#anyevent)
-* [bindMethods](_src_watcher_.watcher.md#bindmethods)
-* [clearListeners](_src_watcher_.watcher.md#clearlisteners)
-* [emit](_src_watcher_.watcher.md#emit)
-* [emitSerial](_src_watcher_.watcher.md#emitserial)
-* [events](_src_watcher_.watcher.md#events)
-* [listenerCount](_src_watcher_.watcher.md#listenercount)
-* [off](_src_watcher_.watcher.md#off)
-* [offAny](_src_watcher_.watcher.md#offany)
-* [on](_src_watcher_.watcher.md#on)
-* [onAny](_src_watcher_.watcher.md#onany)
-* [once](_src_watcher_.watcher.md#once)
-* [watch](_src_watcher_.watcher.md#watch)
-* [mixin](_src_watcher_.watcher.md#static-mixin)
+- [anyEvent](_src_watcher_.watcher.md#anyevent)
+- [bindMethods](_src_watcher_.watcher.md#bindmethods)
+- [clearListeners](_src_watcher_.watcher.md#clearlisteners)
+- [emit](_src_watcher_.watcher.md#emit)
+- [emitSerial](_src_watcher_.watcher.md#emitserial)
+- [events](_src_watcher_.watcher.md#events)
+- [listenerCount](_src_watcher_.watcher.md#listenercount)
+- [off](_src_watcher_.watcher.md#off)
+- [offAny](_src_watcher_.watcher.md#offany)
+- [on](_src_watcher_.watcher.md#on)
+- [onAny](_src_watcher_.watcher.md#onany)
+- [once](_src_watcher_.watcher.md#once)
+- [watch](_src_watcher_.watcher.md#watch)
+- [mixin](_src_watcher_.watcher.md#static-mixin)
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new Watcher**(`cwd`: string, `ts`: typeof tsStatic, `config`: tsStatic.ParsedCommandLine, `pluginManager`: [PluginManager](_src_pluginmanager_.pluginmanager.md)): *[Watcher](_src_watcher_.watcher.md)*
+\+ **new Watcher**(`cwd`: string, `ts`: typeof tsStatic, `config`: tsStatic.ParsedCommandLine, `pluginManager`: [PluginManager](_src_pluginmanager_.pluginmanager.md)): _[Watcher](_src_watcher_.watcher.md)_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`cwd` | string |
-`ts` | typeof tsStatic |
-`config` | tsStatic.ParsedCommandLine |
-`pluginManager` | [PluginManager](_src_pluginmanager_.pluginmanager.md) |
+| Name            | Type                                                  |
+| --------------- | ----------------------------------------------------- |
+| `cwd`           | string                                                |
+| `ts`            | typeof tsStatic                                       |
+| `config`        | tsStatic.ParsedCommandLine                            |
+| `pluginManager` | [PluginManager](_src_pluginmanager_.pluginmanager.md) |
 
-**Returns:** *[Watcher](_src_watcher_.watcher.md)*
+**Returns:** _[Watcher](_src_watcher_.watcher.md)_
 
 ## Properties
 
-###  chokidar
+### chokidar
 
-• **chokidar**: *FSWatcher*
+• **chokidar**: _FSWatcher_
 
-___
+---
 
 ### `Optional` compilerOptions
 
-• **compilerOptions**? : *tsStatic.CompilerOptions*
+• **compilerOptions**? : _tsStatic.CompilerOptions_
 
-___
+---
 
-###  host
+### host
 
-• **host**: *tsStatic.CompilerHost*
+• **host**: _tsStatic.CompilerHost_
 
-___
+---
 
-###  program
+### program
 
-• **program**: *tsStatic.Program*
+• **program**: _tsStatic.Program_
 
-___
+---
 
 ### `Static` `Readonly` listenerAdded
 
-▪ **listenerAdded**: *keyof symbol*
+▪ **listenerAdded**: _keyof symbol_
 
-*Inherited from [Watcher](_src_watcher_.watcher.md).[listenerAdded](_src_watcher_.watcher.md#static-readonly-listeneradded)*
+_Inherited from [Watcher](_src_watcher_.watcher.md).[listenerAdded](_src_watcher_.watcher.md#static-readonly-listeneradded)_
 
 Fires when an event listener was added.
 
 An object with `listener` and `eventName` (if `on` or `off` was used) is provided as event data.
 
-**`example`** 
+**`example`**
+
 ```
 import Emittery = require('emittery');
 
@@ -115,19 +116,20 @@ emitter.on('🦄', data => {
 });
 ```
 
-___
+---
 
 ### `Static` `Readonly` listenerRemoved
 
-▪ **listenerRemoved**: *keyof symbol*
+▪ **listenerRemoved**: _keyof symbol_
 
-*Inherited from [Watcher](_src_watcher_.watcher.md).[listenerRemoved](_src_watcher_.watcher.md#static-readonly-listenerremoved)*
+_Inherited from [Watcher](_src_watcher_.watcher.md).[listenerRemoved](_src_watcher_.watcher.md#static-readonly-listenerremoved)_
 
 Fires when an event listener was removed.
 
 An object with `listener` and `eventName` (if `on` or `off` was used) is provided as event data.
 
-**`example`** 
+**`example`**
+
 ```
 import Emittery = require('emittery');
 
@@ -150,27 +152,28 @@ off();
 
 ## Methods
 
-###  anyEvent
+### anyEvent
 
-▸ **anyEvent**(): *AsyncIterableIterator‹[EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›, WatcherEvents[EventNameFromDataMap<WatcherEvents>]]›*
+▸ **anyEvent**(): _AsyncIterableIterator‹[EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›, WatcherEvents[EventNameFromDataMap<WatcherEvents>]]›_
 
-*Inherited from [Watcher](_src_watcher_.watcher.md).[anyEvent](_src_watcher_.watcher.md#anyevent)*
+_Inherited from [Watcher](_src_watcher_.watcher.md).[anyEvent](_src_watcher_.watcher.md#anyevent)_
 
-*Overrides void*
+_Overrides void_
 
-**Returns:** *AsyncIterableIterator‹[EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›, WatcherEvents[EventNameFromDataMap<WatcherEvents>]]›*
+**Returns:** _AsyncIterableIterator‹[EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›, WatcherEvents[EventNameFromDataMap<WatcherEvents>]]›_
 
-___
+---
 
-###  bindMethods
+### bindMethods
 
-▸ **bindMethods**(`target`: object, `methodNames?`: keyof string[]): *void*
+▸ **bindMethods**(`target`: object, `methodNames?`: keyof string[]): _void_
 
-*Inherited from [Watcher](_src_watcher_.watcher.md).[bindMethods](_src_watcher_.watcher.md#bindmethods)*
+_Inherited from [Watcher](_src_watcher_.watcher.md).[bindMethods](_src_watcher_.watcher.md#bindmethods)_
 
 Bind the given `methodNames`, or all `Emittery` methods if `methodNames` is not defined, into the `target` object.
 
-**`example`** 
+**`example`**
+
 ```
 import Emittery = require('emittery');
 
@@ -183,20 +186,20 @@ object.emit('event');
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`target` | object |
-`methodNames?` | keyof string[] |
+| Name           | Type           |
+| -------------- | -------------- |
+| `target`       | object         |
+| `methodNames?` | keyof string[] |
 
-**Returns:** *void*
+**Returns:** _void_
 
-___
+---
 
-###  clearListeners
+### clearListeners
 
-▸ **clearListeners**(`eventName?`: EventName): *void*
+▸ **clearListeners**(`eventName?`: EventName): _void_
 
-*Inherited from [Watcher](_src_watcher_.watcher.md).[clearListeners](_src_watcher_.watcher.md#clearlisteners)*
+_Inherited from [Watcher](_src_watcher_.watcher.md).[clearListeners](_src_watcher_.watcher.md#clearlisteners)_
 
 Clear all event listeners on the instance.
 
@@ -204,356 +207,357 @@ If `eventName` is given, only the listeners for that event are cleared.
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`eventName?` | EventName |
+| Name         | Type      |
+| ------------ | --------- |
+| `eventName?` | EventName |
 
-**Returns:** *void*
+**Returns:** _void_
 
-___
+---
 
-###  emit
+### emit
 
-▸ **emit**<**Name**>(`eventName`: Name, `eventData`: WatcherEvents[Name]): *Promise‹void›*
+▸ **emit**<**Name**>(`eventName`: Name, `eventData`: WatcherEvents[Name]): _Promise‹void›_
 
-*Inherited from [Watcher](_src_watcher_.watcher.md).[emit](_src_watcher_.watcher.md#emit)*
+_Inherited from [Watcher](_src_watcher_.watcher.md).[emit](_src_watcher_.watcher.md#emit)_
 
-*Overrides void*
-
-**Type parameters:**
-
-▪ **Name**: *EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`eventName` | Name |
-`eventData` | WatcherEvents[Name] |
-
-**Returns:** *Promise‹void›*
-
-▸ **emit**<**Name**>(`eventName`: Name): *Promise‹void›*
-
-*Inherited from [Watcher](_src_watcher_.watcher.md).[emit](_src_watcher_.watcher.md#emit)*
-
-*Overrides void*
+_Overrides void_
 
 **Type parameters:**
 
-▪ **Name**: *"watcher:ready"*
+▪ **Name**: _EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`eventName` | Name |
+| Name        | Type                |
+| ----------- | ------------------- |
+| `eventName` | Name                |
+| `eventData` | WatcherEvents[Name] |
 
-**Returns:** *Promise‹void›*
+**Returns:** _Promise‹void›_
 
-___
+▸ **emit**<**Name**>(`eventName`: Name): _Promise‹void›_
 
-###  emitSerial
+_Inherited from [Watcher](_src_watcher_.watcher.md).[emit](_src_watcher_.watcher.md#emit)_
 
-▸ **emitSerial**<**Name**>(`eventName`: Name, `eventData`: WatcherEvents[Name]): *Promise‹void›*
-
-*Inherited from [Watcher](_src_watcher_.watcher.md).[emitSerial](_src_watcher_.watcher.md#emitserial)*
-
-*Overrides void*
+_Overrides void_
 
 **Type parameters:**
 
-▪ **Name**: *EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›*
+▪ **Name**: _"watcher:ready"_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`eventName` | Name |
-`eventData` | WatcherEvents[Name] |
+| Name        | Type |
+| ----------- | ---- |
+| `eventName` | Name |
 
-**Returns:** *Promise‹void›*
+**Returns:** _Promise‹void›_
 
-▸ **emitSerial**<**Name**>(`eventName`: Name): *Promise‹void›*
+---
 
-*Inherited from [Watcher](_src_watcher_.watcher.md).[emitSerial](_src_watcher_.watcher.md#emitserial)*
+### emitSerial
 
-*Overrides void*
+▸ **emitSerial**<**Name**>(`eventName`: Name, `eventData`: WatcherEvents[Name]): _Promise‹void›_
+
+_Inherited from [Watcher](_src_watcher_.watcher.md).[emitSerial](_src_watcher_.watcher.md#emitserial)_
+
+_Overrides void_
 
 **Type parameters:**
 
-▪ **Name**: *"watcher:ready"*
+▪ **Name**: _EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`eventName` | Name |
+| Name        | Type                |
+| ----------- | ------------------- |
+| `eventName` | Name                |
+| `eventData` | WatcherEvents[Name] |
 
-**Returns:** *Promise‹void›*
+**Returns:** _Promise‹void›_
 
-___
+▸ **emitSerial**<**Name**>(`eventName`: Name): _Promise‹void›_
 
-###  events
+_Inherited from [Watcher](_src_watcher_.watcher.md).[emitSerial](_src_watcher_.watcher.md#emitserial)_
 
-▸ **events**<**Name**>(`eventName`: Name): *AsyncIterableIterator‹WatcherEvents[Name]›*
-
-*Inherited from [Watcher](_src_watcher_.watcher.md).[events](_src_watcher_.watcher.md#events)*
-
-*Overrides void*
+_Overrides void_
 
 **Type parameters:**
 
-▪ **Name**: *EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›*
+▪ **Name**: _"watcher:ready"_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`eventName` | Name |
+| Name        | Type |
+| ----------- | ---- |
+| `eventName` | Name |
 
-**Returns:** *AsyncIterableIterator‹WatcherEvents[Name]›*
+**Returns:** _Promise‹void›_
 
-___
+---
 
-###  listenerCount
+### events
 
-▸ **listenerCount**(`eventName?`: EventName): *number*
+▸ **events**<**Name**>(`eventName`: Name): _AsyncIterableIterator‹WatcherEvents[Name]›_
 
-*Inherited from [Watcher](_src_watcher_.watcher.md).[listenerCount](_src_watcher_.watcher.md#listenercount)*
+_Inherited from [Watcher](_src_watcher_.watcher.md).[events](_src_watcher_.watcher.md#events)_
+
+_Overrides void_
+
+**Type parameters:**
+
+▪ **Name**: _EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›_
+
+**Parameters:**
+
+| Name        | Type |
+| ----------- | ---- |
+| `eventName` | Name |
+
+**Returns:** _AsyncIterableIterator‹WatcherEvents[Name]›_
+
+---
+
+### listenerCount
+
+▸ **listenerCount**(`eventName?`: EventName): _number_
+
+_Inherited from [Watcher](_src_watcher_.watcher.md).[listenerCount](_src_watcher_.watcher.md#listenercount)_
 
 The number of listeners for the `eventName` or all events if not specified.
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`eventName?` | EventName |
+| Name         | Type      |
+| ------------ | --------- |
+| `eventName?` | EventName |
 
-**Returns:** *number*
+**Returns:** _number_
 
-___
+---
 
-###  off
+### off
 
-▸ **off**<**Name**>(`eventName`: Name, `listener`: function): *void*
+▸ **off**<**Name**>(`eventName`: Name, `listener`: function): _void_
 
-*Inherited from [Watcher](_src_watcher_.watcher.md).[off](_src_watcher_.watcher.md#off)*
+_Inherited from [Watcher](_src_watcher_.watcher.md).[off](_src_watcher_.watcher.md#off)_
 
-*Overrides void*
-
-**Type parameters:**
-
-▪ **Name**: *EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›*
-
-**Parameters:**
-
-▪ **eventName**: *Name*
-
-▪ **listener**: *function*
-
-▸ (`eventData`: WatcherEvents[Name]): *void*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`eventData` | WatcherEvents[Name] |
-
-**Returns:** *void*
-
-▸ **off**<**Name**>(`eventName`: Name, `listener`: function): *void*
-
-*Inherited from [Watcher](_src_watcher_.watcher.md).[off](_src_watcher_.watcher.md#off)*
-
-*Overrides void*
+_Overrides void_
 
 **Type parameters:**
 
-▪ **Name**: *"watcher:ready"*
+▪ **Name**: _EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›_
 
 **Parameters:**
 
-▪ **eventName**: *Name*
+▪ **eventName**: _Name_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (): *void*
-
-**Returns:** *void*
-
-___
-
-###  offAny
-
-▸ **offAny**(`listener`: function): *void*
-
-*Inherited from [Watcher](_src_watcher_.watcher.md).[offAny](_src_watcher_.watcher.md#offany)*
-
-*Overrides void*
+▸ (`eventData`: WatcherEvents[Name]): _void_
 
 **Parameters:**
 
-▪ **listener**: *function*
+| Name        | Type                |
+| ----------- | ------------------- |
+| `eventData` | WatcherEvents[Name] |
 
-▸ (`eventName`: EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)› | "watcher:ready", `eventData?`: WatcherEvents[EventNameFromDataMap<WatcherEvents>]): *void*
+**Returns:** _void_
 
-**Parameters:**
+▸ **off**<**Name**>(`eventName`: Name, `listener`: function): _void_
 
-Name | Type |
------- | ------ |
-`eventName` | EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)› &#124; "watcher:ready" |
-`eventData?` | WatcherEvents[EventNameFromDataMap<WatcherEvents>] |
+_Inherited from [Watcher](_src_watcher_.watcher.md).[off](_src_watcher_.watcher.md#off)_
 
-**Returns:** *void*
-
-___
-
-###  on
-
-▸ **on**<**Name**>(`eventName`: Name, `listener`: function): *Emittery.UnsubscribeFn*
-
-*Inherited from [Watcher](_src_watcher_.watcher.md).[on](_src_watcher_.watcher.md#on)*
-
-*Overrides void*
+_Overrides void_
 
 **Type parameters:**
 
-▪ **Name**: *EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›*
+▪ **Name**: _"watcher:ready"_
 
 **Parameters:**
 
-▪ **eventName**: *Name*
+▪ **eventName**: _Name_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (`eventData`: WatcherEvents[Name]): *void*
+▸ (): _void_
+
+**Returns:** _void_
+
+---
+
+### offAny
+
+▸ **offAny**(`listener`: function): _void_
+
+_Inherited from [Watcher](_src_watcher_.watcher.md).[offAny](_src_watcher_.watcher.md#offany)_
+
+_Overrides void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`eventData` | WatcherEvents[Name] |
+▪ **listener**: _function_
 
-**Returns:** *Emittery.UnsubscribeFn*
+▸ (`eventName`: EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)› | "watcher:ready", `eventData?`: WatcherEvents[EventNameFromDataMap<WatcherEvents>]): _void_
 
-▸ **on**<**Name**>(`eventName`: Name, `listener`: function): *Emittery.UnsubscribeFn*
+**Parameters:**
 
-*Inherited from [Watcher](_src_watcher_.watcher.md).[on](_src_watcher_.watcher.md#on)*
+| Name         | Type                                                                                                      |
+| ------------ | --------------------------------------------------------------------------------------------------------- |
+| `eventName`  | EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)› &#124; "watcher:ready" |
+| `eventData?` | WatcherEvents[EventNameFromDataMap<WatcherEvents>]                                                        |
 
-*Overrides void*
+**Returns:** _void_
+
+---
+
+### on
+
+▸ **on**<**Name**>(`eventName`: Name, `listener`: function): _Emittery.UnsubscribeFn_
+
+_Inherited from [Watcher](_src_watcher_.watcher.md).[on](_src_watcher_.watcher.md#on)_
+
+_Overrides void_
 
 **Type parameters:**
 
-▪ **Name**: *"watcher:ready"*
+▪ **Name**: _EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›_
 
 **Parameters:**
 
-▪ **eventName**: *Name*
+▪ **eventName**: _Name_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (): *void*
-
-**Returns:** *Emittery.UnsubscribeFn*
-
-___
-
-###  onAny
-
-▸ **onAny**(`listener`: function): *Emittery.UnsubscribeFn*
-
-*Inherited from [Watcher](_src_watcher_.watcher.md).[onAny](_src_watcher_.watcher.md#onany)*
-
-*Overrides void*
+▸ (`eventData`: WatcherEvents[Name]): _void_
 
 **Parameters:**
 
-▪ **listener**: *function*
+| Name        | Type                |
+| ----------- | ------------------- |
+| `eventData` | WatcherEvents[Name] |
 
-▸ (`eventName`: EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)› | "watcher:ready", `eventData?`: WatcherEvents[EventNameFromDataMap<WatcherEvents>]): *void*
+**Returns:** _Emittery.UnsubscribeFn_
 
-**Parameters:**
+▸ **on**<**Name**>(`eventName`: Name, `listener`: function): _Emittery.UnsubscribeFn_
 
-Name | Type |
------- | ------ |
-`eventName` | EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)› &#124; "watcher:ready" |
-`eventData?` | WatcherEvents[EventNameFromDataMap<WatcherEvents>] |
+_Inherited from [Watcher](_src_watcher_.watcher.md).[on](_src_watcher_.watcher.md#on)_
 
-**Returns:** *Emittery.UnsubscribeFn*
-
-___
-
-###  once
-
-▸ **once**<**Name**>(`eventName`: Name): *Promise‹WatcherEvents[Name]›*
-
-*Inherited from [Watcher](_src_watcher_.watcher.md).[once](_src_watcher_.watcher.md#once)*
-
-*Overrides void*
+_Overrides void_
 
 **Type parameters:**
 
-▪ **Name**: *EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›*
+▪ **Name**: _"watcher:ready"_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`eventName` | Name |
+▪ **eventName**: _Name_
 
-**Returns:** *Promise‹WatcherEvents[Name]›*
+▪ **listener**: _function_
 
-▸ **once**<**Name**>(`eventName`: Name): *Promise‹void›*
+▸ (): _void_
 
-*Inherited from [Watcher](_src_watcher_.watcher.md).[once](_src_watcher_.watcher.md#once)*
+**Returns:** _Emittery.UnsubscribeFn_
 
-*Overrides void*
+---
+
+### onAny
+
+▸ **onAny**(`listener`: function): _Emittery.UnsubscribeFn_
+
+_Inherited from [Watcher](_src_watcher_.watcher.md).[onAny](_src_watcher_.watcher.md#onany)_
+
+_Overrides void_
+
+**Parameters:**
+
+▪ **listener**: _function_
+
+▸ (`eventName`: EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)› | "watcher:ready", `eventData?`: WatcherEvents[EventNameFromDataMap<WatcherEvents>]): _void_
+
+**Parameters:**
+
+| Name         | Type                                                                                                      |
+| ------------ | --------------------------------------------------------------------------------------------------------- |
+| `eventName`  | EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)› &#124; "watcher:ready" |
+| `eventData?` | WatcherEvents[EventNameFromDataMap<WatcherEvents>]                                                        |
+
+**Returns:** _Emittery.UnsubscribeFn_
+
+---
+
+### once
+
+▸ **once**<**Name**>(`eventName`: Name): _Promise‹WatcherEvents[Name]›_
+
+_Inherited from [Watcher](_src_watcher_.watcher.md).[once](_src_watcher_.watcher.md#once)_
+
+_Overrides void_
 
 **Type parameters:**
 
-▪ **Name**: *"watcher:ready"*
+▪ **Name**: _EventNameFromDataMap‹[WatcherEvents](../modules/_src_contracts_.md#watcherevents)›_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`eventName` | Name |
+| Name        | Type |
+| ----------- | ---- |
+| `eventName` | Name |
 
-**Returns:** *Promise‹void›*
+**Returns:** _Promise‹WatcherEvents[Name]›_
 
-___
+▸ **once**<**Name**>(`eventName`: Name): _Promise‹void›_
 
-###  watch
+_Inherited from [Watcher](_src_watcher_.watcher.md).[once](_src_watcher_.watcher.md#once)_
 
-▸ **watch**(`watchPattern`: string | string[], `watcherOptions?`: chokidar.WatchOptions): *object*
+_Overrides void_
+
+**Type parameters:**
+
+▪ **Name**: _"watcher:ready"_
+
+**Parameters:**
+
+| Name        | Type |
+| ----------- | ---- |
+| `eventName` | Name |
+
+**Returns:** _Promise‹void›_
+
+---
+
+### watch
+
+▸ **watch**(`watchPattern`: string | string[], `watcherOptions?`: chokidar.WatchOptions): _object_
 
 Build and watch project for changes
 
 **Parameters:**
 
-Name | Type | Default |
------- | ------ | ------ |
-`watchPattern` | string &#124; string[] | ['.'] |
-`watcherOptions?` | chokidar.WatchOptions | - |
+| Name              | Type                   | Default |
+| ----------------- | ---------------------- | ------- |
+| `watchPattern`    | string &#124; string[] | ['.']   |
+| `watcherOptions?` | chokidar.WatchOptions  | -       |
 
-**Returns:** *object*
+**Returns:** _object_
 
-* **diagnostics**: *Diagnostic[]*
+- **diagnostics**: _Diagnostic[]_
 
-* **skipped**: *boolean* = result.emitSkipped
+- **skipped**: _boolean_ = result.emitSkipped
 
-___
+---
 
 ### `Static` mixin
 
-▸ **mixin**(`emitteryPropertyName`: string, `methodNames?`: keyof string[]): *Function*
+▸ **mixin**(`emitteryPropertyName`: string, `methodNames?`: keyof string[]): _Function_
 
-*Inherited from [Watcher](_src_watcher_.watcher.md).[mixin](_src_watcher_.watcher.md#static-mixin)*
+_Inherited from [Watcher](_src_watcher_.watcher.md).[mixin](_src_watcher_.watcher.md#static-mixin)_
 
 In TypeScript, it returns a decorator which mixins `Emittery` as property `emitteryPropertyName` and `methodNames`, or all `Emittery` methods if `methodNames` is not defined, into the target class.
 
-**`example`** 
+**`example`**
+
 ```
 import Emittery = require('emittery');
 
@@ -567,9 +571,9 @@ instance.emit('event');
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`emitteryPropertyName` | string |
-`methodNames?` | keyof string[] |
+| Name                   | Type           |
+| ---------------------- | -------------- |
+| `emitteryPropertyName` | string         |
+| `methodNames?`         | keyof string[] |
 
-**Returns:** *Function*
+**Returns:** _Function_

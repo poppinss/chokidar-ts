@@ -6,4 +6,4 @@
 
 ### Classes
 
-* [Builder](../classes/_src_builder_.builder.md)
+- [Builder](../classes/_src_builder_.builder.md)

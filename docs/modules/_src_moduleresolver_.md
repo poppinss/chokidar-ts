@@ -6,4 +6,4 @@
 
 ### Classes
 
-* [ModuleResolver](../classes/_src_moduleresolver_.moduleresolver.md)
+- [ModuleResolver](../classes/_src_moduleresolver_.moduleresolver.md)

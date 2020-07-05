@@ -6,33 +6,33 @@
 
 ### Functions
 
-* [normalizeSlash](_test_helpers_index_.md#normalizeslash)
-* [parseTsConfig](_test_helpers_index_.md#parsetsconfig)
+- [normalizeSlash](_test_helpers_index_.md#normalizeslash)
+- [parseTsConfig](_test_helpers_index_.md#parsetsconfig)
 
 ## Functions
 
-###  normalizeSlash
+### normalizeSlash
 
-▸ **normalizeSlash**(`path`: string): *string*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`path` | string |
-
-**Returns:** *string*
-
-___
-
-###  parseTsConfig
-
-▸ **parseTsConfig**(`configPath`: string): *undefined | ParsedCommandLine*
+▸ **normalizeSlash**(`path`: string): _string_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`configPath` | string |
+| Name   | Type   |
+| ------ | ------ |
+| `path` | string |
 
-**Returns:** *undefined | ParsedCommandLine*
+**Returns:** _string_
+
+---
+
+### parseTsConfig
+
+▸ **parseTsConfig**(`configPath`: string): _undefined | ParsedCommandLine_
+
+**Parameters:**
+
+| Name         | Type   |
+| ------------ | ------ |
+| `configPath` | string |
+
+**Returns:** _undefined | ParsedCommandLine_

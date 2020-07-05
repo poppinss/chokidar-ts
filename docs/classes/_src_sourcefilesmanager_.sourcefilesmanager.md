@@ -8,43 +8,43 @@ are added and removed regularly.
 
 ## Hierarchy
 
-* **SourceFilesManager**
+- **SourceFilesManager**
 
 ## Index
 
 ### Constructors
 
-* [constructor](_src_sourcefilesmanager_.sourcefilesmanager.md#constructor)
+- [constructor](_src_sourcefilesmanager_.sourcefilesmanager.md#constructor)
 
 ### Methods
 
-* [add](_src_sourcefilesmanager_.sourcefilesmanager.md#add)
-* [bumpVersion](_src_sourcefilesmanager_.sourcefilesmanager.md#bumpversion)
-* [getFileVersion](_src_sourcefilesmanager_.sourcefilesmanager.md#getfileversion)
-* [isSourceFile](_src_sourcefilesmanager_.sourcefilesmanager.md#issourcefile)
-* [remove](_src_sourcefilesmanager_.sourcefilesmanager.md#remove)
-* [toJSON](_src_sourcefilesmanager_.sourcefilesmanager.md#tojson)
+- [add](_src_sourcefilesmanager_.sourcefilesmanager.md#add)
+- [bumpVersion](_src_sourcefilesmanager_.sourcefilesmanager.md#bumpversion)
+- [getFileVersion](_src_sourcefilesmanager_.sourcefilesmanager.md#getfileversion)
+- [isSourceFile](_src_sourcefilesmanager_.sourcefilesmanager.md#issourcefile)
+- [remove](_src_sourcefilesmanager_.sourcefilesmanager.md#remove)
+- [toJSON](_src_sourcefilesmanager_.sourcefilesmanager.md#tojson)
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new SourceFilesManager**(`appRoot`: string, `options`: [SourceFilesManagerOptions](../modules/_src_contracts_.md#sourcefilesmanageroptions)): *[SourceFilesManager](_src_sourcefilesmanager_.sourcefilesmanager.md)*
+\+ **new SourceFilesManager**(`appRoot`: string, `options`: [SourceFilesManagerOptions](../modules/_src_contracts_.md#sourcefilesmanageroptions)): _[SourceFilesManager](_src_sourcefilesmanager_.sourcefilesmanager.md)_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`appRoot` | string |
-`options` | [SourceFilesManagerOptions](../modules/_src_contracts_.md#sourcefilesmanageroptions) |
+| Name      | Type                                                                                 |
+| --------- | ------------------------------------------------------------------------------------ |
+| `appRoot` | string                                                                               |
+| `options` | [SourceFilesManagerOptions](../modules/_src_contracts_.md#sourcefilesmanageroptions) |
 
-**Returns:** *[SourceFilesManager](_src_sourcefilesmanager_.sourcefilesmanager.md)*
+**Returns:** _[SourceFilesManager](_src_sourcefilesmanager_.sourcefilesmanager.md)_
 
 ## Methods
 
-###  add
+### add
 
-▸ **add**(`filePath`: string): *void*
+▸ **add**(`filePath`: string): _void_
 
 Add a new source file to the list of project files. This is helpful
 when new source files are added after the initial typescript
@@ -52,84 +52,84 @@ build.
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`filePath` | string |
+| Name       | Type   |
+| ---------- | ------ |
+| `filePath` | string |
 
-**Returns:** *void*
+**Returns:** _void_
 
-___
+---
 
-###  bumpVersion
+### bumpVersion
 
-▸ **bumpVersion**(`filePath`: string): *void*
+▸ **bumpVersion**(`filePath`: string): _void_
 
 Bumps the project file version. This is required to tell the
 typescript compiler that file has been changed.
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`filePath` | string |
+| Name       | Type   |
+| ---------- | ------ |
+| `filePath` | string |
 
-**Returns:** *void*
+**Returns:** _void_
 
-___
+---
 
-###  getFileVersion
+### getFileVersion
 
-▸ **getFileVersion**(`filePath`: string): *null | number*
+▸ **getFileVersion**(`filePath`: string): _null | number_
 
 Returns file version
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`filePath` | string |
+| Name       | Type   |
+| ---------- | ------ |
+| `filePath` | string |
 
-**Returns:** *null | number*
+**Returns:** _null | number_
 
-___
+---
 
-###  isSourceFile
+### isSourceFile
 
-▸ **isSourceFile**(`filePath`: string): *boolean*
+▸ **isSourceFile**(`filePath`: string): _boolean_
 
 Returns true when filePath is part of the source files after checking
 them against `includes`, `excludes` and custom set of `files`.
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`filePath` | string |
+| Name       | Type   |
+| ---------- | ------ |
+| `filePath` | string |
 
-**Returns:** *boolean*
+**Returns:** _boolean_
 
-___
+---
 
-###  remove
+### remove
 
-▸ **remove**(`filePath`: string): *void*
+▸ **remove**(`filePath`: string): _void_
 
 Remove file from the list of existing source files
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`filePath` | string |
+| Name       | Type   |
+| ---------- | ------ |
+| `filePath` | string |
 
-**Returns:** *void*
+**Returns:** _void_
 
-___
+---
 
-###  toJSON
+### toJSON
 
-▸ **toJSON**(): *MapLike‹object›*
+▸ **toJSON**(): _MapLike‹object›_
 
 Returns a copy of project source files
 
-**Returns:** *MapLike‹object›*
+**Returns:** _MapLike‹object›_

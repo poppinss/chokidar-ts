@@ -6,4 +6,4 @@
 
 ### Classes
 
-* [SourceFilesManager](../classes/_src_sourcefilesmanager_.sourcefilesmanager.md)
+- [SourceFilesManager](../classes/_src_sourcefilesmanager_.sourcefilesmanager.md)

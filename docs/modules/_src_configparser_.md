@@ -6,4 +6,4 @@
 
 ### Classes
 
-* [ConfigParser](../classes/_src_configparser_.configparser.md)
+- [ConfigParser](../classes/_src_configparser_.configparser.md)

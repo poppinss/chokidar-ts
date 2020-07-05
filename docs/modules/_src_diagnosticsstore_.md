@@ -6,4 +6,4 @@
 
 ### Classes
 
-* [DiagnosticsStore](../classes/_src_diagnosticsstore_.diagnosticsstore.md)
+- [DiagnosticsStore](../classes/_src_diagnosticsstore_.diagnosticsstore.md)

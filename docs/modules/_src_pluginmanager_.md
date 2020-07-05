@@ -6,4 +6,4 @@
 
 ### Classes
 
-* [PluginManager](../classes/_src_pluginmanager_.pluginmanager.md)
+- [PluginManager](../classes/_src_pluginmanager_.pluginmanager.md)

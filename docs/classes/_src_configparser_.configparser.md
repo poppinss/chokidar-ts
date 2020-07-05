@@ -6,50 +6,50 @@ Exposes the API to parse typescript config
 
 ## Hierarchy
 
-* **ConfigParser**
+- **ConfigParser**
 
 ## Index
 
 ### Constructors
 
-* [constructor](_src_configparser_.configparser.md#constructor)
+- [constructor](_src_configparser_.configparser.md#constructor)
 
 ### Methods
 
-* [parse](_src_configparser_.configparser.md#parse)
+- [parse](_src_configparser_.configparser.md#parse)
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new ConfigParser**(`cwd`: string, `configFileName`: string, `ts`: typeof tsStatic): *[ConfigParser](_src_configparser_.configparser.md)*
+\+ **new ConfigParser**(`cwd`: string, `configFileName`: string, `ts`: typeof tsStatic): _[ConfigParser](_src_configparser_.configparser.md)_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`cwd` | string |
-`configFileName` | string |
-`ts` | typeof tsStatic |
+| Name             | Type            |
+| ---------------- | --------------- |
+| `cwd`            | string          |
+| `configFileName` | string          |
+| `ts`             | typeof tsStatic |
 
-**Returns:** *[ConfigParser](_src_configparser_.configparser.md)*
+**Returns:** _[ConfigParser](_src_configparser_.configparser.md)_
 
 ## Methods
 
-###  parse
+### parse
 
-▸ **parse**(`optionsToExtend?`: tsStatic.CompilerOptions): *object*
+▸ **parse**(`optionsToExtend?`: tsStatic.CompilerOptions): _object_
 
 Parses the typescript config file
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`optionsToExtend?` | tsStatic.CompilerOptions |
+| Name               | Type                     |
+| ------------------ | ------------------------ |
+| `optionsToExtend?` | tsStatic.CompilerOptions |
 
-**Returns:** *object*
+**Returns:** _object_
 
-* **config**? : *tsStatic.ParsedCommandLine*
+- **config**? : _tsStatic.ParsedCommandLine_
 
-* **error**: *tsStatic.Diagnostic | null*
+- **error**: _tsStatic.Diagnostic | null_

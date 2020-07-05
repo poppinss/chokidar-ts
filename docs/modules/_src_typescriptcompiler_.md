@@ -6,4 +6,4 @@
 
 ### Classes
 
-* [TypescriptCompiler](../classes/_src_typescriptcompiler_.typescriptcompiler.md)
+- [TypescriptCompiler](../classes/_src_typescriptcompiler_.typescriptcompiler.md)

@@ -6,4 +6,4 @@
 
 ### Classes
 
-* [Watcher](../classes/_src_watcher_.watcher.md)
+- [Watcher](../classes/_src_watcher_.watcher.md)

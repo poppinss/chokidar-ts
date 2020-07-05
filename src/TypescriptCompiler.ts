@@ -5,7 +5,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
-*/
+ */
 
 import tsStatic from 'typescript'
 
@@ -20,40 +20,36 @@ import { PluginManager } from './PluginManager'
  * the typescript config file.
  */
 export class TypescriptCompiler {
-  private pluginManager = new PluginManager()
+	private pluginManager = new PluginManager()
 
-  constructor (
-    private cwd: string,
-    private configFileName: string,
-    public ts: typeof tsStatic,
-  ) {}
+	constructor(private cwd: string, private configFileName: string, public ts: typeof tsStatic) {}
 
-  /**
-   * Add plugin which can apply transformers to the typescript compiler
-   */
-  public use (transformer: PluginFn, lifecycle: 'before' | 'after') {
-    this.pluginManager.use(transformer, lifecycle)
-    return this
-  }
+	/**
+	 * Add plugin which can apply transformers to the typescript compiler
+	 */
+	public use(transformer: PluginFn, lifecycle: 'before' | 'after') {
+		this.pluginManager.use(transformer, lifecycle)
+		return this
+	}
 
-  /**
-   * Get builder instance
-   */
-  public builder (options: tsStatic.ParsedCommandLine) {
-    return new Builder(this.ts, options, this.pluginManager)
-  }
+	/**
+	 * Get builder instance
+	 */
+	public builder(options: tsStatic.ParsedCommandLine) {
+		return new Builder(this.ts, options, this.pluginManager)
+	}
 
-  /**
-   * Get watcher instance
-   */
-  public watcher (options: tsStatic.ParsedCommandLine) {
-    return new Watcher(this.cwd, this.ts, options, this.pluginManager)
-  }
+	/**
+	 * Get watcher instance
+	 */
+	public watcher(options: tsStatic.ParsedCommandLine) {
+		return new Watcher(this.cwd, this.ts, options, this.pluginManager)
+	}
 
-  /**
-   * Get config parser instance
-   */
-  public configParser () {
-    return new ConfigParser(this.cwd, this.configFileName, this.ts)
-  }
+	/**
+	 * Get config parser instance
+	 */
+	public configParser() {
+		return new ConfigParser(this.cwd, this.configFileName, this.ts)
+	}
 }

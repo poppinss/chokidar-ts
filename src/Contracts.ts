@@ -5,7 +5,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
-*/
+ */
 
 import tsStatic from 'typescript'
 
@@ -13,8 +13,8 @@ import tsStatic from 'typescript'
  * Shape of Plugin function
  */
 export type PluginFn = (
-  ts: typeof tsStatic,
-  config: tsStatic.CompilerOptions,
+	ts: typeof tsStatic,
+	config: tsStatic.CompilerOptions
 ) => tsStatic.TransformerFactory<tsStatic.SourceFile> | tsStatic.CustomTransformerFactory
 
 /**
@@ -22,24 +22,24 @@ export type PluginFn = (
  * find between stale dependencies without running
  * unnecessary loops
  */
-export type ImportReferenceNode = { version: number, modulePath: string }
+export type ImportReferenceNode = { version: number; modulePath: string }
 
 /**
  * Options accepted by source files manager
  */
 export type SourceFilesManagerOptions = {
-  includes?: string[],
-  excludes?: string[],
-  files: string[],
+	includes?: string[]
+	excludes?: string[]
+	files: string[]
 }
 
 /**
  * Events emitted by the watcher
  */
 export type WatcherEvents = {
-  'add': string,
-  'change': string,
-  'unlink': string,
-  'source:unlink': string,
-  'subsequent:build': { path: string, skipped: boolean, diagnostics: tsStatic.Diagnostic[] },
+	'add': string
+	'change': string
+	'unlink': string
+	'source:unlink': string
+	'subsequent:build': { path: string; skipped: boolean; diagnostics: tsStatic.Diagnostic[] }
 }
