@@ -9,84 +9,84 @@ that file itself.
 
 ## Hierarchy
 
-* **DiagnosticsStore**
+- **DiagnosticsStore**
 
 ## Index
 
 ### Constructors
 
-* [constructor](src.diagnosticsstore.md#constructor)
+- [constructor](src.diagnosticsstore.md#constructor)
 
 ### Methods
 
-* [add](src.diagnosticsstore.md#add)
-* [bulkAdd](src.diagnosticsstore.md#bulkadd)
-* [remove](src.diagnosticsstore.md#remove)
-* [toJSON](src.diagnosticsstore.md#tojson)
+- [add](src.diagnosticsstore.md#add)
+- [bulkAdd](src.diagnosticsstore.md#bulkadd)
+- [remove](src.diagnosticsstore.md#remove)
+- [toJSON](src.diagnosticsstore.md#tojson)
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new DiagnosticsStore**(): *[DiagnosticsStore](src.diagnosticsstore.md)*
+\+ **new DiagnosticsStore**(): _[DiagnosticsStore](src.diagnosticsstore.md)_
 
-**Returns:** *[DiagnosticsStore](src.diagnosticsstore.md)*
+**Returns:** _[DiagnosticsStore](src.diagnosticsstore.md)_
 
 ## Methods
 
-###  add
+### add
 
-▸ **add**(`filePath`: string, `diagnostics`: tsStatic.Diagnostic[]): *void*
+▸ **add**(`filePath`: string, `diagnostics`: tsStatic.Diagnostic[]): _void_
 
 Add diagnostics for a given file
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`filePath` | string |
-`diagnostics` | tsStatic.Diagnostic[] |
+| Name          | Type                  |
+| ------------- | --------------------- |
+| `filePath`    | string                |
+| `diagnostics` | tsStatic.Diagnostic[] |
 
-**Returns:** *void*
+**Returns:** _void_
 
-___
+---
 
-###  bulkAdd
+### bulkAdd
 
-▸ **bulkAdd**(`diagnostics`: tsStatic.Diagnostic[]): *void*
+▸ **bulkAdd**(`diagnostics`: tsStatic.Diagnostic[]): _void_
 
 Consumes diagnostics for the entire project
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`diagnostics` | tsStatic.Diagnostic[] |
+| Name          | Type                  |
+| ------------- | --------------------- |
+| `diagnostics` | tsStatic.Diagnostic[] |
 
-**Returns:** *void*
+**Returns:** _void_
 
-___
+---
 
-###  remove
+### remove
 
-▸ **remove**(`filePath`: string): *void*
+▸ **remove**(`filePath`: string): _void_
 
 Remove diagnostics for a given file
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`filePath` | string |
+| Name       | Type   |
+| ---------- | ------ |
+| `filePath` | string |
 
-**Returns:** *void*
+**Returns:** _void_
 
-___
+---
 
-###  toJSON
+### toJSON
 
-▸ **toJSON**(): *Diagnostic[]*
+▸ **toJSON**(): _Diagnostic[]_
 
 Returns an array of all the diagnostics
 
-**Returns:** *Diagnostic[]*
+**Returns:** _Diagnostic[]_

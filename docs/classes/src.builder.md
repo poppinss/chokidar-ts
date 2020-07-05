@@ -6,68 +6,68 @@ Exposes the API to build the project similar to `tsc` command.
 
 ## Hierarchy
 
-* **Builder**
+- **Builder**
 
 ## Index
 
 ### Constructors
 
-* [constructor](src.builder.md#constructor)
+- [constructor](src.builder.md#constructor)
 
 ### Properties
 
-* [compilerOptions](src.builder.md#optional-compileroptions)
-* [host](src.builder.md#host)
-* [program](src.builder.md#program)
+- [compilerOptions](src.builder.md#optional-compileroptions)
+- [host](src.builder.md#host)
+- [program](src.builder.md#program)
 
 ### Methods
 
-* [build](src.builder.md#build)
+- [build](src.builder.md#build)
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new Builder**(`ts`: typeof tsStatic, `config`: tsStatic.ParsedCommandLine, `pluginManager`: [PluginManager](src.pluginmanager.md)): *[Builder](src.builder.md)*
+\+ **new Builder**(`ts`: typeof tsStatic, `config`: tsStatic.ParsedCommandLine, `pluginManager`: [PluginManager](src.pluginmanager.md)): _[Builder](src.builder.md)_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`ts` | typeof tsStatic |
-`config` | tsStatic.ParsedCommandLine |
-`pluginManager` | [PluginManager](src.pluginmanager.md) |
+| Name            | Type                                  |
+| --------------- | ------------------------------------- |
+| `ts`            | typeof tsStatic                       |
+| `config`        | tsStatic.ParsedCommandLine            |
+| `pluginManager` | [PluginManager](src.pluginmanager.md) |
 
-**Returns:** *[Builder](src.builder.md)*
+**Returns:** _[Builder](src.builder.md)_
 
 ## Properties
 
 ### `Optional` compilerOptions
 
-• **compilerOptions**? : *tsStatic.CompilerOptions*
+• **compilerOptions**? : _tsStatic.CompilerOptions_
 
-___
+---
 
-###  host
+### host
 
-• **host**: *tsStatic.CompilerHost*
+• **host**: _tsStatic.CompilerHost_
 
-___
+---
 
-###  program
+### program
 
-• **program**: *tsStatic.Program*
+• **program**: _tsStatic.Program_
 
 ## Methods
 
-###  build
+### build
 
-▸ **build**(): *object*
+▸ **build**(): _object_
 
 Build the project using the Typescript compiler API
 
-**Returns:** *object*
+**Returns:** _object_
 
-* **diagnostics**: *Diagnostic[]*
+- **diagnostics**: _Diagnostic[]_
 
-* **skipped**: *boolean* = result.emitSkipped
+- **skipped**: _boolean_ = result.emitSkipped

@@ -11,86 +11,86 @@ a given file.
 
 ## Hierarchy
 
-* **ReferenceTree**
+- **ReferenceTree**
 
 ## Index
 
 ### Constructors
 
-* [constructor](src.referencetree.md#constructor)
+- [constructor](src.referencetree.md#constructor)
 
 ### Methods
 
-* [add](src.referencetree.md#add)
-* [getDependencies](src.referencetree.md#getdependencies)
-* [remove](src.referencetree.md#remove)
-* [toJSON](src.referencetree.md#tojson)
+- [add](src.referencetree.md#add)
+- [getDependencies](src.referencetree.md#getdependencies)
+- [remove](src.referencetree.md#remove)
+- [toJSON](src.referencetree.md#tojson)
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new ReferenceTree**(): *[ReferenceTree](src.referencetree.md)*
+\+ **new ReferenceTree**(): _[ReferenceTree](src.referencetree.md)_
 
-**Returns:** *[ReferenceTree](src.referencetree.md)*
+**Returns:** _[ReferenceTree](src.referencetree.md)_
 
 ## Methods
 
-###  add
+### add
 
-▸ **add**(`modulePath`: string, `importReferences`: string[]): *void*
+▸ **add**(`modulePath`: string, `importReferences`: string[]): _void_
 
 Add a new module to the tree along with it's imports
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`modulePath` | string |
-`importReferences` | string[] |
+| Name               | Type     |
+| ------------------ | -------- |
+| `modulePath`       | string   |
+| `importReferences` | string[] |
 
-**Returns:** *void*
+**Returns:** _void_
 
-___
+---
 
-###  getDependencies
+### getDependencies
 
-▸ **getDependencies**(`modulePath`: string): *string[]*
+▸ **getDependencies**(`modulePath`: string): _string[]_
 
 Returns an array of dependencies for a given module
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`modulePath` | string |
+| Name         | Type   |
+| ------------ | ------ |
+| `modulePath` | string |
 
-**Returns:** *string[]*
+**Returns:** _string[]_
 
-___
+---
 
-###  remove
+### remove
 
-▸ **remove**(`modulePath`: string): *void*
+▸ **remove**(`modulePath`: string): _void_
 
 Remove module
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`modulePath` | string |
+| Name         | Type   |
+| ------------ | ------ |
+| `modulePath` | string |
 
-**Returns:** *void*
+**Returns:** _void_
 
-___
+---
 
-###  toJSON
+### toJSON
 
-▸ **toJSON**(): *object*
+▸ **toJSON**(): _object_
 
 Serializes tree to an object
 
-**Returns:** *object*
+**Returns:** _object_
 
-* \[ **key**: *string*\]: string[]
+- \[ **key**: _string_\]: string[]

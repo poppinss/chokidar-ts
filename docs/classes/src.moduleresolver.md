@@ -9,64 +9,64 @@ they are changed during the watch mode.
 
 ## Hierarchy
 
-* **ModuleResolver**
+- **ModuleResolver**
 
 ## Index
 
 ### Constructors
 
-* [constructor](src.moduleresolver.md#constructor)
+- [constructor](src.moduleresolver.md#constructor)
 
 ### Methods
 
-* [addAmbientModules](src.moduleresolver.md#addambientmodules)
-* [resolve](src.moduleresolver.md#resolve)
+- [addAmbientModules](src.moduleresolver.md#addambientmodules)
+- [resolve](src.moduleresolver.md#resolve)
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new ModuleResolver**(`ts`: typeof tsStatic, `compilerOptions`: tsStatic.CompilerOptions): *[ModuleResolver](src.moduleresolver.md)*
+\+ **new ModuleResolver**(`ts`: typeof tsStatic, `compilerOptions`: tsStatic.CompilerOptions): _[ModuleResolver](src.moduleresolver.md)_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`ts` | typeof tsStatic |
-`compilerOptions` | tsStatic.CompilerOptions |
+| Name              | Type                     |
+| ----------------- | ------------------------ |
+| `ts`              | typeof tsStatic          |
+| `compilerOptions` | tsStatic.CompilerOptions |
 
-**Returns:** *[ModuleResolver](src.moduleresolver.md)*
+**Returns:** _[ModuleResolver](src.moduleresolver.md)_
 
 ## Methods
 
-###  addAmbientModules
+### addAmbientModules
 
-▸ **addAmbientModules**(`filePath`: string, `ambientModules`: string[]): *void*
+▸ **addAmbientModules**(`filePath`: string, `ambientModules`: string[]): _void_
 
 Track ambient module
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`filePath` | string |
-`ambientModules` | string[] |
+| Name             | Type     |
+| ---------------- | -------- |
+| `filePath`       | string   |
+| `ambientModules` | string[] |
 
-**Returns:** *void*
+**Returns:** _void_
 
-___
+---
 
-###  resolve
+### resolve
 
-▸ **resolve**(`importPath`: string, `modulePath`: string): *null | string*
+▸ **resolve**(`importPath`: string, `modulePath`: string): _null | string_
 
 Returns the resolved module path
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`importPath` | string |
-`modulePath` | string |
+| Name         | Type   |
+| ------------ | ------ |
+| `importPath` | string |
+| `modulePath` | string |
 
-**Returns:** *null | string*
+**Returns:** _null | string_
