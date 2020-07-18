@@ -2,7 +2,14 @@
 	"core": false,
 	"ts": true,
 	"license": "MIT",
-	"services": ["appveyor", "circleci"],
+	"services": [
+		"appveyor",
+		"circleci"
+	],
 	"appveyorUsername": "thetutlage",
-	"minNodeVersion": "12.0.0"
+	"minNodeVersion": "12.18.2",
+	"probotApps": [
+		"stale",
+		"lock"
+	]
 }
