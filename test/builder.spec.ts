@@ -113,7 +113,10 @@ test.group('Builder', (group) => {
 			response.diagnostics[0].messageText,
 			"Module '\"path\"' can only be default-imported using the 'esModuleInterop' flag"
 		)
-		assert.equal(response.diagnostics[0].file!.fileName, normalizeSlash(join(fs.basePath, 'foo/bar.ts')))
+		assert.equal(
+			response.diagnostics[0].file!.fileName,
+			normalizeSlash(join(fs.basePath, 'foo/bar.ts'))
+		)
 
 		const hasBarFile = await fs.fsExtra.pathExists(join(fs.basePath, './build/foo/bar.js'))
 		const hasBazFile = await fs.fsExtra.pathExists(join(fs.basePath, './build/foo/baz.js'))
@@ -150,7 +153,10 @@ test.group('Builder', (group) => {
 			response.diagnostics[0].messageText,
 			"Module '\"path\"' can only be default-imported using the 'esModuleInterop' flag"
 		)
-		assert.equal(response.diagnostics[0].file!.fileName, normalizeSlash(join(fs.basePath, 'foo/bar.ts')))
+		assert.equal(
+			response.diagnostics[0].file!.fileName,
+			normalizeSlash(join(fs.basePath, 'foo/bar.ts'))
+		)
 
 		const hasBarFile = await fs.fsExtra.pathExists(join(fs.basePath, './build/foo/bar.js'))
 		const hasBazFile = await fs.fsExtra.pathExists(join(fs.basePath, './build/foo/baz.js'))

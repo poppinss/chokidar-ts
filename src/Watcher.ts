@@ -187,7 +187,10 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 		}
 
 		debug('initating language service')
-		this.languageService = this.ts.createLanguageService(languageServiceHost, this.ts.createDocumentRegistry())
+		this.languageService = this.ts.createLanguageService(
+			languageServiceHost,
+			this.ts.createDocumentRegistry()
+		)
 	}
 
 	/**
@@ -236,7 +239,11 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 	/**
 	 * Process the source file
 	 */
-	private async processSourceFile(absPath: string, relativePath: string, trigger: 'add' | 'change') {
+	private async processSourceFile(
+		absPath: string,
+		relativePath: string,
+		trigger: 'add' | 'change'
+	) {
 		/**
 		 * Update the source files manager to add the new file or
 		 * bump it's version.

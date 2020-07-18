@@ -50,7 +50,12 @@ export class ModuleResolver {
 			return ambientModuleFilePath
 		}
 
-		const resolved = this.ts.resolveModuleName(importPath, modulePath, this.compilerOptions, this.ts.sys)
+		const resolved = this.ts.resolveModuleName(
+			importPath,
+			modulePath,
+			this.compilerOptions,
+			this.ts.sys
+		)
 
 		/**
 		 * Return null when unable to resolve the module or the module extension

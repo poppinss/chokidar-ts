@@ -31,7 +31,10 @@ test.group('Config Parser', (group) => {
 		const { error, config } = configParser.parse()
 
 		assert.isUndefined(config)
-		assert.equal(error!.messageText as string, `Cannot read file '${join(fs.basePath, 'tsconfig.json')}'.`)
+		assert.equal(
+			error!.messageText as string,
+			`Cannot read file '${join(fs.basePath, 'tsconfig.json')}'.`
+		)
 	})
 
 	test('raise error when config file has unknown options', async (assert) => {
