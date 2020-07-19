@@ -7,45 +7,45 @@ transformers
 
 ## Hierarchy
 
-- **PluginManager**
+* **PluginManager**
 
 ## Index
 
 ### Methods
 
-- [getTransformers](src.pluginmanager.md#gettransformers)
-- [use](src.pluginmanager.md#use)
+* [getTransformers](src.pluginmanager.md#gettransformers)
+* [use](src.pluginmanager.md#use)
 
 ## Methods
 
-### getTransformers
+###  getTransformers
 
-▸ **getTransformers**(`ts`: typeof tsStatic, `options`: tsStatic.CompilerOptions): _CustomTransformers_
+▸ **getTransformers**(`ts`: typeof tsStatic, `options`: tsStatic.CompilerOptions): *CustomTransformers*
 
 Returns transformers based upon the registered plugins
 
 **Parameters:**
 
-| Name      | Type                     |
-| --------- | ------------------------ |
-| `ts`      | typeof tsStatic          |
-| `options` | tsStatic.CompilerOptions |
+Name | Type |
+------ | ------ |
+`ts` | typeof tsStatic |
+`options` | tsStatic.CompilerOptions |
 
-**Returns:** _CustomTransformers_
+**Returns:** *CustomTransformers*
 
----
+___
 
-### use
+###  use
 
-▸ **use**(`transformer`: [PluginFn](../modules/src.md#pluginfn), `lifecycle`: "before" | "after"): _this_
+▸ **use**(`transformer`: [PluginFn](../modules/src.md#pluginfn), `lifecycle`: "before" | "after"): *this*
 
 Hook plugin to define custom transformers
 
 **Parameters:**
 
-| Name          | Type                                   |
-| ------------- | -------------------------------------- |
-| `transformer` | [PluginFn](../modules/src.md#pluginfn) |
-| `lifecycle`   | "before" &#124; "after"                |
+Name | Type |
+------ | ------ |
+`transformer` | [PluginFn](../modules/src.md#pluginfn) |
+`lifecycle` | "before" &#124; "after" |
 
-**Returns:** _this_
+**Returns:** *this*

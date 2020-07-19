@@ -7,102 +7,102 @@ the typescript config file.
 
 ## Hierarchy
 
-- **TypescriptCompiler**
+* **TypescriptCompiler**
 
 ## Index
 
 ### Constructors
 
-- [constructor](src.typescriptcompiler.md#constructor)
+* [constructor](src.typescriptcompiler.md#constructor)
 
 ### Properties
 
-- [ts](src.typescriptcompiler.md#ts)
+* [ts](src.typescriptcompiler.md#ts)
 
 ### Methods
 
-- [builder](src.typescriptcompiler.md#builder)
-- [configParser](src.typescriptcompiler.md#configparser)
-- [use](src.typescriptcompiler.md#use)
-- [watcher](src.typescriptcompiler.md#watcher)
+* [builder](src.typescriptcompiler.md#builder)
+* [configParser](src.typescriptcompiler.md#configparser)
+* [use](src.typescriptcompiler.md#use)
+* [watcher](src.typescriptcompiler.md#watcher)
 
 ## Constructors
 
-### constructor
+###  constructor
 
-\+ **new TypescriptCompiler**(`cwd`: string, `configFileName`: string, `ts`: typeof tsStatic): _[TypescriptCompiler](src.typescriptcompiler.md)_
+\+ **new TypescriptCompiler**(`cwd`: string, `configFileName`: string, `ts`: typeof tsStatic): *[TypescriptCompiler](src.typescriptcompiler.md)*
 
 **Parameters:**
 
-| Name             | Type            |
-| ---------------- | --------------- |
-| `cwd`            | string          |
-| `configFileName` | string          |
-| `ts`             | typeof tsStatic |
+Name | Type |
+------ | ------ |
+`cwd` | string |
+`configFileName` | string |
+`ts` | typeof tsStatic |
 
-**Returns:** _[TypescriptCompiler](src.typescriptcompiler.md)_
+**Returns:** *[TypescriptCompiler](src.typescriptcompiler.md)*
 
 ## Properties
 
-### ts
+###  ts
 
-• **ts**: _typeof tsStatic_
+• **ts**: *typeof tsStatic*
 
 ## Methods
 
-### builder
+###  builder
 
-▸ **builder**(`options`: tsStatic.ParsedCommandLine): _[Builder](src.builder.md)‹›_
+▸ **builder**(`options`: tsStatic.ParsedCommandLine): *[Builder](src.builder.md)‹›*
 
 Get builder instance
 
 **Parameters:**
 
-| Name      | Type                       |
-| --------- | -------------------------- |
-| `options` | tsStatic.ParsedCommandLine |
+Name | Type |
+------ | ------ |
+`options` | tsStatic.ParsedCommandLine |
 
-**Returns:** _[Builder](src.builder.md)‹›_
+**Returns:** *[Builder](src.builder.md)‹›*
 
----
+___
 
-### configParser
+###  configParser
 
-▸ **configParser**(): _[ConfigParser](src.configparser.md)‹›_
+▸ **configParser**(): *[ConfigParser](src.configparser.md)‹›*
 
 Get config parser instance
 
-**Returns:** _[ConfigParser](src.configparser.md)‹›_
+**Returns:** *[ConfigParser](src.configparser.md)‹›*
 
----
+___
 
-### use
+###  use
 
-▸ **use**(`transformer`: [PluginFn](../modules/src.md#pluginfn), `lifecycle`: "before" | "after"): _this_
+▸ **use**(`transformer`: [PluginFn](../modules/src.md#pluginfn), `lifecycle`: "before" | "after"): *this*
 
 Add plugin which can apply transformers to the typescript compiler
 
 **Parameters:**
 
-| Name          | Type                                   |
-| ------------- | -------------------------------------- |
-| `transformer` | [PluginFn](../modules/src.md#pluginfn) |
-| `lifecycle`   | "before" &#124; "after"                |
+Name | Type |
+------ | ------ |
+`transformer` | [PluginFn](../modules/src.md#pluginfn) |
+`lifecycle` | "before" &#124; "after" |
 
-**Returns:** _this_
+**Returns:** *this*
 
----
+___
 
-### watcher
+###  watcher
 
-▸ **watcher**(`options`: tsStatic.ParsedCommandLine): _[Watcher](src.watcher.md)‹›_
+▸ **watcher**(`options`: tsStatic.ParsedCommandLine): *[Watcher](src.watcher.md)‹›*
 
 Get watcher instance
 
 **Parameters:**
 
-| Name      | Type                       |
-| --------- | -------------------------- |
-| `options` | tsStatic.ParsedCommandLine |
+Name | Type |
+------ | ------ |
+`options` | tsStatic.ParsedCommandLine |
 
-**Returns:** _[Watcher](src.watcher.md)‹›_
+**Returns:** *[Watcher](src.watcher.md)‹›*

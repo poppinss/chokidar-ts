@@ -6,28 +6,28 @@
 
 ### Classes
 
-- [Builder](../classes/src.builder.md)
-- [ConfigParser](../classes/src.configparser.md)
-- [DiagnosticsStore](../classes/src.diagnosticsstore.md)
-- [ModuleResolver](../classes/src.moduleresolver.md)
-- [PluginManager](../classes/src.pluginmanager.md)
-- [ReferenceTree](../classes/src.referencetree.md)
-- [SourceFilesManager](../classes/src.sourcefilesmanager.md)
-- [TypescriptCompiler](../classes/src.typescriptcompiler.md)
-- [Watcher](../classes/src.watcher.md)
+* [Builder](../classes/src.builder.md)
+* [ConfigParser](../classes/src.configparser.md)
+* [DiagnosticsStore](../classes/src.diagnosticsstore.md)
+* [ModuleResolver](../classes/src.moduleresolver.md)
+* [PluginManager](../classes/src.pluginmanager.md)
+* [ReferenceTree](../classes/src.referencetree.md)
+* [SourceFilesManager](../classes/src.sourcefilesmanager.md)
+* [TypescriptCompiler](../classes/src.typescriptcompiler.md)
+* [Watcher](../classes/src.watcher.md)
 
 ### Type aliases
 
-- [ImportReferenceNode](src.md#importreferencenode)
-- [PluginFn](src.md#pluginfn)
-- [SourceFilesManagerOptions](src.md#sourcefilesmanageroptions)
-- [WatcherEvents](src.md#watcherevents)
+* [ImportReferenceNode](src.md#importreferencenode)
+* [PluginFn](src.md#pluginfn)
+* [SourceFilesManagerOptions](src.md#sourcefilesmanageroptions)
+* [WatcherEvents](src.md#watcherevents)
 
 ## Type aliases
 
-### ImportReferenceNode
+###  ImportReferenceNode
 
-Ƭ **ImportReferenceNode**: _object_
+Ƭ **ImportReferenceNode**: *object*
 
 Shape of an import reference. The version is required to
 find between stale dependencies without running
@@ -35,67 +35,67 @@ unnecessary loops
 
 #### Type declaration:
 
-- **modulePath**: _string_
+* **modulePath**: *string*
 
-- **version**: _number_
+* **version**: *number*
 
----
+___
 
-### PluginFn
+###  PluginFn
 
-Ƭ **PluginFn**: _function_
+Ƭ **PluginFn**: *function*
 
 Shape of Plugin function
 
 #### Type declaration:
 
-▸ (`ts`: typeof tsStatic, `config`: tsStatic.CompilerOptions): _tsStatic.TransformerFactory‹tsStatic.SourceFile› | tsStatic.CustomTransformerFactory_
+▸ (`ts`: typeof tsStatic, `config`: tsStatic.CompilerOptions): *tsStatic.TransformerFactory‹tsStatic.SourceFile› | tsStatic.CustomTransformerFactory*
 
 **Parameters:**
 
-| Name     | Type                     |
-| -------- | ------------------------ |
-| `ts`     | typeof tsStatic          |
-| `config` | tsStatic.CompilerOptions |
+Name | Type |
+------ | ------ |
+`ts` | typeof tsStatic |
+`config` | tsStatic.CompilerOptions |
 
----
+___
 
-### SourceFilesManagerOptions
+###  SourceFilesManagerOptions
 
-Ƭ **SourceFilesManagerOptions**: _object_
+Ƭ **SourceFilesManagerOptions**: *object*
 
 Options accepted by source files manager
 
 #### Type declaration:
 
-- **excludes**? : _string[]_
+* **excludes**? : *string[]*
 
-- **files**: _string[]_
+* **files**: *string[]*
 
-- **includes**? : _string[]_
+* **includes**? : *string[]*
 
----
+___
 
-### WatcherEvents
+###  WatcherEvents
 
-Ƭ **WatcherEvents**: _object_
+Ƭ **WatcherEvents**: *object*
 
 Events emitted by the watcher
 
 #### Type declaration:
 
-- **add**: _string_
+* **add**: *string*
 
-- **change**: _string_
+* **change**: *string*
 
-- **source:unlink**: _string_
+* **source:unlink**: *string*
 
-- **subsequent:build**(): _object_
+* **subsequent:build**(): *object*
 
-  - **diagnostics**: _tsStatic.Diagnostic[]_
+  * **diagnostics**: *tsStatic.Diagnostic[]*
 
-  - **path**: _string_
+  * **path**: *string*
 
-  - **skipped**: _boolean_
+  * **skipped**: *boolean*
 
-- **unlink**: _string_
+* **unlink**: *string*
