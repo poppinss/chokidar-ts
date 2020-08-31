@@ -88,7 +88,7 @@ ___
 
 ### `Static` `Readonly` listenerAdded
 
-▪ **listenerAdded**: *keyof symbol*
+▪ **listenerAdded**: *unique symbol*
 
 *Inherited from [Watcher](src.watcher.md).[listenerAdded](src.watcher.md#static-readonly-listeneradded)*
 
@@ -119,7 +119,7 @@ ___
 
 ### `Static` `Readonly` listenerRemoved
 
-▪ **listenerRemoved**: *keyof symbol*
+▪ **listenerRemoved**: *unique symbol*
 
 *Inherited from [Watcher](src.watcher.md).[listenerRemoved](src.watcher.md#static-readonly-listenerremoved)*
 
@@ -152,19 +152,19 @@ off();
 
 ###  anyEvent
 
-▸ **anyEvent**(): *AsyncIterableIterator‹[EventNameFromDataMap‹[WatcherEvents](../modules/src.md#watcherevents)›, WatcherEvents[EventNameFromDataMap<WatcherEvents>]]›*
+▸ **anyEvent**(): *AsyncIterableIterator‹[EventNameFromDataMap‹[WatcherEvents](../modules/src.md#watcherevents)›, WatcherEvents[EventNameFromDataMap‹WatcherEvents›]]›*
 
 *Inherited from [Watcher](src.watcher.md).[anyEvent](src.watcher.md#anyevent)*
 
 *Overrides void*
 
-**Returns:** *AsyncIterableIterator‹[EventNameFromDataMap‹[WatcherEvents](../modules/src.md#watcherevents)›, WatcherEvents[EventNameFromDataMap<WatcherEvents>]]›*
+**Returns:** *AsyncIterableIterator‹[EventNameFromDataMap‹[WatcherEvents](../modules/src.md#watcherevents)›, WatcherEvents[EventNameFromDataMap‹WatcherEvents›]]›*
 
 ___
 
 ###  bindMethods
 
-▸ **bindMethods**(`target`: object, `methodNames?`: keyof string[]): *void*
+▸ **bindMethods**(`target`: object, `methodNames?`: readonly string[]): *void*
 
 *Inherited from [Watcher](src.watcher.md).[bindMethods](src.watcher.md#bindmethods)*
 
@@ -186,7 +186,7 @@ object.emit('event');
 Name | Type |
 ------ | ------ |
 `target` | object |
-`methodNames?` | keyof string[] |
+`methodNames?` | readonly string[] |
 
 **Returns:** *void*
 
@@ -396,14 +396,14 @@ ___
 
 ▪ **listener**: *function*
 
-▸ (`eventName`: EventNameFromDataMap‹[WatcherEvents](../modules/src.md#watcherevents)› | "watcher:ready", `eventData?`: WatcherEvents[EventNameFromDataMap<WatcherEvents>]): *void*
+▸ (`eventName`: EventNameFromDataMap‹[WatcherEvents](../modules/src.md#watcherevents)› | "watcher:ready", `eventData?`: WatcherEvents[EventNameFromDataMap‹WatcherEvents›]): *void*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
 `eventName` | EventNameFromDataMap‹[WatcherEvents](../modules/src.md#watcherevents)› &#124; "watcher:ready" |
-`eventData?` | WatcherEvents[EventNameFromDataMap<WatcherEvents>] |
+`eventData?` | WatcherEvents[EventNameFromDataMap‹WatcherEvents›] |
 
 **Returns:** *void*
 
@@ -471,14 +471,14 @@ ___
 
 ▪ **listener**: *function*
 
-▸ (`eventName`: EventNameFromDataMap‹[WatcherEvents](../modules/src.md#watcherevents)› | "watcher:ready", `eventData?`: WatcherEvents[EventNameFromDataMap<WatcherEvents>]): *void*
+▸ (`eventName`: EventNameFromDataMap‹[WatcherEvents](../modules/src.md#watcherevents)› | "watcher:ready", `eventData?`: WatcherEvents[EventNameFromDataMap‹WatcherEvents›]): *void*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
 `eventName` | EventNameFromDataMap‹[WatcherEvents](../modules/src.md#watcherevents)› &#124; "watcher:ready" |
-`eventData?` | WatcherEvents[EventNameFromDataMap<WatcherEvents>] |
+`eventData?` | WatcherEvents[EventNameFromDataMap‹WatcherEvents›] |
 
 **Returns:** *Emittery.UnsubscribeFn*
 
@@ -547,7 +547,7 @@ ___
 
 ### `Static` mixin
 
-▸ **mixin**(`emitteryPropertyName`: string, `methodNames?`: keyof string[]): *Function*
+▸ **mixin**(`emitteryPropertyName`: string, `methodNames?`: readonly string[]): *Function*
 
 *Inherited from [Watcher](src.watcher.md).[mixin](src.watcher.md#static-mixin)*
 
@@ -570,6 +570,6 @@ instance.emit('event');
 Name | Type |
 ------ | ------ |
 `emitteryPropertyName` | string |
-`methodNames?` | keyof string[] |
+`methodNames?` | readonly string[] |
 
 **Returns:** *Function*
