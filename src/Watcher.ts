@@ -57,7 +57,7 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 	 * `.js` files as a script files.
 	 */
 	private isScriptFile(filePath: string): boolean {
-		if (filePath.endsWith('.ts')) {
+		if (filePath.endsWith('.ts') || filePath.endsWith('.tsx')) {
 			return true
 		}
 
