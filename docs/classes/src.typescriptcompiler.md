@@ -1,4 +1,6 @@
-[@poppinss/chokidar-ts](../README.md) › [src](../modules/src.md) › [TypescriptCompiler](src.typescriptcompiler.md)
+**@poppinss/chokidar-ts**
+
+> [Globals](../README.md) / [src](../modules/src.md) / TypescriptCompiler
 
 # Class: TypescriptCompiler
 
@@ -28,81 +30,81 @@ the typescript config file.
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new TypescriptCompiler**(`cwd`: string, `configFileName`: string, `ts`: typeof tsStatic): *[TypescriptCompiler](src.typescriptcompiler.md)*
+\+ **new TypescriptCompiler**(`cwd`: string, `configFileName`: string, `ts`: *typeof* tsStatic): [TypescriptCompiler](src.typescriptcompiler.md)
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `cwd` | string |
 `configFileName` | string |
-`ts` | typeof tsStatic |
+`ts` | *typeof* tsStatic |
 
-**Returns:** *[TypescriptCompiler](src.typescriptcompiler.md)*
+**Returns:** [TypescriptCompiler](src.typescriptcompiler.md)
 
 ## Properties
 
-###  ts
+### ts
 
-• **ts**: *typeof tsStatic*
+•  **ts**: *typeof* tsStatic
 
 ## Methods
 
-###  builder
+### builder
 
-▸ **builder**(`options`: tsStatic.ParsedCommandLine): *[Builder](src.builder.md)‹›*
+▸ **builder**(`options`: tsStatic.ParsedCommandLine): [Builder](src.builder.md)
 
 Get builder instance
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `options` | tsStatic.ParsedCommandLine |
 
-**Returns:** *[Builder](src.builder.md)‹›*
+**Returns:** [Builder](src.builder.md)
 
 ___
 
-###  configParser
+### configParser
 
-▸ **configParser**(): *[ConfigParser](src.configparser.md)‹›*
+▸ **configParser**(): [ConfigParser](src.configparser.md)
 
 Get config parser instance
 
-**Returns:** *[ConfigParser](src.configparser.md)‹›*
+**Returns:** [ConfigParser](src.configparser.md)
 
 ___
 
-###  use
+### use
 
-▸ **use**(`transformer`: [PluginFn](../modules/src.md#pluginfn), `lifecycle`: "before" | "after"): *this*
+▸ **use**(`transformer`: [PluginFn](../modules/src.md#pluginfn), `lifecycle`: \"before\" \| \"after\"): this
 
 Add plugin which can apply transformers to the typescript compiler
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `transformer` | [PluginFn](../modules/src.md#pluginfn) |
-`lifecycle` | "before" &#124; "after" |
+`lifecycle` | \"before\" \| \"after\" |
 
-**Returns:** *this*
+**Returns:** this
 
 ___
 
-###  watcher
+### watcher
 
-▸ **watcher**(`options`: tsStatic.ParsedCommandLine): *[Watcher](src.watcher.md)‹›*
+▸ **watcher**(`options`: tsStatic.ParsedCommandLine): [Watcher](src.watcher.md)
 
 Get watcher instance
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `options` | tsStatic.ParsedCommandLine |
 
-**Returns:** *[Watcher](src.watcher.md)‹›*
+**Returns:** [Watcher](src.watcher.md)

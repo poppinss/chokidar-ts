@@ -1,4 +1,6 @@
-[@poppinss/chokidar-ts](../README.md) › [test-helpers](test_helpers.md)
+**@poppinss/chokidar-ts**
+
+> [Globals](../README.md) / test-helpers
 
 # Module: test-helpers
 
@@ -11,28 +13,28 @@
 
 ## Functions
 
-###  normalizeSlash
+### normalizeSlash
 
-▸ **normalizeSlash**(`path`: string): *string*
+▸ **normalizeSlash**(`path`: string): string
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `path` | string |
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  parseTsConfig
+### parseTsConfig
 
-▸ **parseTsConfig**(`configPath`: string): *undefined | ParsedCommandLine*
+▸ **parseTsConfig**(`configPath`: string): undefined \| ParsedCommandLine
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `configPath` | string |
 
-**Returns:** *undefined | ParsedCommandLine*
+**Returns:** undefined \| ParsedCommandLine

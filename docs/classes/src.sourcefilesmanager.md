@@ -1,4 +1,6 @@
-[@poppinss/chokidar-ts](../README.md) › [src](../modules/src.md) › [SourceFilesManager](src.sourcefilesmanager.md)
+**@poppinss/chokidar-ts**
+
+> [Globals](../README.md) / [src](../modules/src.md) / SourceFilesManager
 
 # Class: SourceFilesManager
 
@@ -27,109 +29,109 @@ are added and removed regularly.
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new SourceFilesManager**(`appRoot`: string, `options`: [SourceFilesManagerOptions](../modules/src.md#sourcefilesmanageroptions)): *[SourceFilesManager](src.sourcefilesmanager.md)*
+\+ **new SourceFilesManager**(`appRoot`: string, `options`: [SourceFilesManagerOptions](../modules/src.md#sourcefilesmanageroptions)): [SourceFilesManager](src.sourcefilesmanager.md)
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `appRoot` | string |
 `options` | [SourceFilesManagerOptions](../modules/src.md#sourcefilesmanageroptions) |
 
-**Returns:** *[SourceFilesManager](src.sourcefilesmanager.md)*
+**Returns:** [SourceFilesManager](src.sourcefilesmanager.md)
 
 ## Methods
 
-###  add
+### add
 
-▸ **add**(`filePath`: string): *void*
+▸ **add**(`filePath`: string): void
 
 Add a new source file to the list of project files. This is helpful
 when new source files are added after the initial typescript
 build.
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `filePath` | string |
 
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  bumpVersion
+### bumpVersion
 
-▸ **bumpVersion**(`filePath`: string): *void*
+▸ **bumpVersion**(`filePath`: string): void
 
 Bumps the project file version. This is required to tell the
 typescript compiler that file has been changed.
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `filePath` | string |
 
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  getFileVersion
+### getFileVersion
 
-▸ **getFileVersion**(`filePath`: string): *null | number*
+▸ **getFileVersion**(`filePath`: string): null \| number
 
 Returns file version
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `filePath` | string |
 
-**Returns:** *null | number*
+**Returns:** null \| number
 
 ___
 
-###  isSourceFile
+### isSourceFile
 
-▸ **isSourceFile**(`filePath`: string): *boolean*
+▸ **isSourceFile**(`filePath`: string): boolean
 
 Returns true when filePath is part of the source files after checking
 them against `includes`, `excludes` and custom set of `files`.
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `filePath` | string |
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  remove
+### remove
 
-▸ **remove**(`filePath`: string): *void*
+▸ **remove**(`filePath`: string): void
 
 Remove file from the list of existing source files
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `filePath` | string |
 
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  toJSON
+### toJSON
 
-▸ **toJSON**(): *MapLike‹object›*
+▸ **toJSON**(): MapLike\<{ version: number  }>
 
 Returns a copy of project source files
 
-**Returns:** *MapLike‹object›*
+**Returns:** MapLike\<{ version: number  }>

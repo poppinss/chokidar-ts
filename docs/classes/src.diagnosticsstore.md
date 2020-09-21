@@ -1,4 +1,6 @@
-[@poppinss/chokidar-ts](../README.md) › [src](../modules/src.md) › [DiagnosticsStore](src.diagnosticsstore.md)
+**@poppinss/chokidar-ts**
+
+> [Globals](../README.md) / [src](../modules/src.md) / DiagnosticsStore
 
 # Class: DiagnosticsStore
 
@@ -26,67 +28,67 @@ that file itself.
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new DiagnosticsStore**(): *[DiagnosticsStore](src.diagnosticsstore.md)*
+\+ **new DiagnosticsStore**(): [DiagnosticsStore](src.diagnosticsstore.md)
 
-**Returns:** *[DiagnosticsStore](src.diagnosticsstore.md)*
+**Returns:** [DiagnosticsStore](src.diagnosticsstore.md)
 
 ## Methods
 
-###  add
+### add
 
-▸ **add**(`filePath`: string, `diagnostics`: tsStatic.Diagnostic[]): *void*
+▸ **add**(`filePath`: string, `diagnostics`: tsStatic.Diagnostic[]): void
 
 Add diagnostics for a given file
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `filePath` | string |
 `diagnostics` | tsStatic.Diagnostic[] |
 
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  bulkAdd
+### bulkAdd
 
-▸ **bulkAdd**(`diagnostics`: tsStatic.Diagnostic[]): *void*
+▸ **bulkAdd**(`diagnostics`: tsStatic.Diagnostic[]): void
 
 Consumes diagnostics for the entire project
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `diagnostics` | tsStatic.Diagnostic[] |
 
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  remove
+### remove
 
-▸ **remove**(`filePath`: string): *void*
+▸ **remove**(`filePath`: string): void
 
 Remove diagnostics for a given file
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `filePath` | string |
 
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  toJSON
+### toJSON
 
-▸ **toJSON**(): *Diagnostic[]*
+▸ **toJSON**(): Diagnostic[]
 
 Returns an array of all the diagnostics
 
-**Returns:** *Diagnostic[]*
+**Returns:** Diagnostic[]

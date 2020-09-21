@@ -1,4 +1,6 @@
-[@poppinss/chokidar-ts](../README.md) › [src](../modules/src.md) › [ModuleResolver](src.moduleresolver.md)
+**@poppinss/chokidar-ts**
+
+> [Globals](../README.md) / [src](../modules/src.md) / ModuleResolver
 
 # Class: ModuleResolver
 
@@ -24,49 +26,49 @@ they are changed during the watch mode.
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new ModuleResolver**(`ts`: typeof tsStatic, `compilerOptions`: tsStatic.CompilerOptions): *[ModuleResolver](src.moduleresolver.md)*
+\+ **new ModuleResolver**(`ts`: *typeof* tsStatic, `compilerOptions`: tsStatic.CompilerOptions): [ModuleResolver](src.moduleresolver.md)
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`ts` | typeof tsStatic |
+`ts` | *typeof* tsStatic |
 `compilerOptions` | tsStatic.CompilerOptions |
 
-**Returns:** *[ModuleResolver](src.moduleresolver.md)*
+**Returns:** [ModuleResolver](src.moduleresolver.md)
 
 ## Methods
 
-###  addAmbientModules
+### addAmbientModules
 
-▸ **addAmbientModules**(`filePath`: string, `ambientModules`: string[]): *void*
+▸ **addAmbientModules**(`filePath`: string, `ambientModules`: string[]): void
 
 Track ambient module
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `filePath` | string |
 `ambientModules` | string[] |
 
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  resolve
+### resolve
 
-▸ **resolve**(`importPath`: string, `modulePath`: string): *null | string*
+▸ **resolve**(`importPath`: string, `modulePath`: string): null \| string
 
 Returns the resolved module path
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `importPath` | string |
 `modulePath` | string |
 
-**Returns:** *null | string*
+**Returns:** null \| string

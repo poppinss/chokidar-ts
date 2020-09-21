@@ -1,4 +1,6 @@
-[@poppinss/chokidar-ts](../README.md) › [src](../modules/src.md) › [ReferenceTree](src.referencetree.md)
+**@poppinss/chokidar-ts**
+
+> [Globals](../README.md) / [src](../modules/src.md) / ReferenceTree
 
 # Class: ReferenceTree
 
@@ -28,69 +30,67 @@ a given file.
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new ReferenceTree**(): *[ReferenceTree](src.referencetree.md)*
+\+ **new ReferenceTree**(): [ReferenceTree](src.referencetree.md)
 
-**Returns:** *[ReferenceTree](src.referencetree.md)*
+**Returns:** [ReferenceTree](src.referencetree.md)
 
 ## Methods
 
-###  add
+### add
 
-▸ **add**(`modulePath`: string, `importReferences`: string[]): *void*
+▸ **add**(`modulePath`: string, `importReferences`: string[]): void
 
 Add a new module to the tree along with it's imports
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `modulePath` | string |
 `importReferences` | string[] |
 
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  getDependencies
+### getDependencies
 
-▸ **getDependencies**(`modulePath`: string): *string[]*
+▸ **getDependencies**(`modulePath`: string): string[]
 
 Returns an array of dependencies for a given module
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `modulePath` | string |
 
-**Returns:** *string[]*
+**Returns:** string[]
 
 ___
 
-###  remove
+### remove
 
-▸ **remove**(`modulePath`: string): *void*
+▸ **remove**(`modulePath`: string): void
 
 Remove module
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `modulePath` | string |
 
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  toJSON
+### toJSON
 
-▸ **toJSON**(): *object*
+▸ **toJSON**(): object
 
 Serializes tree to an object
 
-**Returns:** *object*
-
-* \[ **key**: *string*\]: string[]
+**Returns:** object

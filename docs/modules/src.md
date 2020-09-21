@@ -1,4 +1,6 @@
-[@poppinss/chokidar-ts](../README.md) › [src](src.md)
+**@poppinss/chokidar-ts**
+
+> [Globals](../README.md) / src
 
 # Module: src
 
@@ -25,9 +27,9 @@
 
 ## Type aliases
 
-###  ImportReferenceNode
+### ImportReferenceNode
 
-Ƭ **ImportReferenceNode**: *object*
+Ƭ  **ImportReferenceNode**: { modulePath: string ; version: number  }
 
 Shape of an import reference. The version is required to
 find between stale dependencies without running
@@ -35,67 +37,49 @@ unnecessary loops
 
 #### Type declaration:
 
-* **modulePath**: *string*
-
-* **version**: *number*
+Name | Type |
+------ | ------ |
+`modulePath` | string |
+`version` | number |
 
 ___
 
-###  PluginFn
+### PluginFn
 
-Ƭ **PluginFn**: *function*
+Ƭ  **PluginFn**: (ts: *typeof* tsStatic,config: tsStatic.CompilerOptions) => tsStatic.TransformerFactory\<tsStatic.SourceFile> \| tsStatic.CustomTransformerFactory
 
 Shape of Plugin function
 
-#### Type declaration:
-
-▸ (`ts`: typeof tsStatic, `config`: tsStatic.CompilerOptions): *tsStatic.TransformerFactory‹tsStatic.SourceFile› | tsStatic.CustomTransformerFactory*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`ts` | typeof tsStatic |
-`config` | tsStatic.CompilerOptions |
-
 ___
 
-###  SourceFilesManagerOptions
+### SourceFilesManagerOptions
 
-Ƭ **SourceFilesManagerOptions**: *object*
+Ƭ  **SourceFilesManagerOptions**: { excludes?: string[] ; files: string[] ; includes?: string[]  }
 
 Options accepted by source files manager
 
 #### Type declaration:
 
-* **excludes**? : *string[]*
-
-* **files**: *string[]*
-
-* **includes**? : *string[]*
+Name | Type |
+------ | ------ |
+`excludes?` | string[] |
+`files` | string[] |
+`includes?` | string[] |
 
 ___
 
-###  WatcherEvents
+### WatcherEvents
 
-Ƭ **WatcherEvents**: *object*
+Ƭ  **WatcherEvents**: { add: string ; change: string ; source:unlink: string ; subsequent:build: { diagnostics: tsStatic.Diagnostic[] ; path: string ; skipped: boolean  } ; unlink: string  }
 
 Events emitted by the watcher
 
 #### Type declaration:
 
-* **add**: *string*
-
-* **change**: *string*
-
-* **source:unlink**: *string*
-
-* **subsequent:build**(): *object*
-
-  * **diagnostics**: *tsStatic.Diagnostic[]*
-
-  * **path**: *string*
-
-  * **skipped**: *boolean*
-
-* **unlink**: *string*
+Name | Type |
+------ | ------ |
+`add` | string |
+`change` | string |
+`source:unlink` | string |
+`subsequent:build` | { diagnostics: tsStatic.Diagnostic[] ; path: string ; skipped: boolean  } |
+`unlink` | string |

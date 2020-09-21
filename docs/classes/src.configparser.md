@@ -1,4 +1,6 @@
-[@poppinss/chokidar-ts](../README.md) › [src](../modules/src.md) › [ConfigParser](src.configparser.md)
+**@poppinss/chokidar-ts**
+
+> [Globals](../README.md) / [src](../modules/src.md) / ConfigParser
 
 # Class: ConfigParser
 
@@ -20,36 +22,37 @@ Exposes the API to parse typescript config
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new ConfigParser**(`cwd`: string, `configFileName`: string, `ts`: typeof tsStatic): *[ConfigParser](src.configparser.md)*
+\+ **new ConfigParser**(`cwd`: string, `configFileName`: string, `ts`: *typeof* tsStatic): [ConfigParser](src.configparser.md)
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `cwd` | string |
 `configFileName` | string |
-`ts` | typeof tsStatic |
+`ts` | *typeof* tsStatic |
 
-**Returns:** *[ConfigParser](src.configparser.md)*
+**Returns:** [ConfigParser](src.configparser.md)
 
 ## Methods
 
-###  parse
+### parse
 
-▸ **parse**(`optionsToExtend?`: tsStatic.CompilerOptions): *object*
+▸ **parse**(`optionsToExtend?`: tsStatic.CompilerOptions): object
 
 Parses the typescript config file
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `optionsToExtend?` | tsStatic.CompilerOptions |
 
-**Returns:** *object*
+**Returns:** object
 
-* **config**? : *tsStatic.ParsedCommandLine*
-
-* **error**: *tsStatic.Diagnostic | null*
+Name | Type |
+------ | ------ |
+`config?` | tsStatic.ParsedCommandLine |
+`error` | tsStatic.Diagnostic \| null |

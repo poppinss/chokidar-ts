@@ -1,4 +1,6 @@
-[@poppinss/chokidar-ts](../README.md) › [src](../modules/src.md) › [PluginManager](src.pluginmanager.md)
+**@poppinss/chokidar-ts**
+
+> [Globals](../README.md) / [src](../modules/src.md) / PluginManager
 
 # Class: PluginManager
 
@@ -18,34 +20,34 @@ transformers
 
 ## Methods
 
-###  getTransformers
+### getTransformers
 
-▸ **getTransformers**(`ts`: typeof tsStatic, `options`: tsStatic.CompilerOptions): *CustomTransformers*
+▸ **getTransformers**(`ts`: *typeof* tsStatic, `options`: tsStatic.CompilerOptions): CustomTransformers
 
 Returns transformers based upon the registered plugins
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`ts` | typeof tsStatic |
+`ts` | *typeof* tsStatic |
 `options` | tsStatic.CompilerOptions |
 
-**Returns:** *CustomTransformers*
+**Returns:** CustomTransformers
 
 ___
 
-###  use
+### use
 
-▸ **use**(`transformer`: [PluginFn](../modules/src.md#pluginfn), `lifecycle`: "before" | "after"): *this*
+▸ **use**(`transformer`: [PluginFn](../modules/src.md#pluginfn), `lifecycle`: \"before\" \| \"after\"): this
 
 Hook plugin to define custom transformers
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `transformer` | [PluginFn](../modules/src.md#pluginfn) |
-`lifecycle` | "before" &#124; "after" |
+`lifecycle` | \"before\" \| \"after\" |
 
-**Returns:** *this*
+**Returns:** this

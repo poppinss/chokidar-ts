@@ -1,4 +1,6 @@
-[@poppinss/chokidar-ts](../README.md) › [src](../modules/src.md) › [Builder](src.builder.md)
+**@poppinss/chokidar-ts**
+
+> [Globals](../README.md) / [src](../modules/src.md) / Builder
 
 # Class: Builder
 
@@ -16,7 +18,7 @@ Exposes the API to build the project similar to `tsc` command.
 
 ### Properties
 
-* [compilerOptions](src.builder.md#optional-compileroptions)
+* [compilerOptions](src.builder.md#compileroptions)
 * [host](src.builder.md#host)
 * [program](src.builder.md#program)
 
@@ -26,48 +28,49 @@ Exposes the API to build the project similar to `tsc` command.
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new Builder**(`ts`: typeof tsStatic, `config`: tsStatic.ParsedCommandLine, `pluginManager`: [PluginManager](src.pluginmanager.md)): *[Builder](src.builder.md)*
+\+ **new Builder**(`ts`: *typeof* tsStatic, `config`: tsStatic.ParsedCommandLine, `pluginManager`: [PluginManager](src.pluginmanager.md)): [Builder](src.builder.md)
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`ts` | typeof tsStatic |
+`ts` | *typeof* tsStatic |
 `config` | tsStatic.ParsedCommandLine |
 `pluginManager` | [PluginManager](src.pluginmanager.md) |
 
-**Returns:** *[Builder](src.builder.md)*
+**Returns:** [Builder](src.builder.md)
 
 ## Properties
 
-### `Optional` compilerOptions
+### compilerOptions
 
-• **compilerOptions**? : *tsStatic.CompilerOptions*
-
-___
-
-###  host
-
-• **host**: *tsStatic.CompilerHost*
+• `Optional` **compilerOptions**: tsStatic.CompilerOptions
 
 ___
 
-###  program
+### host
 
-• **program**: *tsStatic.Program*
+•  **host**: tsStatic.CompilerHost
+
+___
+
+### program
+
+•  **program**: tsStatic.Program
 
 ## Methods
 
-###  build
+### build
 
-▸ **build**(): *object*
+▸ **build**(): object
 
 Build the project using the Typescript compiler API
 
-**Returns:** *object*
+**Returns:** object
 
-* **diagnostics**: *Diagnostic[]*
-
-* **skipped**: *boolean* = result.emitSkipped
+Name | Type |
+------ | ------ |
+`diagnostics` | Diagnostic[] |
+`skipped` | boolean |

@@ -1,4 +1,6 @@
-[@poppinss/chokidar-ts](README.md)
+**@poppinss/chokidar-ts**
+
+> Globals
 
 # @poppinss/chokidar-ts
 
