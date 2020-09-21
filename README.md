@@ -3,12 +3,12 @@
 </div>
 
 # Chokidar Ts
+
 > Typescript compiler using chokidar vs native Fs events.
 
 [![appveyor-image]][appveyor-url] [![circleci-image]][circleci-url] [![typescript-image]][typescript-url] [![npm-image]][npm-url] [![license-image]][license-url] [![audit-report-image]][audit-report-url]
 
 This module uses the compiler API of typescript to work as replacement for `tsc` and `tsc --watch` and uses [chokidar](https://github.com/paulmillr/chokidar) for watching file changes.
-
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -35,6 +35,7 @@ This module uses the compiler API of typescript to work as replacement for `tsc`
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Why not simply use tsc?
+
 You must use `tsc`, since it is the official command line tool provided by the Typescript team. However, it has following restrictions.
 
 1. It only watches for typescript source files.
@@ -46,6 +47,7 @@ You must use `tsc`, since it is the official command line tool provided by the T
 Because of the above restrictions (and many more), communities like [webpack](https://github.com/TypeStrong/ts-loader) and [gulp](https://www.npmjs.com/package/gulp-typescript) also has to use the compiler API to add support for typescript in their build tools.
 
 ## Why this module?
+
 If you are user of Webpack or gulp and working in frontend space, then your life is all set, since they have first class support for Typescript projects.
 
 However, I maintain a [Node.js framework](https://adonisjs.com/), which is bit different from frontend projects and has some unique challenges.
@@ -63,17 +65,21 @@ The goal of this module is to stay as close as possible to the behavior of `tsc`
 - Allow custom AST transformers
 
 ## How it works?
+
 I make sure not to over engineer the process of compiling the code and keep it identical to the workings of `tsc`.
 
 The module exposes 3 main sub-modules.
 
 #### ConfigParser
+
 The `ConfigParser` module exposes the API to parse the typescript config
 
 #### Builder
+
 The `Builder` module exposes the API to build the entire project. It is similar to `tsc`.
 
 #### Watcher
+
 This is where things get's interesting. Instead of using the native `fs` events (which are super slow), we make use of `chokidar` to watch the entire project and handle file changes, as explained below.
 
 **Is Typescript file?**
@@ -89,6 +95,7 @@ By using this flow, you will always have one watcher in your entire project, tha
 You can also define custom transformers to transform the AST. You can read more about the transform API by following this [article series](https://levelup.gitconnected.com/writing-typescript-custom-ast-transformer-part-1-7585d6916819).
 
 ## Installation
+
 Install the module from npm registry as follows:
 
 ```sh
@@ -99,13 +106,14 @@ yarn add @poppinss/chokidar-ts
 ```
 
 ## Usage
+
 ```ts
 import { TypescriptCompiler } from '@poppinss/chokidar-ts'
 
 const compiler = new TypescriptCompiler(
   __dirname,
   'tsconfig.json',
-  require('typescript/lib/typescript'),
+  require('typescript/lib/typescript')
 )
 ```
 
@@ -116,6 +124,7 @@ The constructor accepts three arguments:
 3. `typescript`: You must pass in the typescript reference, that is used by your project.
 
 #### configParser(compileOptionsToExtend?: ts.CompilerOptions)
+
 Parse the project config. Optionally, you can define your custom compiler options. There are helpful, when you want to overwrite some of the values from the `tsconfig.json` file.
 
 ```ts
@@ -142,13 +151,13 @@ if (config && config.errors.length) {
 
 #### builder(options: ts.ParsedCommandLine)
 
-Build the project. It is same as running `tsc` command. However, the `incremental: true` will have no impact. 
+Build the project. It is same as running `tsc` command. However, the `incremental: true` will have no impact.
 
 The `build` command is used to build the project from scratch, it indirectly means, we should cleanup the old build before running this command and hence `incremental: true` has no impact once old build is deleted.
 
 **Why Delete the Old Build?**
 
-Because, the typescript compiler is not smart enough to delete the compiled file once the source file has been deleted and you will end up having files inside your build directory which doesn't even exists inside the source. 
+Because, the typescript compiler is not smart enough to delete the compiled file once the source file has been deleted and you will end up having files inside your build directory which doesn't even exists inside the source.
 
 Deleting the build and re-building the project results in the most consistent and reliable output.
 
@@ -217,7 +226,7 @@ watcher.on('source:unlink', (filePath) => {
 })
 
 watcher.watch(['.'], {
-  ignored: ['node_modules', 'build']
+  ignored: ['node_modules', 'build'],
 })
 
 // Stop the watcher anytime you want to
@@ -225,21 +234,23 @@ watcher.chokidar.close()
 ```
 
 #### use(transformer: PluginFn, lifecycle: 'before' | 'after')
+
 Define your custom transformer. The transformer will receive the parsed config and the `typescript` reference passed to the constructor.
 
 ```ts
 compiler.use((ts, config) => {
-  return function transformer (ctx) {
-  }
+  return function transformer(ctx) {}
 }, 'after')
 ```
 
 ## API Docs
+
 Following are the autogenerated files via Typedoc
 
-* [API](docs/README.md)
+- [API](docs/README.md)
 
 ## Debug
+
 You can debug the behavior of this module by running it as `DEBUG=tsc:* node script-file`
 
 ## Reference Tree
@@ -267,7 +278,7 @@ console.log(greet('virk'))
 ```ts
 // bar.ts
 
-export function greet (name: string) {
+export function greet(name: string) {
   return `Hello ${name}`
 }
 ```
@@ -276,22 +287,17 @@ When the `bar.ts` file changes, we also have to re-process the `foo.ts` to ensur
 
 To achieve the defined behavior, we maintain a reference tree of all the source files mentioned inside `includes` and not inside `excludes` of the `tsconfig.json` file.
 
-Reference tree for `node_modules` is not maintained. So, if you update a package, you will have to re-start the compiler. 
+Reference tree for `node_modules` is not maintained. So, if you update a package, you will have to re-start the compiler.
 
 [appveyor-image]: https://img.shields.io/appveyor/ci/thetutlage/chokidar-ts/master.svg?style=for-the-badge&logo=appveyor
-[appveyor-url]: https://ci.appveyor.com/project/thetutlage/chokidar-ts "appveyor"
-
+[appveyor-url]: https://ci.appveyor.com/project/thetutlage/chokidar-ts 'appveyor'
 [circleci-image]: https://img.shields.io/circleci/project/github/poppinss/chokidar-ts/master.svg?style=for-the-badge&logo=circleci
-[circleci-url]: https://circleci.com/gh/poppinss/chokidar-ts "circleci"
-
+[circleci-url]: https://circleci.com/gh/poppinss/chokidar-ts 'circleci'
 [typescript-image]: https://img.shields.io/badge/Typescript-294E80.svg?style=for-the-badge&logo=typescript
-[typescript-url]:  "typescript"
-
+[typescript-url]: "typescript"
 [npm-image]: https://img.shields.io/npm/v/@poppinss/chokidar-ts.svg?style=for-the-badge&logo=npm
-[npm-url]: https://npmjs.org/package/@poppinss/chokidar-ts "npm"
-
+[npm-url]: https://npmjs.org/package/@poppinss/chokidar-ts 'npm'
 [license-image]: https://img.shields.io/npm/l/@poppinss/chokidar-ts?color=blueviolet&style=for-the-badge
-[license-url]: LICENSE.md "license"
-
+[license-url]: LICENSE.md 'license'
 [audit-report-image]: https://img.shields.io/badge/-Audit%20Report-blueviolet?style=for-the-badge
-[audit-report-url]: https://htmlpreview.github.io/?https://github.com/poppinss/chokidar-ts/blob/develop/npm-audit.html "audit-report"
+[audit-report-url]: https://htmlpreview.github.io/?https://github.com/poppinss/chokidar-ts/blob/develop/npm-audit.html 'audit-report'
