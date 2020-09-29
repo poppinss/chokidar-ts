@@ -38,7 +38,9 @@ export type SourceFilesManagerOptions = {
  */
 export type WatcherEvents = {
 	'add': string
+	'source:add': string
 	'change': string
+	'source:change': string
 	'unlink': string
 	'source:unlink': string
 	'subsequent:build': { path: string; skipped: boolean; diagnostics: tsStatic.Diagnostic[] }
