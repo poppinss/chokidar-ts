@@ -1,90 +1,66 @@
 **@poppinss/chokidar-ts**
 
-> [Globals](../README.md) / [src](../modules/src.md) / Watcher
+> [Globals](../README.md) / [src](../modules/src.md) / ChokidarWatcher
 
-# Class: Watcher
+# Class: ChokidarWatcher
 
-Exposes the API to build the typescript project and then watch it
-for changes.
+Exposes the API to watch source files using chokidar. Since this module
+is anyways used by the assembler, we also expose the chokidar API directly
 
 ## Hierarchy
 
 * Typed\<[WatcherEvents](../modules/src.md#watcherevents), \"watcher:ready\">
 
-  ↳ **Watcher**
+  ↳ **ChokidarWatcher**
 
 ## Index
 
 ### Constructors
 
-* [constructor](src.watcher.md#constructor)
+* [constructor](src.chokidarwatcher.md#constructor)
 
 ### Properties
 
-* [chokidar](src.watcher.md#chokidar)
-* [compilerOptions](src.watcher.md#compileroptions)
-* [host](src.watcher.md#host)
-* [program](src.watcher.md#program)
-* [listenerAdded](src.watcher.md#listeneradded)
-* [listenerRemoved](src.watcher.md#listenerremoved)
+* [chokidar](src.chokidarwatcher.md#chokidar)
+* [listenerAdded](src.chokidarwatcher.md#listeneradded)
+* [listenerRemoved](src.chokidarwatcher.md#listenerremoved)
 
 ### Methods
 
-* [anyEvent](src.watcher.md#anyevent)
-* [bindMethods](src.watcher.md#bindmethods)
-* [clearListeners](src.watcher.md#clearlisteners)
-* [emit](src.watcher.md#emit)
-* [emitSerial](src.watcher.md#emitserial)
-* [events](src.watcher.md#events)
-* [listenerCount](src.watcher.md#listenercount)
-* [off](src.watcher.md#off)
-* [offAny](src.watcher.md#offany)
-* [on](src.watcher.md#on)
-* [onAny](src.watcher.md#onany)
-* [once](src.watcher.md#once)
-* [watch](src.watcher.md#watch)
-* [mixin](src.watcher.md#mixin)
+* [anyEvent](src.chokidarwatcher.md#anyevent)
+* [bindMethods](src.chokidarwatcher.md#bindmethods)
+* [clearListeners](src.chokidarwatcher.md#clearlisteners)
+* [emit](src.chokidarwatcher.md#emit)
+* [emitSerial](src.chokidarwatcher.md#emitserial)
+* [events](src.chokidarwatcher.md#events)
+* [listenerCount](src.chokidarwatcher.md#listenercount)
+* [off](src.chokidarwatcher.md#off)
+* [offAny](src.chokidarwatcher.md#offany)
+* [on](src.chokidarwatcher.md#on)
+* [onAny](src.chokidarwatcher.md#onany)
+* [once](src.chokidarwatcher.md#once)
+* [watch](src.chokidarwatcher.md#watch)
+* [mixin](src.chokidarwatcher.md#mixin)
 
 ## Constructors
 
 ### constructor
 
-\+ **new Watcher**(`cwd`: string, `ts`: *typeof* tsStatic, `config`: tsStatic.ParsedCommandLine, `pluginManager`: [PluginManager](src.pluginmanager.md)): [Watcher](src.watcher.md)
+\+ **new ChokidarWatcher**(`cwd`: string): [ChokidarWatcher](src.chokidarwatcher.md)
 
 #### Parameters:
 
 Name | Type |
 ------ | ------ |
 `cwd` | string |
-`ts` | *typeof* tsStatic |
-`config` | tsStatic.ParsedCommandLine |
-`pluginManager` | [PluginManager](src.pluginmanager.md) |
 
-**Returns:** [Watcher](src.watcher.md)
+**Returns:** [ChokidarWatcher](src.chokidarwatcher.md)
 
 ## Properties
 
 ### chokidar
 
 •  **chokidar**: FSWatcher
-
-___
-
-### compilerOptions
-
-• `Optional` **compilerOptions**: tsStatic.CompilerOptions
-
-___
-
-### host
-
-•  **host**: tsStatic.CompilerHost
-
-___
-
-### program
-
-•  **program**: tsStatic.Program
 
 ___
 
@@ -520,7 +496,7 @@ ___
 
 ### watch
 
-▸ **watch**(`watchPattern`: string \| string[], `watcherOptions?`: chokidar.WatchOptions): object
+▸ **watch**(`watchPattern`: string \| string[], `watcherOptions?`: chokidar.WatchOptions): void
 
 Build and watch project for changes
 
@@ -531,12 +507,7 @@ Name | Type | Default value |
 `watchPattern` | string \| string[] | ['.'] |
 `watcherOptions?` | chokidar.WatchOptions | - |
 
-**Returns:** object
-
-Name | Type |
------- | ------ |
-`diagnostics` | Diagnostic[] |
-`skipped` | boolean |
+**Returns:** void
 
 ___
 

@@ -1,6 +1,6 @@
 {
 	"name": "@poppinss/chokidar-ts",
-	"version": "2.0.11",
+	"version": "2.1.0",
 	"description": "Simple typescript compiler using chokidar file watcher instead of tsc-watch",
 	"main": "build/index.js",
 	"files": [

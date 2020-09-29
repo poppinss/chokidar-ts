@@ -9,6 +9,7 @@
 ### Classes
 
 * [Builder](../classes/src.builder.md)
+* [ChokidarWatcher](../classes/src.chokidarwatcher.md)
 * [ConfigParser](../classes/src.configparser.md)
 * [DiagnosticsStore](../classes/src.diagnosticsstore.md)
 * [ModuleResolver](../classes/src.moduleresolver.md)
@@ -70,7 +71,7 @@ ___
 
 ### WatcherEvents
 
-Ƭ  **WatcherEvents**: { add: string ; change: string ; source:unlink: string ; subsequent:build: { diagnostics: tsStatic.Diagnostic[] ; path: string ; skipped: boolean  } ; unlink: string  }
+Ƭ  **WatcherEvents**: { add: string ; change: string ; source:add: string ; source:change: string ; source:unlink: string ; subsequent:build: { diagnostics: tsStatic.Diagnostic[] ; path: string ; skipped: boolean  } ; unlink: string  }
 
 Events emitted by the watcher
 
@@ -80,6 +81,8 @@ Name | Type |
 ------ | ------ |
 `add` | string |
 `change` | string |
+`source:add` | string |
+`source:change` | string |
 `source:unlink` | string |
 `subsequent:build` | { diagnostics: tsStatic.Diagnostic[] ; path: string ; skipped: boolean  } |
 `unlink` | string |
