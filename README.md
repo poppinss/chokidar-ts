@@ -20,13 +20,14 @@ This module uses the compiler API of typescript to work as replacement for `tsc`
 - [How it works?](#how-it-works)
     - [ConfigParser](#configparser)
     - [Builder](#builder)
-    - [Watcher](#watcher)
+    - [LSP Watcher](#lsp-watcher)
+- [Watcher](#watcher)
 - [Customer Transformers](#customer-transformers)
 - [Installation](#installation)
 - [Usage](#usage)
     - [configParser(compileOptionsToExtend?: ts.CompilerOptions)](#configparsercompileoptionstoextend-tscompileroptions)
     - [builder(options: ts.ParsedCommandLine)](#builderoptions-tsparsedcommandline)
-    - [watcher(options: ts.ParsedCommandLine)](#watcheroptions-tsparsedcommandline)
+    - [watcher(options: ts.ParsedCommandLine, mode: 'raw' | 'lsp')](#watcheroptions-tsparsedcommandline-mode-raw--lsp)
     - [use(transformer: PluginFn, lifecycle: 'before' | 'after')](#usetransformer-pluginfn-lifecycle-before--after)
 - [API Docs](#api-docs)
 - [Chokidar](#chokidar)
@@ -34,6 +35,27 @@ This module uses the compiler API of typescript to work as replacement for `tsc`
 - [Reference Tree](#reference-tree)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+<details>
+<summary>
+	<strong>❓ Upgrading from <code>2.x.x</code></strong>
+</summary>
+
+<ul>
+  <li>
+  	<p>The emitted events now emits an object with <code>relativePath</code> and <code>absPath</code> properties</p>
+  	<pre><code>watcher.on('add', ({ relativePath, absPath }) => {
+})</code></pre>
+  </li>
+
+  <li>
+  	<p>Now you have to define an explicit watch mode when creating the <code>watcher</code> instance.</p>
+  	<pre><code>const lspWatcher = compiler.watcher(config!, 'lsp')
+const watcher = compiler.watcher(config!, 'raw')</code></pre>
+  </li>
+</ul>
+
+</details>
 
 ## Why not simply use tsc?
 
@@ -79,7 +101,7 @@ The `ConfigParser` module exposes the API to parse the typescript config
 
 The `Builder` module exposes the API to build the entire project. It is similar to `tsc`.
 
-#### Watcher
+#### LSP Watcher
 
 This is where things get's interesting. Instead of using the native `fs` events (which are super slow), we make use of `chokidar` to watch the entire project and handle file changes, as explained below.
 
@@ -90,6 +112,14 @@ Handle the event internally and process the file using the Language service API.
 We will emit `add`, `change` or `unlink` event, so that you (the module consumer) can use and decide what to do on that event. For example: If filePath is `.env`, then restart the Node.js server.
 
 By using this flow, you will always have one watcher in your entire project, that will process the Typescript files, restart the Node.js server or copy files to build folder.
+
+## Watcher
+
+The Watch is similar to the LSP watcher, but instead of compiling files using the Typescript compiler, it will just emit the events.
+
+This is helpful when you are running your application using a module like [ts-node](https://npm.im/ts-node) or [@adonisjs/require-ts](https://npm.im/@adonisjs/require-ts) but want the watcher to restart the HTTP server on file change.
+
+Instead of using a standard file watcher. The watcher class uses Typescript config to decide which files to watch or ignore.
 
 ## Customer Transformers
 
@@ -184,7 +214,7 @@ if (diagnostics.length) {
 }
 ```
 
-#### watcher(options: ts.ParsedCommandLine)
+#### watcher(options: ts.ParsedCommandLine, mode: 'raw' | 'lsp')
 
 Returns an instance of watcher that uses `chokidar` and Typescript `LanguageService` to compile the files as they change.
 
@@ -200,7 +230,7 @@ if (config.errors.length) {
   return
 }
 
-const watcher = compiler.watcher(config!)
+const watcher = compiler.watcher(config!, 'lsp')
 
 watcher.on('watcher:ready', () => {
   // Watcher is ready
@@ -233,6 +263,12 @@ watcher.watch(['.'], {
 // Stop the watcher anytime you want to
 watcher.chokidar.close()
 ```
+
+When you choose `raw` mode over the `lsp` mode, then instead of emitting `subsequent:build`, it will emit following events.
+
+- `source:add`
+- `source:change`
+- `source:unlink`
 
 #### use(transformer: PluginFn, lifecycle: 'before' | 'after')
 
