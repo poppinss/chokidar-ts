@@ -25,6 +25,7 @@ Exposes the API to build the project similar to `tsc` command.
 ### Methods
 
 * [build](src.builder.md#build)
+* [createProgram](src.builder.md#createprogram)
 
 ## Constructors
 
@@ -74,3 +75,13 @@ Name | Type |
 ------ | ------ |
 `diagnostics` | Diagnostic[] |
 `skipped` | boolean |
+
+___
+
+### createProgram
+
+▸ **createProgram**(): void
+
+Create typescript program
+
+**Returns:** void

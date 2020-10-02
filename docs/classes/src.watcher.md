@@ -49,7 +49,7 @@ for changes.
 
 ### constructor
 
-\+ **new Watcher**(`cwd`: string, `ts`: *typeof* tsStatic, `config`: tsStatic.ParsedCommandLine, `pluginManager`: [PluginManager](src.pluginmanager.md)): [Watcher](src.watcher.md)
+\+ **new Watcher**(`cwd`: string, `ts`: *typeof* tsStatic, `config`: tsStatic.ParsedCommandLine, `pluginManager`: [PluginManager](src.pluginmanager.md), `mode`: \"lsp\" \| \"raw\"): [Watcher](src.watcher.md)
 
 #### Parameters:
 
@@ -59,6 +59,7 @@ Name | Type |
 `ts` | *typeof* tsStatic |
 `config` | tsStatic.ParsedCommandLine |
 `pluginManager` | [PluginManager](src.pluginmanager.md) |
+`mode` | \"lsp\" \| \"raw\" |
 
 **Returns:** [Watcher](src.watcher.md)
 
@@ -520,7 +521,7 @@ ___
 
 ### watch
 
-▸ **watch**(`watchPattern`: string \| string[], `watcherOptions?`: chokidar.WatchOptions): object
+▸ **watch**(`watchPattern`: string \| string[], `watcherOptions?`: chokidar.WatchOptions): null \| { diagnostics: tsStatic.Diagnostic[] ; skipped: boolean  }
 
 Build and watch project for changes
 
@@ -531,12 +532,7 @@ Name | Type | Default value |
 `watchPattern` | string \| string[] | ['.'] |
 `watcherOptions?` | chokidar.WatchOptions | - |
 
-**Returns:** object
-
-Name | Type |
------- | ------ |
-`diagnostics` | Diagnostic[] |
-`skipped` | boolean |
+**Returns:** null \| { diagnostics: tsStatic.Diagnostic[] ; skipped: boolean  }
 
 ___
 
