@@ -97,7 +97,7 @@ ___
 
 ### watcher
 
-▸ **watcher**(`options`: tsStatic.ParsedCommandLine, `mode`: \"raw\" \| \"lsp\"): [Watcher](src.watcher.md)
+▸ **watcher**(`options`: tsStatic.ParsedCommandLine, `mode`: \"raw\" \| \"lsp\"): [LspWatcher](src.lspwatcher.md) \| [Watcher](src.watcher.md)
 
 Get watcher instance
 
@@ -108,4 +108,4 @@ Name | Type |
 `options` | tsStatic.ParsedCommandLine |
 `mode` | \"raw\" \| \"lsp\" |
 
-**Returns:** [Watcher](src.watcher.md)
+**Returns:** [LspWatcher](src.lspwatcher.md) \| [Watcher](src.watcher.md)

@@ -8,4 +8,3 @@
  */
 
 export { TypescriptCompiler } from './src/TypescriptCompiler'
-export { ChokidarWatcher as Chokidar } from './src/Chokidar'

@@ -9,9 +9,9 @@
 ### Classes
 
 * [Builder](../classes/src.builder.md)
-* [ChokidarWatcher](../classes/src.chokidarwatcher.md)
 * [ConfigParser](../classes/src.configparser.md)
 * [DiagnosticsStore](../classes/src.diagnosticsstore.md)
+* [LspWatcher](../classes/src.lspwatcher.md)
 * [ModuleResolver](../classes/src.moduleresolver.md)
 * [PluginManager](../classes/src.pluginmanager.md)
 * [ReferenceTree](../classes/src.referencetree.md)
@@ -71,7 +71,7 @@ ___
 
 ### WatcherEvents
 
-Ƭ  **WatcherEvents**: { add: string ; change: string ; source:add: string ; source:change: string ; source:unlink: string ; subsequent:build: { diagnostics: tsStatic.Diagnostic[] ; path: string ; skipped: boolean  } ; unlink: string  }
+Ƭ  **WatcherEvents**: { add: { absPath: string ; relativePath: string  } ; change: { absPath: string ; relativePath: string  } ; source:add: { absPath: string ; relativePath: string  } ; source:change: { absPath: string ; relativePath: string  } ; source:unlink: { absPath: string ; relativePath: string  } ; subsequent:build: { absPath: string ; diagnostics: tsStatic.Diagnostic[] ; relativePath: string ; skipped: boolean  } ; unlink: { absPath: string ; relativePath: string  }  }
 
 Events emitted by the watcher
 
@@ -79,10 +79,10 @@ Events emitted by the watcher
 
 Name | Type |
 ------ | ------ |
-`add` | string |
-`change` | string |
-`source:add` | string |
-`source:change` | string |
-`source:unlink` | string |
-`subsequent:build` | { diagnostics: tsStatic.Diagnostic[] ; path: string ; skipped: boolean  } |
-`unlink` | string |
+`add` | { absPath: string ; relativePath: string  } |
+`change` | { absPath: string ; relativePath: string  } |
+`source:add` | { absPath: string ; relativePath: string  } |
+`source:change` | { absPath: string ; relativePath: string  } |
+`source:unlink` | { absPath: string ; relativePath: string  } |
+`subsequent:build` | { absPath: string ; diagnostics: tsStatic.Diagnostic[] ; relativePath: string ; skipped: boolean  } |
+`unlink` | { absPath: string ; relativePath: string  } |
