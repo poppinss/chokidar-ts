@@ -12,6 +12,7 @@ import tsStatic from 'typescript'
 import { Builder } from './Builder'
 import { Watcher } from './Watcher'
 import { PluginFn } from './Contracts'
+import { LspWatcher } from './LspWatcher'
 import { ConfigParser } from './ConfigParser'
 import { PluginManager } from './PluginManager'
 
@@ -43,7 +44,9 @@ export class TypescriptCompiler {
 	 * Get watcher instance
 	 */
 	public watcher(options: tsStatic.ParsedCommandLine, mode: 'raw' | 'lsp') {
-		return new Watcher(this.cwd, this.ts, options, this.pluginManager, mode)
+		return mode === 'raw'
+			? new Watcher(this.cwd, this.ts, options, this.pluginManager)
+			: new LspWatcher(this.cwd, this.ts, options, this.pluginManager)
 	}
 
 	/**

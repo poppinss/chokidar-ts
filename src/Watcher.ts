@@ -12,14 +12,10 @@ import { join } from 'path'
 import chokidar from 'chokidar'
 import Emittery from 'emittery'
 import tsStatic from 'typescript'
-import { outputFile } from 'fs-extra'
 
 import { Builder } from './Builder'
 import { WatcherEvents } from './Contracts'
-import { ReferenceTree } from './ReferenceTree'
 import { PluginManager } from './PluginManager'
-import { ModuleResolver } from './ModuleResolver'
-import { DiagnosticsStore } from './DiagnosticsStore'
 import { SourceFilesManager } from './SourceFilesManager'
 
 const debug = Debug('tsc:watcher')
@@ -29,14 +25,6 @@ const debug = Debug('tsc:watcher')
  * for changes.
  */
 export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
-	/**
-	 * Available only in LSP mode
-	 */
-	private referenceTree?: ReferenceTree
-	private diagnosticsStore?: DiagnosticsStore
-	private moduleResolver?: ModuleResolver
-	private languageService?: tsStatic.LanguageService
-
 	/**
 	 * Available only in both modes
 	 */
@@ -51,8 +39,7 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 		private cwd: string,
 		private ts: typeof tsStatic,
 		private config: tsStatic.ParsedCommandLine,
-		private pluginManager: PluginManager,
-		private mode: 'lsp' | 'raw'
+		private pluginManager: PluginManager
 	) {
 		super()
 		debug('initiating watcher')
@@ -77,26 +64,6 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 	}
 
 	/**
-	 * Returns resolved imports from the source text
-	 */
-	private getSourceImports(filePath: string, fileText: string) {
-		const { importedFiles, ambientExternalModules } = this.ts.preProcessFile(fileText, true, true)
-
-		if (ambientExternalModules) {
-			this.moduleResolver!.addAmbientModules(filePath, ambientExternalModules)
-		}
-
-		return importedFiles.reduce((result: string[], { fileName }) => {
-			const resolvedImport = this.moduleResolver!.resolve(fileName, filePath)
-			if (resolvedImport) {
-				result.push(resolvedImport)
-			}
-
-			return result
-		}, [])
-	}
-
-	/**
 	 * Initiates the source file manager to track the source files as they
 	 * are added, changed and removed
 	 */
@@ -105,37 +72,6 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 			includes: config['configFileSpecs'].validatedIncludeSpecs,
 			excludes: config['configFileSpecs'].validatedExcludeSpecs,
 			files: config!.fileNames,
-		})
-	}
-
-	/**
-	 * Initiates the diagnostic store to store diagnostic messages
-	 */
-	private initiateDiagnosticsStore(diagnostics: tsStatic.Diagnostic[]) {
-		this.diagnosticsStore = new DiagnosticsStore()
-		this.diagnosticsStore.bulkAdd(diagnostics)
-	}
-
-	/**
-	 * Initiates the module resolver. We need it to resolve imports
-	 */
-	private initiateModuleResolver() {
-		this.moduleResolver = new ModuleResolver(this.ts, this.compilerOptions!)
-	}
-
-	/**
-	 * Initiates the reference tree to track module dependencies
-	 */
-	private initiateReferenceTree() {
-		this.referenceTree = new ReferenceTree()
-
-		Object.keys(this.sourceFilesManager.toJSON()).forEach((filePath) => {
-			const sourceFile = this.program.getSourceFile(filePath)
-			if (!sourceFile) {
-				return
-			}
-
-			this.referenceTree!.add(filePath, this.getSourceImports(filePath, sourceFile.text))
 		})
 	}
 
@@ -149,7 +85,7 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 	) {
 		watcherOptions = Object.assign(
 			{
-				ignored: ['node_modules/**', `${outDir}/**`, /(^|[\/\\])\../],
+				ignored: [this.config.raw.excludes, 'node_modules/**', `${outDir}/**`, /(^|[\/\\])\../],
 				cwd: this.cwd,
 				ignoreInitial: true,
 			},
@@ -158,89 +94,6 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 
 		debug('initating watcher with %j options', watcherOptions)
 		this.chokidar = chokidar.watch(watchPattern, watcherOptions)
-	}
-
-	/**
-	 * Initiates the language service. We can use the service instance to
-	 * re-compile files, without re-building the entire project
-	 */
-	private initiateLanguageService(options: tsStatic.CompilerOptions) {
-		/**
-		 * Compiler host for the language service. This is pretty much a copy/paste
-		 * from the Typescript compiler API documentation
-		 */
-		const languageServiceHost: tsStatic.LanguageServiceHost = {
-			readFile: this.ts.sys.readFile,
-			fileExists: this.ts.sys.fileExists,
-			readDirectory: this.ts.sys.readDirectory,
-
-			getCurrentDirectory: () => this.cwd,
-			getCompilationSettings: () => options,
-			getScriptFileNames: () => Object.keys(this.sourceFilesManager.toJSON()),
-			getDefaultLibFileName: (libOptions) => this.ts.getDefaultLibFilePath(libOptions),
-			getCustomTransformers: () => this.pluginManager.getTransformers(this.ts, options),
-
-			getScriptVersion: (file) => {
-				const version = this.sourceFilesManager.getFileVersion(file)
-				return version ? String(version) : ''
-			},
-
-			getScriptSnapshot: (fileName) => {
-				const contents = this.ts.sys.readFile(fileName)
-				if (contents === undefined) {
-					return undefined
-				}
-				return this.ts.ScriptSnapshot.fromString(contents.toString())
-			},
-		}
-
-		debug('initating language service')
-		this.languageService = this.ts.createLanguageService(
-			languageServiceHost,
-			this.ts.createDocumentRegistry()
-		)
-	}
-
-	/**
-	 * Process the diagnostics for a given file by adding
-	 * them to the diagnostics store.
-	 */
-	private processFileDiagnostics(absPath: string) {
-		const diagnostics = this.languageService!.getCompilerOptionsDiagnostics()
-			.concat(this.languageService!.getSyntacticDiagnostics(absPath))
-			.concat(this.languageService!.getSemanticDiagnostics(absPath))
-
-		this.diagnosticsStore!.add(absPath, diagnostics)
-	}
-
-	/**
-	 * Rebuilds the source file without writing it's compiled output
-	 * to the disk. Following operations are peformed.
-	 *
-	 * 1. File is re-compiled
-	 * 2. File diagnostics are updated in the store.
-	 * 3. Reference tree is updated with new imports.
-	 */
-	private reBuildSourceFile(absPath: string): tsStatic.EmitOutput {
-		/**
-		 * Process file diagnostics and update the diagnostic store
-		 */
-		this.processFileDiagnostics(absPath)
-
-		/**
-		 * Getting emit output for the file
-		 */
-		const output = this.languageService!.getEmitOutput(absPath)
-
-		/**
-		 * Make sure to re-add the module, so that we can track it's imports
-		 * and reconcile the dependencies tree
-		 */
-		output.outputFiles.forEach((file) => {
-			this.referenceTree!.add(file.name, this.getSourceImports(file.name, file.text))
-		})
-
-		return output
 	}
 
 	/**
@@ -261,51 +114,11 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 		 */
 		if (trigger === 'add') {
 			this.sourceFilesManager.add(absPath)
+			this.emit('source:add', { relativePath, absPath })
 		} else {
 			this.sourceFilesManager.bumpVersion(absPath)
+			this.emit('source:change', { relativePath, absPath })
 		}
-
-		/**
-		 * Do not process file in raw mode
-		 */
-		if (this.mode === 'raw') {
-			if (trigger === 'add') {
-				this.emit('source:add', relativePath)
-			} else {
-				this.emit('source:change', relativePath)
-			}
-			return
-		}
-
-		const output = this.reBuildSourceFile(absPath)
-
-		/**
-		 * Write files to the disk, when the emitting
-		 * is enabled
-		 */
-		if (!output.emitSkipped) {
-			await Promise.all(
-				output.outputFiles.map((one) => {
-					return outputFile(one.name, one.text, 'utf-8')
-				})
-			)
-		}
-
-		/**
-		 * Notify subscribers
-		 */
-		this.emit('subsequent:build', {
-			path: relativePath,
-			skipped: output.emitSkipped,
-			diagnostics: this.diagnosticsStore!.toJSON(),
-		})
-
-		/**
-		 * Re-build source file dependencies, since the changes in the public
-		 * API may impact the dependencies as well
-		 */
-		const dependencies = this.referenceTree!.getDependencies(absPath)
-		dependencies.forEach((dependency) => this.reBuildSourceFile(dependency))
 	}
 
 	/**
@@ -316,7 +129,7 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 
 		if (!this.isScriptFile(filePath) || !this.sourceFilesManager.isSourceFile(absPath)) {
 			debug('new file added "%s"', filePath)
-			this.emit('add', filePath)
+			this.emit('add', { relativePath: filePath, absPath })
 			return
 		}
 
@@ -333,7 +146,7 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 
 		if (!this.isScriptFile(filePath) || !this.sourceFilesManager.isSourceFile(absPath)) {
 			debug('file changed "%s"', filePath)
-			this.emit('change', filePath)
+			this.emit('change', { relativePath: filePath, absPath })
 			return
 		}
 
@@ -349,7 +162,7 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 
 		if (!this.isScriptFile(filePath) || !this.sourceFilesManager.isSourceFile(absPath)) {
 			debug('file removed "%s"', filePath)
-			this.emit('unlink', filePath)
+			this.emit('unlink', { relativePath: filePath, absPath })
 			return
 		}
 
@@ -361,20 +174,9 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 		this.sourceFilesManager.remove(absPath)
 
 		/**
-		 * Do not process file in raw mode
-		 */
-		if (this.mode === 'raw') {
-			this.emit('source:unlink', filePath)
-			return
-		}
-
-		this.diagnosticsStore!.remove(absPath)
-		this.referenceTree!.remove(absPath)
-
-		/**
 		 * Notify subscribers
 		 */
-		this.emit('source:unlink', filePath)
+		this.emit('source:unlink', { relativePath: filePath, absPath })
 	}
 
 	/**
@@ -382,47 +184,22 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 	 */
 	public watch(watchPattern: string | string[] = ['.'], watcherOptions?: chokidar.WatchOptions) {
 		const builder = new Builder(this.ts, this.config, this.pluginManager)
-		let buildResponse: null | { skipped: boolean; diagnostics: tsStatic.Diagnostic[] } = null
+		builder.createProgram()
 
-		if (this.mode === 'lsp') {
-			buildResponse = builder.build()
+		this.host = builder.host
+		this.program = builder.program
+		this.compilerOptions = builder.compilerOptions
 
-			this.host = builder.host
-			this.program = builder.program
-			this.compilerOptions = builder.compilerOptions
-
-			this.initiateSourceFileManager(this.config)
-			this.initiateDiagnosticsStore(buildResponse.diagnostics)
-			this.initiateModuleResolver()
-			this.initiateReferenceTree()
-		} else {
-			builder.createProgram()
-
-			this.host = builder.host
-			this.program = builder.program
-			this.compilerOptions = builder.compilerOptions
-
-			this.initiateSourceFileManager(this.config)
-		}
-
+		this.initiateSourceFileManager(this.config)
 		this.initiateWatcher(this.config.options.outDir!, watchPattern, watcherOptions)
 
 		this.chokidar.on('ready', () => {
 			debug('watcher ready')
 			this.emit('watcher:ready')
-
-			/**
-			 * Initiate the LSP when mode === lsp
-			 */
-			if (this.mode === 'lsp') {
-				this.initiateLanguageService(this.config!.options)
-			}
 		})
 
 		this.chokidar.on('add', (path: string) => this.onNewFile(path))
 		this.chokidar.on('change', (path: string) => this.onChange(path))
 		this.chokidar.on('unlink', (path: string) => this.onRemove(path))
-
-		return buildResponse
 	}
 }

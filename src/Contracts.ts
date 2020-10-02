@@ -37,11 +37,16 @@ export type SourceFilesManagerOptions = {
  * Events emitted by the watcher
  */
 export type WatcherEvents = {
-	'add': string
-	'source:add': string
-	'change': string
-	'source:change': string
-	'unlink': string
-	'source:unlink': string
-	'subsequent:build': { path: string; skipped: boolean; diagnostics: tsStatic.Diagnostic[] }
+	'add': { absPath: string; relativePath: string }
+	'source:add': { absPath: string; relativePath: string }
+	'change': { absPath: string; relativePath: string }
+	'source:change': { absPath: string; relativePath: string }
+	'unlink': { absPath: string; relativePath: string }
+	'source:unlink': { absPath: string; relativePath: string }
+	'subsequent:build': {
+		absPath: string
+		relativePath: string
+		skipped: boolean
+		diagnostics: tsStatic.Diagnostic[]
+	}
 }
