@@ -1,4 +1,4 @@
-**@poppinss/chokidar-ts**
+**[@poppinss/chokidar-ts](README.md)**
 
 > Globals
 
