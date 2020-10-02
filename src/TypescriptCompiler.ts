@@ -42,8 +42,8 @@ export class TypescriptCompiler {
 	/**
 	 * Get watcher instance
 	 */
-	public watcher(options: tsStatic.ParsedCommandLine) {
-		return new Watcher(this.cwd, this.ts, options, this.pluginManager)
+	public watcher(options: tsStatic.ParsedCommandLine, mode: 'raw' | 'lsp') {
+		return new Watcher(this.cwd, this.ts, options, this.pluginManager, mode)
 	}
 
 	/**

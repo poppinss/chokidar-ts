@@ -30,13 +30,20 @@ export class Builder {
 	}
 
 	/**
-	 * Build the project using the Typescript compiler API
+	 * Create typescript program
 	 */
-	public build() {
+	public createProgram() {
 		const { options, fileNames } = this.config
 		this.host = this.ts.createCompilerHost(options)
 		this.program = this.ts.createProgram(fileNames, options, this.host)
-		this.compilerOptions = options
+		this.compilerOptions = this.config.options
+	}
+
+	/**
+	 * Build the project using the Typescript compiler API
+	 */
+	public build() {
+		this.createProgram()
 
 		debug('emitting program')
 		const result = this.program.emit(
@@ -44,7 +51,7 @@ export class Builder {
 			this.ts.sys.writeFile,
 			undefined,
 			undefined,
-			this.pluginManager.getTransformers(this.ts, options)
+			this.pluginManager.getTransformers(this.ts, this.config.options)
 		)
 
 		const diagnostics = this.ts.getPreEmitDiagnostics(this.program).concat(result.diagnostics)

@@ -29,11 +29,18 @@ const debug = Debug('tsc:watcher')
  * for changes.
  */
 export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
-	private referenceTree: ReferenceTree
-	private diagnosticsStore: DiagnosticsStore
+	/**
+	 * Available only in LSP mode
+	 */
+	private referenceTree?: ReferenceTree
+	private diagnosticsStore?: DiagnosticsStore
+	private moduleResolver?: ModuleResolver
+	private languageService?: tsStatic.LanguageService
+
+	/**
+	 * Available only in both modes
+	 */
 	private sourceFilesManager: SourceFilesManager
-	private languageService: tsStatic.LanguageService
-	private moduleResolver: ModuleResolver
 
 	public chokidar: chokidar.FSWatcher
 	public program: tsStatic.Program
@@ -44,7 +51,8 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 		private cwd: string,
 		private ts: typeof tsStatic,
 		private config: tsStatic.ParsedCommandLine,
-		private pluginManager: PluginManager
+		private pluginManager: PluginManager,
+		private mode: 'lsp' | 'raw'
 	) {
 		super()
 		debug('initiating watcher')
@@ -75,11 +83,11 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 		const { importedFiles, ambientExternalModules } = this.ts.preProcessFile(fileText, true, true)
 
 		if (ambientExternalModules) {
-			this.moduleResolver.addAmbientModules(filePath, ambientExternalModules)
+			this.moduleResolver!.addAmbientModules(filePath, ambientExternalModules)
 		}
 
 		return importedFiles.reduce((result: string[], { fileName }) => {
-			const resolvedImport = this.moduleResolver.resolve(fileName, filePath)
+			const resolvedImport = this.moduleResolver!.resolve(fileName, filePath)
 			if (resolvedImport) {
 				result.push(resolvedImport)
 			}
@@ -127,7 +135,7 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 				return
 			}
 
-			this.referenceTree.add(filePath, this.getSourceImports(filePath, sourceFile.text))
+			this.referenceTree!.add(filePath, this.getSourceImports(filePath, sourceFile.text))
 		})
 	}
 
@@ -198,12 +206,11 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 	 * them to the diagnostics store.
 	 */
 	private processFileDiagnostics(absPath: string) {
-		const diagnostics = this.languageService
-			.getCompilerOptionsDiagnostics()
-			.concat(this.languageService.getSyntacticDiagnostics(absPath))
-			.concat(this.languageService.getSemanticDiagnostics(absPath))
+		const diagnostics = this.languageService!.getCompilerOptionsDiagnostics()
+			.concat(this.languageService!.getSyntacticDiagnostics(absPath))
+			.concat(this.languageService!.getSemanticDiagnostics(absPath))
 
-		this.diagnosticsStore.add(absPath, diagnostics)
+		this.diagnosticsStore!.add(absPath, diagnostics)
 	}
 
 	/**
@@ -223,14 +230,14 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 		/**
 		 * Getting emit output for the file
 		 */
-		const output = this.languageService.getEmitOutput(absPath)
+		const output = this.languageService!.getEmitOutput(absPath)
 
 		/**
 		 * Make sure to re-add the module, so that we can track it's imports
 		 * and reconcile the dependencies tree
 		 */
 		output.outputFiles.forEach((file) => {
-			this.referenceTree.add(file.name, this.getSourceImports(file.name, file.text))
+			this.referenceTree!.add(file.name, this.getSourceImports(file.name, file.text))
 		})
 
 		return output
@@ -258,6 +265,18 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 			this.sourceFilesManager.bumpVersion(absPath)
 		}
 
+		/**
+		 * Do not process file in raw mode
+		 */
+		if (this.mode === 'raw') {
+			if (trigger === 'add') {
+				this.emit('source:add', relativePath)
+			} else {
+				this.emit('source:change', relativePath)
+			}
+			return
+		}
+
 		const output = this.reBuildSourceFile(absPath)
 
 		/**
@@ -278,14 +297,14 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 		this.emit('subsequent:build', {
 			path: relativePath,
 			skipped: output.emitSkipped,
-			diagnostics: this.diagnosticsStore.toJSON(),
+			diagnostics: this.diagnosticsStore!.toJSON(),
 		})
 
 		/**
 		 * Re-build source file dependencies, since the changes in the public
 		 * API may impact the dependencies as well
 		 */
-		const dependencies = this.referenceTree.getDependencies(absPath)
+		const dependencies = this.referenceTree!.getDependencies(absPath)
 		dependencies.forEach((dependency) => this.reBuildSourceFile(dependency))
 	}
 
@@ -334,17 +353,27 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 			return
 		}
 
+		debug('source file removed "%s"', filePath)
+
 		/**
 		 * Clean up tracking for a given file
 		 */
 		this.sourceFilesManager.remove(absPath)
-		this.diagnosticsStore.remove(absPath)
-		this.referenceTree.remove(absPath)
+
+		/**
+		 * Do not process file in raw mode
+		 */
+		if (this.mode === 'raw') {
+			this.emit('source:unlink', filePath)
+			return
+		}
+
+		this.diagnosticsStore!.remove(absPath)
+		this.referenceTree!.remove(absPath)
 
 		/**
 		 * Notify subscribers
 		 */
-		debug('source file removed "%s"', filePath)
 		this.emit('source:unlink', filePath)
 	}
 
@@ -353,22 +382,41 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 	 */
 	public watch(watchPattern: string | string[] = ['.'], watcherOptions?: chokidar.WatchOptions) {
 		const builder = new Builder(this.ts, this.config, this.pluginManager)
-		const buildResponse = builder.build()
+		let buildResponse: null | { skipped: boolean; diagnostics: tsStatic.Diagnostic[] } = null
 
-		this.program = builder.program
-		this.host = builder.host
-		this.compilerOptions = builder.compilerOptions
+		if (this.mode === 'lsp') {
+			buildResponse = builder.build()
 
-		this.initiateDiagnosticsStore(buildResponse.diagnostics)
-		this.initiateSourceFileManager(this.config)
-		this.initiateModuleResolver()
-		this.initiateReferenceTree()
+			this.host = builder.host
+			this.program = builder.program
+			this.compilerOptions = builder.compilerOptions
+
+			this.initiateSourceFileManager(this.config)
+			this.initiateDiagnosticsStore(buildResponse.diagnostics)
+			this.initiateModuleResolver()
+			this.initiateReferenceTree()
+		} else {
+			builder.createProgram()
+
+			this.host = builder.host
+			this.program = builder.program
+			this.compilerOptions = builder.compilerOptions
+
+			this.initiateSourceFileManager(this.config)
+		}
+
 		this.initiateWatcher(this.config.options.outDir!, watchPattern, watcherOptions)
 
 		this.chokidar.on('ready', () => {
 			debug('watcher ready')
 			this.emit('watcher:ready')
-			this.initiateLanguageService(this.config!.options)
+
+			/**
+			 * Initiate the LSP when mode === lsp
+			 */
+			if (this.mode === 'lsp') {
+				this.initiateLanguageService(this.config!.options)
+			}
 		})
 
 		this.chokidar.on('add', (path: string) => this.onNewFile(path))
