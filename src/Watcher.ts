@@ -79,13 +79,12 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 	 * Initiates chokidar watcher
 	 */
 	private initiateWatcher(
-		outDir: string,
 		watchPattern: string | string[] = ['.'],
 		watcherOptions?: chokidar.WatchOptions
 	) {
 		watcherOptions = Object.assign(
 			{
-				ignored: [this.config.raw.excludes, 'node_modules/**', `${outDir}/**`, /(^|[\/\\])\../],
+				ignored: [this.config.raw.exclude],
 				cwd: this.cwd,
 				ignoreInitial: true,
 			},
@@ -191,7 +190,7 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 		this.compilerOptions = builder.compilerOptions
 
 		this.initiateSourceFileManager(this.config)
-		this.initiateWatcher(this.config.options.outDir!, watchPattern, watcherOptions)
+		this.initiateWatcher(watchPattern, watcherOptions)
 
 		this.chokidar.on('ready', () => {
 			debug('watcher ready')
