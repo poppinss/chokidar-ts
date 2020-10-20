@@ -394,7 +394,7 @@ ___
 
 ### offAny
 
-▸ **offAny**(`listener`: (eventName: EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> \| \"watcher:ready\",eventData?: WatcherEvents[EventNameFromDataMap\<WatcherEvents>]) => void): void
+▸ **offAny**(`listener`: (eventName: EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> \| \"watcher:ready\", eventData?: WatcherEvents[EventNameFromDataMap\<WatcherEvents>]) => void): void
 
 *Inherited from [LspWatcher](src.lspwatcher.md).[offAny](src.lspwatcher.md#offany)*
 
@@ -404,7 +404,7 @@ ___
 
 Name | Type |
 ------ | ------ |
-`listener` | (eventName: EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> \| \"watcher:ready\",eventData?: WatcherEvents[EventNameFromDataMap\<WatcherEvents>]) => void |
+`listener` | (eventName: EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> \| \"watcher:ready\", eventData?: WatcherEvents[EventNameFromDataMap\<WatcherEvents>]) => void |
 
 **Returns:** void
 
@@ -458,7 +458,7 @@ ___
 
 ### onAny
 
-▸ **onAny**(`listener`: (eventName: EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> \| \"watcher:ready\",eventData?: WatcherEvents[EventNameFromDataMap\<WatcherEvents>]) => void): Emittery.UnsubscribeFn
+▸ **onAny**(`listener`: (eventName: EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> \| \"watcher:ready\", eventData?: WatcherEvents[EventNameFromDataMap\<WatcherEvents>]) => void): Emittery.UnsubscribeFn
 
 *Inherited from [LspWatcher](src.lspwatcher.md).[onAny](src.lspwatcher.md#onany)*
 
@@ -468,7 +468,7 @@ ___
 
 Name | Type |
 ------ | ------ |
-`listener` | (eventName: EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> \| \"watcher:ready\",eventData?: WatcherEvents[EventNameFromDataMap\<WatcherEvents>]) => void |
+`listener` | (eventName: EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> \| \"watcher:ready\", eventData?: WatcherEvents[EventNameFromDataMap\<WatcherEvents>]) => void |
 
 **Returns:** Emittery.UnsubscribeFn
 
@@ -537,7 +537,7 @@ ___
 
 ### mixin
 
-▸ `Static`**mixin**(`emitteryPropertyName`: string, `methodNames?`: readonly string[]): Function
+▸ `Static`**mixin**(`emitteryPropertyName`: string \| symbol, `methodNames?`: readonly string[]): Function
 
 *Inherited from [LspWatcher](src.lspwatcher.md).[mixin](src.lspwatcher.md#mixin)*
 
@@ -559,7 +559,7 @@ instance.emit('event');
 
 Name | Type |
 ------ | ------ |
-`emitteryPropertyName` | string |
+`emitteryPropertyName` | string \| symbol |
 `methodNames?` | readonly string[] |
 
 **Returns:** Function

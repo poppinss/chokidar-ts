@@ -47,7 +47,7 @@ ___
 
 ### PluginFn
 
-Ƭ  **PluginFn**: (ts: *typeof* tsStatic,config: tsStatic.CompilerOptions) => tsStatic.TransformerFactory\<tsStatic.SourceFile> \| tsStatic.CustomTransformerFactory
+Ƭ  **PluginFn**: (ts: *typeof* tsStatic, config: tsStatic.CompilerOptions) => tsStatic.TransformerFactory\<tsStatic.SourceFile> \| tsStatic.CustomTransformerFactory
 
 Shape of Plugin function
 
