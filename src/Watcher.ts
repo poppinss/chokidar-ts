@@ -84,7 +84,7 @@ export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
 	) {
 		watcherOptions = Object.assign(
 			{
-				ignored: [this.config.raw.exclude],
+				ignored: this.config.raw.exclude,
 				cwd: this.cwd,
 				ignoreInitial: true,
 			},
