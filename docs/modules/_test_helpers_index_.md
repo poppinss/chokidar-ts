@@ -1,15 +1,15 @@
 **[@poppinss/chokidar-ts](../README.md)**
 
-> [Globals](../README.md) / test-helpers
+> [Globals](../README.md) / "test-helpers/index"
 
-# Module: test-helpers
+# Module: "test-helpers/index"
 
 ## Index
 
 ### Functions
 
-* [normalizeSlash](test_helpers.md#normalizeslash)
-* [parseTsConfig](test_helpers.md#parsetsconfig)
+* [normalizeSlash](_test_helpers_index_.md#normalizeslash)
+* [parseTsConfig](_test_helpers_index_.md#parsetsconfig)
 
 ## Functions
 

@@ -1,30 +1,17 @@
 **[@poppinss/chokidar-ts](../README.md)**
 
-> [Globals](../README.md) / src
+> [Globals](../README.md) / "src/Contracts"
 
-# Module: src
+# Module: "src/Contracts"
 
 ## Index
 
-### Classes
-
-* [Builder](../classes/src.builder.md)
-* [ConfigParser](../classes/src.configparser.md)
-* [DiagnosticsStore](../classes/src.diagnosticsstore.md)
-* [LspWatcher](../classes/src.lspwatcher.md)
-* [ModuleResolver](../classes/src.moduleresolver.md)
-* [PluginManager](../classes/src.pluginmanager.md)
-* [ReferenceTree](../classes/src.referencetree.md)
-* [SourceFilesManager](../classes/src.sourcefilesmanager.md)
-* [TypescriptCompiler](../classes/src.typescriptcompiler.md)
-* [Watcher](../classes/src.watcher.md)
-
 ### Type aliases
 
-* [ImportReferenceNode](src.md#importreferencenode)
-* [PluginFn](src.md#pluginfn)
-* [SourceFilesManagerOptions](src.md#sourcefilesmanageroptions)
-* [WatcherEvents](src.md#watcherevents)
+* [ImportReferenceNode](_src_contracts_.md#importreferencenode)
+* [PluginFn](_src_contracts_.md#pluginfn)
+* [SourceFilesManagerOptions](_src_contracts_.md#sourcefilesmanageroptions)
+* [WatcherEvents](_src_contracts_.md#watcherevents)
 
 ## Type aliases
 

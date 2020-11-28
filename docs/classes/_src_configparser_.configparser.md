@@ -1,6 +1,6 @@
 **[@poppinss/chokidar-ts](../README.md)**
 
-> [Globals](../README.md) / [src](../modules/src.md) / ConfigParser
+> [Globals](../README.md) / ["src/ConfigParser"](../modules/_src_configparser_.md) / ConfigParser
 
 # Class: ConfigParser
 
@@ -14,17 +14,17 @@ Exposes the API to parse typescript config
 
 ### Constructors
 
-* [constructor](src.configparser.md#constructor)
+* [constructor](_src_configparser_.configparser.md#constructor)
 
 ### Methods
 
-* [parse](src.configparser.md#parse)
+* [parse](_src_configparser_.configparser.md#parse)
 
 ## Constructors
 
 ### constructor
 
-\+ **new ConfigParser**(`cwd`: string, `configFileName`: string, `ts`: *typeof* tsStatic): [ConfigParser](src.configparser.md)
+\+ **new ConfigParser**(`cwd`: string, `configFileName`: string, `ts`: *typeof* tsStatic): [ConfigParser](_src_configparser_.configparser.md)
 
 #### Parameters:
 
@@ -34,7 +34,7 @@ Name | Type |
 `configFileName` | string |
 `ts` | *typeof* tsStatic |
 
-**Returns:** [ConfigParser](src.configparser.md)
+**Returns:** [ConfigParser](_src_configparser_.configparser.md)
 
 ## Methods
 

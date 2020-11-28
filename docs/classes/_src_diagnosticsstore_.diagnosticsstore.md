@@ -1,6 +1,6 @@
 **[@poppinss/chokidar-ts](../README.md)**
 
-> [Globals](../README.md) / [src](../modules/src.md) / DiagnosticsStore
+> [Globals](../README.md) / ["src/DiagnosticsStore"](../modules/_src_diagnosticsstore_.md) / DiagnosticsStore
 
 # Class: DiagnosticsStore
 
@@ -17,22 +17,22 @@ that file itself.
 
 ### Constructors
 
-* [constructor](src.diagnosticsstore.md#constructor)
+* [constructor](_src_diagnosticsstore_.diagnosticsstore.md#constructor)
 
 ### Methods
 
-* [add](src.diagnosticsstore.md#add)
-* [bulkAdd](src.diagnosticsstore.md#bulkadd)
-* [remove](src.diagnosticsstore.md#remove)
-* [toJSON](src.diagnosticsstore.md#tojson)
+* [add](_src_diagnosticsstore_.diagnosticsstore.md#add)
+* [bulkAdd](_src_diagnosticsstore_.diagnosticsstore.md#bulkadd)
+* [remove](_src_diagnosticsstore_.diagnosticsstore.md#remove)
+* [toJSON](_src_diagnosticsstore_.diagnosticsstore.md#tojson)
 
 ## Constructors
 
 ### constructor
 
-\+ **new DiagnosticsStore**(): [DiagnosticsStore](src.diagnosticsstore.md)
+\+ **new DiagnosticsStore**(): [DiagnosticsStore](_src_diagnosticsstore_.diagnosticsstore.md)
 
-**Returns:** [DiagnosticsStore](src.diagnosticsstore.md)
+**Returns:** [DiagnosticsStore](_src_diagnosticsstore_.diagnosticsstore.md)
 
 ## Methods
 

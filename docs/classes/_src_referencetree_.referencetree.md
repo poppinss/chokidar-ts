@@ -1,6 +1,6 @@
 **[@poppinss/chokidar-ts](../README.md)**
 
-> [Globals](../README.md) / [src](../modules/src.md) / ReferenceTree
+> [Globals](../README.md) / ["src/ReferenceTree"](../modules/_src_referencetree_.md) / ReferenceTree
 
 # Class: ReferenceTree
 
@@ -19,22 +19,22 @@ a given file.
 
 ### Constructors
 
-* [constructor](src.referencetree.md#constructor)
+* [constructor](_src_referencetree_.referencetree.md#constructor)
 
 ### Methods
 
-* [add](src.referencetree.md#add)
-* [getDependencies](src.referencetree.md#getdependencies)
-* [remove](src.referencetree.md#remove)
-* [toJSON](src.referencetree.md#tojson)
+* [add](_src_referencetree_.referencetree.md#add)
+* [getDependencies](_src_referencetree_.referencetree.md#getdependencies)
+* [remove](_src_referencetree_.referencetree.md#remove)
+* [toJSON](_src_referencetree_.referencetree.md#tojson)
 
 ## Constructors
 
 ### constructor
 
-\+ **new ReferenceTree**(): [ReferenceTree](src.referencetree.md)
+\+ **new ReferenceTree**(): [ReferenceTree](_src_referencetree_.referencetree.md)
 
-**Returns:** [ReferenceTree](src.referencetree.md)
+**Returns:** [ReferenceTree](_src_referencetree_.referencetree.md)
 
 ## Methods
 

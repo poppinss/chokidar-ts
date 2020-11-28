@@ -1,6 +1,6 @@
 **[@poppinss/chokidar-ts](../README.md)**
 
-> [Globals](../README.md) / [src](../modules/src.md) / LspWatcher
+> [Globals](../README.md) / ["src/LspWatcher"](../modules/_src_lspwatcher_.md) / LspWatcher
 
 # Class: LspWatcher
 
@@ -9,7 +9,7 @@ for changes.
 
 ## Hierarchy
 
-* Typed\<[WatcherEvents](../modules/src.md#watcherevents), \"watcher:ready\">
+* Typed\<[WatcherEvents](../modules/_src_contracts_.md#watcherevents), \"watcher:ready\">
 
   ↳ **LspWatcher**
 
@@ -17,39 +17,39 @@ for changes.
 
 ### Constructors
 
-* [constructor](src.lspwatcher.md#constructor)
+* [constructor](_src_lspwatcher_.lspwatcher.md#constructor)
 
 ### Properties
 
-* [chokidar](src.lspwatcher.md#chokidar)
-* [compilerOptions](src.lspwatcher.md#compileroptions)
-* [host](src.lspwatcher.md#host)
-* [program](src.lspwatcher.md#program)
-* [listenerAdded](src.lspwatcher.md#listeneradded)
-* [listenerRemoved](src.lspwatcher.md#listenerremoved)
+* [chokidar](_src_lspwatcher_.lspwatcher.md#chokidar)
+* [compilerOptions](_src_lspwatcher_.lspwatcher.md#compileroptions)
+* [host](_src_lspwatcher_.lspwatcher.md#host)
+* [program](_src_lspwatcher_.lspwatcher.md#program)
+* [listenerAdded](_src_lspwatcher_.lspwatcher.md#listeneradded)
+* [listenerRemoved](_src_lspwatcher_.lspwatcher.md#listenerremoved)
 
 ### Methods
 
-* [anyEvent](src.lspwatcher.md#anyevent)
-* [bindMethods](src.lspwatcher.md#bindmethods)
-* [clearListeners](src.lspwatcher.md#clearlisteners)
-* [emit](src.lspwatcher.md#emit)
-* [emitSerial](src.lspwatcher.md#emitserial)
-* [events](src.lspwatcher.md#events)
-* [listenerCount](src.lspwatcher.md#listenercount)
-* [off](src.lspwatcher.md#off)
-* [offAny](src.lspwatcher.md#offany)
-* [on](src.lspwatcher.md#on)
-* [onAny](src.lspwatcher.md#onany)
-* [once](src.lspwatcher.md#once)
-* [watch](src.lspwatcher.md#watch)
-* [mixin](src.lspwatcher.md#mixin)
+* [anyEvent](_src_lspwatcher_.lspwatcher.md#anyevent)
+* [bindMethods](_src_lspwatcher_.lspwatcher.md#bindmethods)
+* [clearListeners](_src_lspwatcher_.lspwatcher.md#clearlisteners)
+* [emit](_src_lspwatcher_.lspwatcher.md#emit)
+* [emitSerial](_src_lspwatcher_.lspwatcher.md#emitserial)
+* [events](_src_lspwatcher_.lspwatcher.md#events)
+* [listenerCount](_src_lspwatcher_.lspwatcher.md#listenercount)
+* [off](_src_lspwatcher_.lspwatcher.md#off)
+* [offAny](_src_lspwatcher_.lspwatcher.md#offany)
+* [on](_src_lspwatcher_.lspwatcher.md#on)
+* [onAny](_src_lspwatcher_.lspwatcher.md#onany)
+* [once](_src_lspwatcher_.lspwatcher.md#once)
+* [watch](_src_lspwatcher_.lspwatcher.md#watch)
+* [mixin](_src_lspwatcher_.lspwatcher.md#mixin)
 
 ## Constructors
 
 ### constructor
 
-\+ **new LspWatcher**(`cwd`: string, `ts`: *typeof* tsStatic, `config`: tsStatic.ParsedCommandLine, `pluginManager`: [PluginManager](src.pluginmanager.md)): [LspWatcher](src.lspwatcher.md)
+\+ **new LspWatcher**(`cwd`: string, `ts`: *typeof* tsStatic, `config`: tsStatic.ParsedCommandLine, `pluginManager`: [PluginManager](_src_pluginmanager_.pluginmanager.md)): [LspWatcher](_src_lspwatcher_.lspwatcher.md)
 
 #### Parameters:
 
@@ -58,9 +58,9 @@ Name | Type |
 `cwd` | string |
 `ts` | *typeof* tsStatic |
 `config` | tsStatic.ParsedCommandLine |
-`pluginManager` | [PluginManager](src.pluginmanager.md) |
+`pluginManager` | [PluginManager](_src_pluginmanager_.pluginmanager.md) |
 
-**Returns:** [LspWatcher](src.lspwatcher.md)
+**Returns:** [LspWatcher](_src_lspwatcher_.lspwatcher.md)
 
 ## Properties
 
@@ -92,7 +92,7 @@ ___
 
 ▪ `Static` `Readonly` **listenerAdded**: unique symbol
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[listenerAdded](src.lspwatcher.md#listeneradded)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[listenerAdded](_src_lspwatcher_.lspwatcher.md#listeneradded)*
 
 Fires when an event listener was added.
 
@@ -123,7 +123,7 @@ ___
 
 ▪ `Static` `Readonly` **listenerRemoved**: unique symbol
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[listenerRemoved](src.lspwatcher.md#listenerremoved)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[listenerRemoved](_src_lspwatcher_.lspwatcher.md#listenerremoved)*
 
 Fires when an event listener was removed.
 
@@ -154,13 +154,13 @@ off();
 
 ### anyEvent
 
-▸ **anyEvent**(): AsyncIterableIterator\<[EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)>, WatcherEvents[EventNameFromDataMap\<WatcherEvents>]]>
+▸ **anyEvent**(): AsyncIterableIterator\<[EventNameFromDataMap\<[WatcherEvents](../modules/_src_contracts_.md#watcherevents)>, WatcherEvents[EventNameFromDataMap\<WatcherEvents>]]>
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[anyEvent](src.lspwatcher.md#anyevent)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[anyEvent](_src_lspwatcher_.lspwatcher.md#anyevent)*
 
 *Overrides void*
 
-**Returns:** AsyncIterableIterator\<[EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)>, WatcherEvents[EventNameFromDataMap\<WatcherEvents>]]>
+**Returns:** AsyncIterableIterator\<[EventNameFromDataMap\<[WatcherEvents](../modules/_src_contracts_.md#watcherevents)>, WatcherEvents[EventNameFromDataMap\<WatcherEvents>]]>
 
 ___
 
@@ -168,7 +168,7 @@ ___
 
 ▸ **bindMethods**(`target`: object, `methodNames?`: readonly string[]): void
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[bindMethods](src.lspwatcher.md#bindmethods)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[bindMethods](_src_lspwatcher_.lspwatcher.md#bindmethods)*
 
 Bind the given `methodNames`, or all `Emittery` methods if `methodNames` is not defined, into the `target` object.
 
@@ -198,7 +198,7 @@ ___
 
 ▸ **clearListeners**(`eventName?`: EventNames): void
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[clearListeners](src.lspwatcher.md#clearlisteners)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[clearListeners](_src_lspwatcher_.lspwatcher.md#clearlisteners)*
 
 Clear all event listeners on the instance.
 
@@ -218,7 +218,7 @@ ___
 
 ▸ **emit**\<Name>(`eventName`: Name, `eventData`: WatcherEvents[Name]): Promise\<void>
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[emit](src.lspwatcher.md#emit)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[emit](_src_lspwatcher_.lspwatcher.md#emit)*
 
 *Overrides void*
 
@@ -226,7 +226,7 @@ ___
 
 Name | Type |
 ------ | ------ |
-`Name` | EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> |
+`Name` | EventNameFromDataMap\<[WatcherEvents](../modules/_src_contracts_.md#watcherevents)> |
 
 #### Parameters:
 
@@ -239,7 +239,7 @@ Name | Type |
 
 ▸ **emit**\<Name>(`eventName`: Name): Promise\<void>
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[emit](src.lspwatcher.md#emit)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[emit](_src_lspwatcher_.lspwatcher.md#emit)*
 
 *Overrides void*
 
@@ -263,7 +263,7 @@ ___
 
 ▸ **emitSerial**\<Name>(`eventName`: Name, `eventData`: WatcherEvents[Name]): Promise\<void>
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[emitSerial](src.lspwatcher.md#emitserial)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[emitSerial](_src_lspwatcher_.lspwatcher.md#emitserial)*
 
 *Overrides void*
 
@@ -271,7 +271,7 @@ ___
 
 Name | Type |
 ------ | ------ |
-`Name` | EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> |
+`Name` | EventNameFromDataMap\<[WatcherEvents](../modules/_src_contracts_.md#watcherevents)> |
 
 #### Parameters:
 
@@ -284,7 +284,7 @@ Name | Type |
 
 ▸ **emitSerial**\<Name>(`eventName`: Name): Promise\<void>
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[emitSerial](src.lspwatcher.md#emitserial)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[emitSerial](_src_lspwatcher_.lspwatcher.md#emitserial)*
 
 *Overrides void*
 
@@ -308,7 +308,7 @@ ___
 
 ▸ **events**\<Name>(`eventName`: Name): AsyncIterableIterator\<WatcherEvents[Name]>
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[events](src.lspwatcher.md#events)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[events](_src_lspwatcher_.lspwatcher.md#events)*
 
 *Overrides void*
 
@@ -316,7 +316,7 @@ ___
 
 Name | Type |
 ------ | ------ |
-`Name` | EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> |
+`Name` | EventNameFromDataMap\<[WatcherEvents](../modules/_src_contracts_.md#watcherevents)> |
 
 #### Parameters:
 
@@ -332,7 +332,7 @@ ___
 
 ▸ **listenerCount**(`eventName?`: EventNames): number
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[listenerCount](src.lspwatcher.md#listenercount)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[listenerCount](_src_lspwatcher_.lspwatcher.md#listenercount)*
 
 The number of listeners for the `eventName` or all events if not specified.
 
@@ -350,7 +350,7 @@ ___
 
 ▸ **off**\<Name>(`eventName`: Name, `listener`: (eventData: WatcherEvents[Name]) => void): void
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[off](src.lspwatcher.md#off)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[off](_src_lspwatcher_.lspwatcher.md#off)*
 
 *Overrides void*
 
@@ -358,7 +358,7 @@ ___
 
 Name | Type |
 ------ | ------ |
-`Name` | EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> |
+`Name` | EventNameFromDataMap\<[WatcherEvents](../modules/_src_contracts_.md#watcherevents)> |
 
 #### Parameters:
 
@@ -371,7 +371,7 @@ Name | Type |
 
 ▸ **off**\<Name>(`eventName`: Name, `listener`: () => void): void
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[off](src.lspwatcher.md#off)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[off](_src_lspwatcher_.lspwatcher.md#off)*
 
 *Overrides void*
 
@@ -394,9 +394,9 @@ ___
 
 ### offAny
 
-▸ **offAny**(`listener`: (eventName: EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> \| \"watcher:ready\", eventData?: WatcherEvents[EventNameFromDataMap\<WatcherEvents>]) => void): void
+▸ **offAny**(`listener`: (eventName: EventNameFromDataMap\<[WatcherEvents](../modules/_src_contracts_.md#watcherevents)> \| \"watcher:ready\", eventData?: WatcherEvents[EventNameFromDataMap\<WatcherEvents>]) => void): void
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[offAny](src.lspwatcher.md#offany)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[offAny](_src_lspwatcher_.lspwatcher.md#offany)*
 
 *Overrides void*
 
@@ -404,7 +404,7 @@ ___
 
 Name | Type |
 ------ | ------ |
-`listener` | (eventName: EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> \| \"watcher:ready\", eventData?: WatcherEvents[EventNameFromDataMap\<WatcherEvents>]) => void |
+`listener` | (eventName: EventNameFromDataMap\<[WatcherEvents](../modules/_src_contracts_.md#watcherevents)> \| \"watcher:ready\", eventData?: WatcherEvents[EventNameFromDataMap\<WatcherEvents>]) => void |
 
 **Returns:** void
 
@@ -414,7 +414,7 @@ ___
 
 ▸ **on**\<Name>(`eventName`: Name, `listener`: (eventData: WatcherEvents[Name]) => void): Emittery.UnsubscribeFn
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[on](src.lspwatcher.md#on)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[on](_src_lspwatcher_.lspwatcher.md#on)*
 
 *Overrides void*
 
@@ -422,7 +422,7 @@ ___
 
 Name | Type |
 ------ | ------ |
-`Name` | EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> |
+`Name` | EventNameFromDataMap\<[WatcherEvents](../modules/_src_contracts_.md#watcherevents)> |
 
 #### Parameters:
 
@@ -435,7 +435,7 @@ Name | Type |
 
 ▸ **on**\<Name>(`eventName`: Name, `listener`: () => void): Emittery.UnsubscribeFn
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[on](src.lspwatcher.md#on)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[on](_src_lspwatcher_.lspwatcher.md#on)*
 
 *Overrides void*
 
@@ -458,9 +458,9 @@ ___
 
 ### onAny
 
-▸ **onAny**(`listener`: (eventName: EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> \| \"watcher:ready\", eventData?: WatcherEvents[EventNameFromDataMap\<WatcherEvents>]) => void): Emittery.UnsubscribeFn
+▸ **onAny**(`listener`: (eventName: EventNameFromDataMap\<[WatcherEvents](../modules/_src_contracts_.md#watcherevents)> \| \"watcher:ready\", eventData?: WatcherEvents[EventNameFromDataMap\<WatcherEvents>]) => void): Emittery.UnsubscribeFn
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[onAny](src.lspwatcher.md#onany)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[onAny](_src_lspwatcher_.lspwatcher.md#onany)*
 
 *Overrides void*
 
@@ -468,7 +468,7 @@ ___
 
 Name | Type |
 ------ | ------ |
-`listener` | (eventName: EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> \| \"watcher:ready\", eventData?: WatcherEvents[EventNameFromDataMap\<WatcherEvents>]) => void |
+`listener` | (eventName: EventNameFromDataMap\<[WatcherEvents](../modules/_src_contracts_.md#watcherevents)> \| \"watcher:ready\", eventData?: WatcherEvents[EventNameFromDataMap\<WatcherEvents>]) => void |
 
 **Returns:** Emittery.UnsubscribeFn
 
@@ -478,7 +478,7 @@ ___
 
 ▸ **once**\<Name>(`eventName`: Name): Promise\<WatcherEvents[Name]>
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[once](src.lspwatcher.md#once)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[once](_src_lspwatcher_.lspwatcher.md#once)*
 
 *Overrides void*
 
@@ -486,7 +486,7 @@ ___
 
 Name | Type |
 ------ | ------ |
-`Name` | EventNameFromDataMap\<[WatcherEvents](../modules/src.md#watcherevents)> |
+`Name` | EventNameFromDataMap\<[WatcherEvents](../modules/_src_contracts_.md#watcherevents)> |
 
 #### Parameters:
 
@@ -498,7 +498,7 @@ Name | Type |
 
 ▸ **once**\<Name>(`eventName`: Name): Promise\<void>
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[once](src.lspwatcher.md#once)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[once](_src_lspwatcher_.lspwatcher.md#once)*
 
 *Overrides void*
 
@@ -520,7 +520,7 @@ ___
 
 ### watch
 
-▸ **watch**(`watchPattern`: string \| string[], `watcherOptions?`: chokidar.WatchOptions): object
+▸ **watch**(`watchPattern?`: string \| string[], `watcherOptions?`: chokidar.WatchOptions): object
 
 Build and watch project for changes
 
@@ -544,7 +544,7 @@ ___
 
 ▸ `Static`**mixin**(`emitteryPropertyName`: string \| symbol, `methodNames?`: readonly string[]): Function
 
-*Inherited from [LspWatcher](src.lspwatcher.md).[mixin](src.lspwatcher.md#mixin)*
+*Inherited from [LspWatcher](_src_lspwatcher_.lspwatcher.md).[mixin](_src_lspwatcher_.lspwatcher.md#mixin)*
 
 In TypeScript, it returns a decorator which mixins `Emittery` as property `emitteryPropertyName` and `methodNames`, or all `Emittery` methods if `methodNames` is not defined, into the target class.
 

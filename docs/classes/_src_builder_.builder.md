@@ -1,6 +1,6 @@
 **[@poppinss/chokidar-ts](../README.md)**
 
-> [Globals](../README.md) / [src](../modules/src.md) / Builder
+> [Globals](../README.md) / ["src/Builder"](../modules/_src_builder_.md) / Builder
 
 # Class: Builder
 
@@ -14,24 +14,24 @@ Exposes the API to build the project similar to `tsc` command.
 
 ### Constructors
 
-* [constructor](src.builder.md#constructor)
+* [constructor](_src_builder_.builder.md#constructor)
 
 ### Properties
 
-* [compilerOptions](src.builder.md#compileroptions)
-* [host](src.builder.md#host)
-* [program](src.builder.md#program)
+* [compilerOptions](_src_builder_.builder.md#compileroptions)
+* [host](_src_builder_.builder.md#host)
+* [program](_src_builder_.builder.md#program)
 
 ### Methods
 
-* [build](src.builder.md#build)
-* [createProgram](src.builder.md#createprogram)
+* [build](_src_builder_.builder.md#build)
+* [createProgram](_src_builder_.builder.md#createprogram)
 
 ## Constructors
 
 ### constructor
 
-\+ **new Builder**(`ts`: *typeof* tsStatic, `config`: tsStatic.ParsedCommandLine, `pluginManager`: [PluginManager](src.pluginmanager.md)): [Builder](src.builder.md)
+\+ **new Builder**(`ts`: *typeof* tsStatic, `config`: tsStatic.ParsedCommandLine, `pluginManager`: [PluginManager](_src_pluginmanager_.pluginmanager.md)): [Builder](_src_builder_.builder.md)
 
 #### Parameters:
 
@@ -39,9 +39,9 @@ Name | Type |
 ------ | ------ |
 `ts` | *typeof* tsStatic |
 `config` | tsStatic.ParsedCommandLine |
-`pluginManager` | [PluginManager](src.pluginmanager.md) |
+`pluginManager` | [PluginManager](_src_pluginmanager_.pluginmanager.md) |
 
-**Returns:** [Builder](src.builder.md)
+**Returns:** [Builder](_src_builder_.builder.md)
 
 ## Properties
 

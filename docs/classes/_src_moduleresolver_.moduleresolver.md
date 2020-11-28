@@ -1,6 +1,6 @@
 **[@poppinss/chokidar-ts](../README.md)**
 
-> [Globals](../README.md) / [src](../modules/src.md) / ModuleResolver
+> [Globals](../README.md) / ["src/ModuleResolver"](../modules/_src_moduleresolver_.md) / ModuleResolver
 
 # Class: ModuleResolver
 
@@ -17,18 +17,18 @@ they are changed during the watch mode.
 
 ### Constructors
 
-* [constructor](src.moduleresolver.md#constructor)
+* [constructor](_src_moduleresolver_.moduleresolver.md#constructor)
 
 ### Methods
 
-* [addAmbientModules](src.moduleresolver.md#addambientmodules)
-* [resolve](src.moduleresolver.md#resolve)
+* [addAmbientModules](_src_moduleresolver_.moduleresolver.md#addambientmodules)
+* [resolve](_src_moduleresolver_.moduleresolver.md#resolve)
 
 ## Constructors
 
 ### constructor
 
-\+ **new ModuleResolver**(`ts`: *typeof* tsStatic, `compilerOptions`: tsStatic.CompilerOptions): [ModuleResolver](src.moduleresolver.md)
+\+ **new ModuleResolver**(`ts`: *typeof* tsStatic, `compilerOptions`: tsStatic.CompilerOptions): [ModuleResolver](_src_moduleresolver_.moduleresolver.md)
 
 #### Parameters:
 
@@ -37,7 +37,7 @@ Name | Type |
 `ts` | *typeof* tsStatic |
 `compilerOptions` | tsStatic.CompilerOptions |
 
-**Returns:** [ModuleResolver](src.moduleresolver.md)
+**Returns:** [ModuleResolver](_src_moduleresolver_.moduleresolver.md)
 
 ## Methods
 

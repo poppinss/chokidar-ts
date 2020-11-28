@@ -1,6 +1,6 @@
 **[@poppinss/chokidar-ts](../README.md)**
 
-> [Globals](../README.md) / [src](../modules/src.md) / PluginManager
+> [Globals](../README.md) / ["src/PluginManager"](../modules/_src_pluginmanager_.md) / PluginManager
 
 # Class: PluginManager
 
@@ -15,8 +15,8 @@ transformers
 
 ### Methods
 
-* [getTransformers](src.pluginmanager.md#gettransformers)
-* [use](src.pluginmanager.md#use)
+* [getTransformers](_src_pluginmanager_.pluginmanager.md#gettransformers)
+* [use](_src_pluginmanager_.pluginmanager.md#use)
 
 ## Methods
 
@@ -39,7 +39,7 @@ ___
 
 ### use
 
-▸ **use**(`transformer`: [PluginFn](../modules/src.md#pluginfn), `lifecycle`: \"before\" \| \"after\"): this
+▸ **use**(`transformer`: [PluginFn](../modules/_src_contracts_.md#pluginfn), `lifecycle`: \"before\" \| \"after\"): this
 
 Hook plugin to define custom transformers
 
@@ -47,7 +47,7 @@ Hook plugin to define custom transformers
 
 Name | Type |
 ------ | ------ |
-`transformer` | [PluginFn](../modules/src.md#pluginfn) |
+`transformer` | [PluginFn](../modules/_src_contracts_.md#pluginfn) |
 `lifecycle` | \"before\" \| \"after\" |
 
 **Returns:** this

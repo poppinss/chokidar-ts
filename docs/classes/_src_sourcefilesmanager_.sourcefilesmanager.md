@@ -1,6 +1,6 @@
 **[@poppinss/chokidar-ts](../README.md)**
 
-> [Globals](../README.md) / [src](../modules/src.md) / SourceFilesManager
+> [Globals](../README.md) / ["src/SourceFilesManager"](../modules/_src_sourcefilesmanager_.md) / SourceFilesManager
 
 # Class: SourceFilesManager
 
@@ -16,31 +16,31 @@ are added and removed regularly.
 
 ### Constructors
 
-* [constructor](src.sourcefilesmanager.md#constructor)
+* [constructor](_src_sourcefilesmanager_.sourcefilesmanager.md#constructor)
 
 ### Methods
 
-* [add](src.sourcefilesmanager.md#add)
-* [bumpVersion](src.sourcefilesmanager.md#bumpversion)
-* [getFileVersion](src.sourcefilesmanager.md#getfileversion)
-* [isSourceFile](src.sourcefilesmanager.md#issourcefile)
-* [remove](src.sourcefilesmanager.md#remove)
-* [toJSON](src.sourcefilesmanager.md#tojson)
+* [add](_src_sourcefilesmanager_.sourcefilesmanager.md#add)
+* [bumpVersion](_src_sourcefilesmanager_.sourcefilesmanager.md#bumpversion)
+* [getFileVersion](_src_sourcefilesmanager_.sourcefilesmanager.md#getfileversion)
+* [isSourceFile](_src_sourcefilesmanager_.sourcefilesmanager.md#issourcefile)
+* [remove](_src_sourcefilesmanager_.sourcefilesmanager.md#remove)
+* [toJSON](_src_sourcefilesmanager_.sourcefilesmanager.md#tojson)
 
 ## Constructors
 
 ### constructor
 
-\+ **new SourceFilesManager**(`appRoot`: string, `options`: [SourceFilesManagerOptions](../modules/src.md#sourcefilesmanageroptions)): [SourceFilesManager](src.sourcefilesmanager.md)
+\+ **new SourceFilesManager**(`appRoot`: string, `options`: [SourceFilesManagerOptions](../modules/_src_contracts_.md#sourcefilesmanageroptions)): [SourceFilesManager](_src_sourcefilesmanager_.sourcefilesmanager.md)
 
 #### Parameters:
 
 Name | Type |
 ------ | ------ |
 `appRoot` | string |
-`options` | [SourceFilesManagerOptions](../modules/src.md#sourcefilesmanageroptions) |
+`options` | [SourceFilesManagerOptions](../modules/_src_contracts_.md#sourcefilesmanageroptions) |
 
-**Returns:** [SourceFilesManager](src.sourcefilesmanager.md)
+**Returns:** [SourceFilesManager](_src_sourcefilesmanager_.sourcefilesmanager.md)
 
 ## Methods
 
