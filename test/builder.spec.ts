@@ -53,7 +53,7 @@ test.group('Builder', (group) => {
 
     assert.isTrue(hasBarFile)
     assert.isTrue(hasBazFile)
-  }).timeout(6000)
+  }).timeout(9000)
 
   test('build project to custom out dir', async (assert) => {
     await fs.add(
@@ -84,7 +84,7 @@ test.group('Builder', (group) => {
 
     assert.isTrue(hasBarFile)
     assert.isTrue(hasBazFile)
-  }).timeout(6000)
+  }).timeout(9000)
 
   test('return file errors', async (assert) => {
     await fs.add(
@@ -123,7 +123,7 @@ test.group('Builder', (group) => {
 
     assert.isTrue(hasBarFile)
     assert.isTrue(hasBazFile)
-  }).timeout(6000)
+  }).timeout(9000)
 
   test('do not write files when noEmitOnError is true', async (assert) => {
     await fs.add(
@@ -163,5 +163,5 @@ test.group('Builder', (group) => {
 
     assert.isFalse(hasBarFile)
     assert.isFalse(hasBazFile)
-  }).timeout(6000)
+  }).timeout(9000)
 })
