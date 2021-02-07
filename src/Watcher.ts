@@ -25,180 +25,180 @@ const debug = Debug('tsc:watcher')
  * for changes.
  */
 export class Watcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
-	/**
-	 * Available only in both modes
-	 */
-	private sourceFilesManager: SourceFilesManager
+  /**
+   * Available only in both modes
+   */
+  private sourceFilesManager: SourceFilesManager
 
-	public chokidar: chokidar.FSWatcher
-	public program: tsStatic.Program
-	public host: tsStatic.CompilerHost
-	public compilerOptions?: tsStatic.CompilerOptions
+  public chokidar: chokidar.FSWatcher
+  public program: tsStatic.Program
+  public host: tsStatic.CompilerHost
+  public compilerOptions?: tsStatic.CompilerOptions
 
-	constructor(
-		private cwd: string,
-		private ts: typeof tsStatic,
-		private config: tsStatic.ParsedCommandLine,
-		private pluginManager: PluginManager
-	) {
-		super()
-		debug('initiating watcher')
-	}
+  constructor(
+    private cwd: string,
+    private ts: typeof tsStatic,
+    private config: tsStatic.ParsedCommandLine,
+    private pluginManager: PluginManager
+  ) {
+    super()
+    debug('initiating watcher')
+  }
 
-	/**
-	 * Returns a boolean telling if it is a script file or not.
-	 *
-	 * We check for the `compilerOptions.allowJs` before marking
-	 * `.js` files as a script files.
-	 */
-	private isScriptFile(filePath: string): boolean {
-		if (filePath.endsWith('.ts') || filePath.endsWith('.tsx')) {
-			return true
-		}
+  /**
+   * Returns a boolean telling if it is a script file or not.
+   *
+   * We check for the `compilerOptions.allowJs` before marking
+   * `.js` files as a script files.
+   */
+  private isScriptFile(filePath: string): boolean {
+    if (filePath.endsWith('.ts') || filePath.endsWith('.tsx')) {
+      return true
+    }
 
-		if (this.compilerOptions!.allowJs && filePath.endsWith('.js')) {
-			return true
-		}
+    if (this.compilerOptions!.allowJs && filePath.endsWith('.js')) {
+      return true
+    }
 
-		return false
-	}
+    return false
+  }
 
-	/**
-	 * Initiates the source file manager to track the source files as they
-	 * are added, changed and removed
-	 */
-	private initiateSourceFileManager(config: tsStatic.ParsedCommandLine) {
-		this.sourceFilesManager = new SourceFilesManager(this.cwd, {
-			includes: config['configFileSpecs'].validatedIncludeSpecs,
-			excludes: config['configFileSpecs'].validatedExcludeSpecs,
-			files: config!.fileNames,
-		})
-	}
+  /**
+   * Initiates the source file manager to track the source files as they
+   * are added, changed and removed
+   */
+  private initiateSourceFileManager(config: tsStatic.ParsedCommandLine) {
+    this.sourceFilesManager = new SourceFilesManager(this.cwd, {
+      includes: config['configFileSpecs'].validatedIncludeSpecs,
+      excludes: config['configFileSpecs'].validatedExcludeSpecs,
+      files: config!.fileNames,
+    })
+  }
 
-	/**
-	 * Initiates chokidar watcher
-	 */
-	private initiateWatcher(
-		watchPattern: string | string[] = ['.'],
-		watcherOptions?: chokidar.WatchOptions
-	) {
-		watcherOptions = Object.assign(
-			{
-				ignored: this.config.raw.exclude,
-				cwd: this.cwd,
-				ignoreInitial: true,
-			},
-			watcherOptions
-		)
+  /**
+   * Initiates chokidar watcher
+   */
+  private initiateWatcher(
+    watchPattern: string | string[] = ['.'],
+    watcherOptions?: chokidar.WatchOptions
+  ) {
+    watcherOptions = Object.assign(
+      {
+        ignored: this.config.raw.exclude,
+        cwd: this.cwd,
+        ignoreInitial: true,
+      },
+      watcherOptions
+    )
 
-		debug('initating watcher with %j options', watcherOptions)
-		this.chokidar = chokidar.watch(watchPattern, watcherOptions)
-	}
+    debug('initating watcher with %j options', watcherOptions)
+    this.chokidar = chokidar.watch(watchPattern, watcherOptions)
+  }
 
-	/**
-	 * Process the source file
-	 */
-	private async processSourceFile(
-		absPath: string,
-		relativePath: string,
-		trigger: 'add' | 'change'
-	) {
-		/**
-		 * Update the source files manager to add the new file or
-		 * bump it's version.
-		 *
-		 * Bumping the version is important, so that the typescript compiler
-		 * referencing the source files manager should re-read the file
-		 * from disk
-		 */
-		if (trigger === 'add') {
-			this.sourceFilesManager.add(absPath)
-			this.emit('source:add', { relativePath, absPath })
-		} else {
-			this.sourceFilesManager.bumpVersion(absPath)
-			this.emit('source:change', { relativePath, absPath })
-		}
-	}
+  /**
+   * Process the source file
+   */
+  private async processSourceFile(
+    absPath: string,
+    relativePath: string,
+    trigger: 'add' | 'change'
+  ) {
+    /**
+     * Update the source files manager to add the new file or
+     * bump it's version.
+     *
+     * Bumping the version is important, so that the typescript compiler
+     * referencing the source files manager should re-read the file
+     * from disk
+     */
+    if (trigger === 'add') {
+      this.sourceFilesManager.add(absPath)
+      this.emit('source:add', { relativePath, absPath })
+    } else {
+      this.sourceFilesManager.bumpVersion(absPath)
+      this.emit('source:change', { relativePath, absPath })
+    }
+  }
 
-	/**
-	 * Invoked when chokidar notifies for a new file addtion
-	 */
-	private onNewFile(filePath: string) {
-		const absPath = join(this.cwd, filePath)
+  /**
+   * Invoked when chokidar notifies for a new file addtion
+   */
+  private onNewFile(filePath: string) {
+    const absPath = join(this.cwd, filePath)
 
-		if (!this.isScriptFile(filePath) || !this.sourceFilesManager.isSourceFile(absPath)) {
-			debug('new file added "%s"', filePath)
-			this.emit('add', { relativePath: filePath, absPath })
-			return
-		}
+    if (!this.isScriptFile(filePath) || !this.sourceFilesManager.isSourceFile(absPath)) {
+      debug('new file added "%s"', filePath)
+      this.emit('add', { relativePath: filePath, absPath })
+      return
+    }
 
-		debug('new source file added "%s"', filePath)
-		this.processSourceFile(absPath, filePath, 'add')
-	}
+    debug('new source file added "%s"', filePath)
+    this.processSourceFile(absPath, filePath, 'add')
+  }
 
-	/**
-	 * Invoked when chokidar notifies for changes the existing
-	 * source file
-	 */
-	private onChange(filePath: string) {
-		const absPath = join(this.cwd, filePath)
+  /**
+   * Invoked when chokidar notifies for changes the existing
+   * source file
+   */
+  private onChange(filePath: string) {
+    const absPath = join(this.cwd, filePath)
 
-		if (!this.isScriptFile(filePath) || !this.sourceFilesManager.isSourceFile(absPath)) {
-			debug('file changed "%s"', filePath)
-			this.emit('change', { relativePath: filePath, absPath })
-			return
-		}
+    if (!this.isScriptFile(filePath) || !this.sourceFilesManager.isSourceFile(absPath)) {
+      debug('file changed "%s"', filePath)
+      this.emit('change', { relativePath: filePath, absPath })
+      return
+    }
 
-		debug('source file changed "%s"', filePath)
-		this.processSourceFile(absPath, filePath, 'change')
-	}
+    debug('source file changed "%s"', filePath)
+    this.processSourceFile(absPath, filePath, 'change')
+  }
 
-	/**
-	 * Invoked when chokidar notifies for file deletion
-	 */
-	private onRemove(filePath: string) {
-		const absPath = join(this.cwd, filePath)
+  /**
+   * Invoked when chokidar notifies for file deletion
+   */
+  private onRemove(filePath: string) {
+    const absPath = join(this.cwd, filePath)
 
-		if (!this.isScriptFile(filePath) || !this.sourceFilesManager.isSourceFile(absPath)) {
-			debug('file removed "%s"', filePath)
-			this.emit('unlink', { relativePath: filePath, absPath })
-			return
-		}
+    if (!this.isScriptFile(filePath) || !this.sourceFilesManager.isSourceFile(absPath)) {
+      debug('file removed "%s"', filePath)
+      this.emit('unlink', { relativePath: filePath, absPath })
+      return
+    }
 
-		debug('source file removed "%s"', filePath)
+    debug('source file removed "%s"', filePath)
 
-		/**
-		 * Clean up tracking for a given file
-		 */
-		this.sourceFilesManager.remove(absPath)
+    /**
+     * Clean up tracking for a given file
+     */
+    this.sourceFilesManager.remove(absPath)
 
-		/**
-		 * Notify subscribers
-		 */
-		this.emit('source:unlink', { relativePath: filePath, absPath })
-	}
+    /**
+     * Notify subscribers
+     */
+    this.emit('source:unlink', { relativePath: filePath, absPath })
+  }
 
-	/**
-	 * Build and watch project for changes
-	 */
-	public watch(watchPattern: string | string[] = ['.'], watcherOptions?: chokidar.WatchOptions) {
-		const builder = new Builder(this.ts, this.config, this.pluginManager)
-		builder.createProgram()
+  /**
+   * Build and watch project for changes
+   */
+  public watch(watchPattern: string | string[] = ['.'], watcherOptions?: chokidar.WatchOptions) {
+    const builder = new Builder(this.ts, this.config, this.pluginManager)
+    builder.createProgram()
 
-		this.host = builder.host
-		this.program = builder.program
-		this.compilerOptions = builder.compilerOptions
+    this.host = builder.host
+    this.program = builder.program
+    this.compilerOptions = builder.compilerOptions
 
-		this.initiateSourceFileManager(this.config)
-		this.initiateWatcher(watchPattern, watcherOptions)
+    this.initiateSourceFileManager(this.config)
+    this.initiateWatcher(watchPattern, watcherOptions)
 
-		this.chokidar.on('ready', () => {
-			debug('watcher ready')
-			this.emit('watcher:ready')
-		})
+    this.chokidar.on('ready', () => {
+      debug('watcher ready')
+      this.emit('watcher:ready')
+    })
 
-		this.chokidar.on('add', (path: string) => this.onNewFile(path))
-		this.chokidar.on('change', (path: string) => this.onChange(path))
-		this.chokidar.on('unlink', (path: string) => this.onRemove(path))
-	}
+    this.chokidar.on('add', (path: string) => this.onNewFile(path))
+    this.chokidar.on('change', (path: string) => this.onChange(path))
+    this.chokidar.on('unlink', (path: string) => this.onRemove(path))
+  }
 }
