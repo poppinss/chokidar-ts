@@ -28,7 +28,7 @@ const debug = Debug('tsc:watcher')
  * Exposes the API to build the typescript project and then watch it
  * for changes.
  */
-export class LspWatcher extends Emittery.Typed<WatcherEvents, 'watcher:ready'> {
+export class LspWatcher extends Emittery<WatcherEvents & { 'watcher:ready': undefined }> {
   /**
    * Available only in LSP mode
    */
