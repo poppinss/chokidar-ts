@@ -69,8 +69,8 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
    */
   private initiateSourceFileManager(config: tsStatic.ParsedCommandLine) {
     this.sourceFilesManager = new SourceFilesManager(this.cwd, {
-      includes: config['configFileSpecs'].validatedIncludeSpecs,
-      excludes: config['configFileSpecs'].validatedExcludeSpecs,
+      includes: config!.raw.include,
+      excludes: config!.raw.exclude,
       files: config!.fileNames,
     })
   }

@@ -40,8 +40,8 @@ test.group('Source Files Manager', (group) => {
     const config = parseTsConfig(join(fs.basePath, 'tsconfig.json'))
 
     const sourceFilesManager = new SourceFilesManager(fs.basePath, {
-      includes: config!['configFileSpecs'].validatedIncludeSpecs,
-      excludes: config!['configFileSpecs'].validatedExcludeSpecs,
+      includes: config!.raw.include,
+      excludes: config!.raw.exclude,
       files: config!.fileNames.map((fileName) => normalize(fileName)),
     })
 
@@ -65,8 +65,8 @@ test.group('Source Files Manager', (group) => {
     const config = parseTsConfig(join(fs.basePath, 'tsconfig.json'))
 
     const sourceFilesManager = new SourceFilesManager(fs.basePath, {
-      includes: config!['configFileSpecs'].validatedIncludeSpecs,
-      excludes: config!['configFileSpecs'].validatedExcludeSpecs,
+      includes: config!.raw.include,
+      excludes: config!.raw.exclude,
       files: config!.fileNames.map((fileName) => normalize(fileName)),
     })
 
@@ -86,8 +86,8 @@ test.group('Source Files Manager', (group) => {
     const config = parseTsConfig(join(fs.basePath, 'tsconfig.json'))
 
     const sourceFilesManager = new SourceFilesManager(fs.basePath, {
-      includes: config!['configFileSpecs'].validatedIncludeSpecs,
-      excludes: config!['configFileSpecs'].validatedExcludeSpecs,
+      includes: config!.raw.include,
+      excludes: config!.raw.exclude,
       files: config!.fileNames.map((fileName) => normalize(fileName)),
     })
 
@@ -109,8 +109,8 @@ test.group('Source Files Manager', (group) => {
     const config = parseTsConfig(join(fs.basePath, 'tsconfig.json'))
 
     const sourceFilesManager = new SourceFilesManager(fs.basePath, {
-      includes: config!['configFileSpecs'].validatedIncludeSpecs,
-      excludes: config!['configFileSpecs'].validatedExcludeSpecs,
+      includes: config!.raw.include,
+      excludes: config!.raw.exclude,
       files: config!.fileNames.map((fileName) => normalize(fileName)),
     })
 
@@ -132,8 +132,8 @@ test.group('Source Files Manager', (group) => {
     const config = parseTsConfig(join(fs.basePath, 'tsconfig.json'))
 
     const sourceFilesManager = new SourceFilesManager(fs.basePath, {
-      includes: config!['configFileSpecs'].validatedIncludeSpecs,
-      excludes: config!['configFileSpecs'].validatedExcludeSpecs,
+      includes: config!.raw.include,
+      excludes: config!.raw.exclude,
       files: config!.fileNames.map((fileName) => normalize(fileName)),
     })
 
@@ -151,8 +151,8 @@ test.group('Source Files Manager', (group) => {
 
     const config = parseTsConfig(join(fs.basePath, 'tsconfig.json'))
     const sourceFilesManager = new SourceFilesManager(fs.basePath, {
-      includes: config!['configFileSpecs'].validatedIncludeSpecs,
-      excludes: config!['configFileSpecs'].validatedExcludeSpecs,
+      includes: config!.raw.include,
+      excludes: config!.raw.exclude,
       files: config!.fileNames.map((fileName) => normalize(fileName)),
     })
 
@@ -170,8 +170,8 @@ test.group('Source Files Manager', (group) => {
 
     const config = parseTsConfig(join(fs.basePath, 'tsconfig.json'))
     const sourceFilesManager = new SourceFilesManager(fs.basePath, {
-      includes: config!['configFileSpecs'].validatedIncludeSpecs,
-      excludes: config!['configFileSpecs'].validatedExcludeSpecs,
+      includes: config!.raw.include,
+      excludes: config!.raw.exclude,
       files: config!.fileNames.map((fileName) => normalize(fileName)),
     })
 
@@ -188,8 +188,8 @@ test.group('Source Files Manager', (group) => {
 
     const config = parseTsConfig(join(fs.basePath, 'tsconfig.json'))
     const sourceFilesManager = new SourceFilesManager(fs.basePath, {
-      includes: config!['configFileSpecs'].validatedIncludeSpecs,
-      excludes: config!['configFileSpecs'].validatedExcludeSpecs,
+      includes: config!.raw.include,
+      excludes: config!.raw.exclude,
       files: config!.fileNames.map((fileName) => normalize(fileName)),
     })
 
@@ -208,8 +208,8 @@ test.group('Source Files Manager', (group) => {
 
     const config = parseTsConfig(join(fs.basePath, 'tsconfig.json'))
     const sourceFilesManager = new SourceFilesManager(fs.basePath, {
-      includes: config!['configFileSpecs'].validatedIncludeSpecs,
-      excludes: config!['configFileSpecs'].validatedExcludeSpecs,
+      includes: config!.raw.include,
+      excludes: config!.raw.exclude,
       files: config!.fileNames.map((fileName) => normalize(fileName)),
     })
 
