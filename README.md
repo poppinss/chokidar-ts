@@ -6,7 +6,7 @@
 
 > Typescript compiler using chokidar vs native Fs events.
 
-[![appveyor-image]][appveyor-url] [![gh-workflow-image]][gh-workflow-url] [![typescript-image]][typescript-url] [![npm-image]][npm-url] [![license-image]][license-url] [![synk-image]][synk-url]
+[![gh-workflow-image]][gh-workflow-url] [![typescript-image]][typescript-url] [![npm-image]][npm-url] [![license-image]][license-url] [![synk-image]][synk-url]
 
 This module uses the compiler API of typescript to work as replacement for `tsc` and `tsc --watch` and uses [chokidar](https://github.com/paulmillr/chokidar) for watching file changes.
 
@@ -324,9 +324,6 @@ When the `bar.ts` file changes, we also have to re-process the `foo.ts` to ensur
 To achieve the defined behavior, we maintain a reference tree of all the source files mentioned inside `includes` and not inside `excludes` of the `tsconfig.json` file.
 
 Reference tree for `node_modules` is not maintained. So, if you update a package, you will have to re-start the compiler.
-
-[appveyor-image]: https://img.shields.io/appveyor/ci/thetutlage/chokidar-ts/master.svg?style=for-the-badge&logo=appveyor
-[appveyor-url]: https://ci.appveyor.com/project/thetutlage/chokidar-ts 'appveyor'
 
 [gh-workflow-image]: https://img.shields.io/github/workflow/status/poppinss/chokidar-ts/test?style=for-the-badge
 [gh-workflow-url]: https://github.com/poppinss/chokidar-ts/actions/workflows/test.yml "Github action"
