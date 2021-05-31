@@ -6,7 +6,7 @@
 
 > Typescript compiler using chokidar vs native Fs events.
 
-[![appveyor-image]][appveyor-url] [![circleci-image]][circleci-url] [![typescript-image]][typescript-url] [![npm-image]][npm-url] [![license-image]][license-url] [![synk-image]][synk-url]
+[![appveyor-image]][appveyor-url] [![gh-workflow-image]][gh-workflow-url] [![typescript-image]][typescript-url] [![npm-image]][npm-url] [![license-image]][license-url] [![synk-image]][synk-url]
 
 This module uses the compiler API of typescript to work as replacement for `tsc` and `tsc --watch` and uses [chokidar](https://github.com/paulmillr/chokidar) for watching file changes.
 
@@ -327,13 +327,18 @@ Reference tree for `node_modules` is not maintained. So, if you update a package
 
 [appveyor-image]: https://img.shields.io/appveyor/ci/thetutlage/chokidar-ts/master.svg?style=for-the-badge&logo=appveyor
 [appveyor-url]: https://ci.appveyor.com/project/thetutlage/chokidar-ts 'appveyor'
-[circleci-image]: https://img.shields.io/circleci/project/github/poppinss/chokidar-ts/master.svg?style=for-the-badge&logo=circleci
-[circleci-url]: https://circleci.com/gh/poppinss/chokidar-ts 'circleci'
+
+[gh-workflow-image]: https://img.shields.io/github/workflow/status/poppinss/chokidar-ts/test?style=for-the-badge
+[gh-workflow-url]: https://github.com/poppinss/chokidar-ts/actions/workflows/test.yml "Github action"
+
 [typescript-image]: https://img.shields.io/badge/Typescript-294E80.svg?style=for-the-badge&logo=typescript
 [typescript-url]: "typescript"
+
 [npm-image]: https://img.shields.io/npm/v/@poppinss/chokidar-ts.svg?style=for-the-badge&logo=npm
 [npm-url]: https://npmjs.org/package/@poppinss/chokidar-ts 'npm'
+
 [license-image]: https://img.shields.io/npm/l/@poppinss/chokidar-ts?color=blueviolet&style=for-the-badge
 [license-url]: LICENSE.md 'license'
+
 [synk-image]: https://img.shields.io/snyk/vulnerabilities/github/poppinss/chokidar-ts?label=Synk%20Vulnerabilities&style=for-the-badge
 [synk-url]: https://snyk.io/test/github/poppinss/chokidar-ts?targetFile=package.json 'synk'

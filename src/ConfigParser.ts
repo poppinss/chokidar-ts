@@ -24,9 +24,7 @@ export class ConfigParser {
   /**
    * Parses the typescript config file
    */
-  public parse(
-    optionsToExtend?: tsStatic.CompilerOptions
-  ): {
+  public parse(optionsToExtend?: tsStatic.CompilerOptions): {
     error: tsStatic.Diagnostic | null
     config?: tsStatic.ParsedCommandLine
   } {
