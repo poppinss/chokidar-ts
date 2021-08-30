@@ -92,6 +92,6 @@
 	"homepage": "https://github.com/poppinss/chokidar-ts#readme",
 	"publishConfig": {
 		"access": "public",
-		"tag": "next"
+		"tag": "latest"
 	}
 }
