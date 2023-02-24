@@ -13,9 +13,7 @@ import chokidar from 'chokidar'
 import Emittery from 'emittery'
 import tsStatic from 'typescript'
 
-import { Builder } from './Builder'
 import { WatcherEvents } from './Contracts'
-import { PluginManager } from './PluginManager'
 import { SourceFilesManager } from './SourceFilesManager'
 
 const debug = Debug('tsc:watcher')
@@ -35,12 +33,7 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
   public host: tsStatic.CompilerHost
   public compilerOptions?: tsStatic.CompilerOptions
 
-  constructor(
-    private cwd: string,
-    private ts: typeof tsStatic,
-    private config: tsStatic.ParsedCommandLine,
-    private pluginManager: PluginManager
-  ) {
+  constructor(private cwd: string, private config: tsStatic.ParsedCommandLine) {
     super()
     debug('initiating watcher')
   }
@@ -182,13 +175,6 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
    * Build and watch project for changes
    */
   public watch(watchPattern: string | string[] = ['.'], watcherOptions?: chokidar.WatchOptions) {
-    const builder = new Builder(this.ts, this.config, this.pluginManager)
-    builder.createProgram()
-
-    this.host = builder.host
-    this.program = builder.program
-    this.compilerOptions = builder.compilerOptions
-
     this.initiateSourceFileManager(this.config)
     this.initiateWatcher(watchPattern, watcherOptions)
 

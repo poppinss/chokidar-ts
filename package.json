@@ -9,19 +9,17 @@
 		"build/index.js"
 	],
 	"scripts": {
-		"mrm": "mrm --preset=@adonisjs/mrm-preset",
 		"pretest": "npm run lint",
 		"test": "node .bin/test.js",
-		"clean": "del build",
+		"clean": "del-cli build",
 		"compile": "npm run lint && npm run clean && tsc",
 		"build": "npm run compile",
-		"commit": "git-cz",
 		"release": "np --message=\"chore(release): %s\"",
 		"version": "npm run build",
 		"format": "prettier --write .",
 		"prepublishOnly": "npm run build",
 		"lint": "eslint . --ext=.ts",
-		"sync-labels": "github-label-sync --labels ./node_modules/@adonisjs/mrm-preset/gh-labels.json poppinss/chokidar-ts"
+		"sync-labels": "github-label-sync --labels .github/labels.json poppinss/chokidar-ts"
 	},
 	"keywords": [
 		"typescript",
@@ -32,7 +30,6 @@
 	"author": "virk,poppinss",
 	"license": "MIT",
 	"devDependencies": {
-		"@adonisjs/mrm-preset": "^5.0.3",
 		"@adonisjs/require-ts": "^2.0.11",
 		"@poppinss/dev-utils": "^2.0.3",
 		"@types/debug": "^4.1.7",
@@ -49,7 +46,6 @@
 		"github-label-sync": "^2.2.0",
 		"husky": "^7.0.4",
 		"japa": "^4.0.0",
-		"mrm": "^4.0.0",
 		"np": "^7.6.1",
 		"prettier": "^2.6.2",
 		"typescript": "^4.6.3"
