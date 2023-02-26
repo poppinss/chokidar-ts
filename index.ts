@@ -7,4 +7,6 @@
  * file that was distributed with this source code.
  */
 
-export { TypescriptCompiler } from './src/TypescriptCompiler'
+export { Watcher } from './src/watcher.js'
+export { ConfigParser } from './src/config_parser.js'
+export { SourceFilesManager } from './src/source_files_manager.js'

@@ -1,24 +1,30 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "commonjs",
-    "lib": ["es2020"],
+    "target": "ESNext",
+    "module": "NodeNext",
+    "lib": ["ESNext"],
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "removeComments": false,
+    "isolatedModules": true,
+    "removeComments": true,
     "declaration": true,
-    "moduleResolution": "node",
-    "rootDir": ".",
-    "outDir": "build",
+    "rootDir": "./",
+    "outDir": "./build",
+    "esModuleInterop": true,
     "strictNullChecks": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "forceConsistentCasingInFileNames": true,
+    "strictPropertyInitialization": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    "skipLibCheck": true,
+    "types": ["@types/node"]
   },
-  "include": [
-    "./**/*"
-  ],
-  "exclude": [
-    "./node_modules",
-    "./build"
-  ]
+  "include": ["./**/*"],
+  "exclude": ["./node_modules", "./build"],
+  "ts-node": {
+    "swc": true
+  }
 }
