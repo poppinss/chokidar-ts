@@ -112,15 +112,6 @@ export class SourceFilesManager {
   }
 
   /**
-   * Returns file version
-   */
-  getFileVersion(filePath: string): null | number {
-    filePath = slash(filePath)
-    const projectFile = this.#projectFiles[filePath]
-    return projectFile ? projectFile.version : null
-  }
-
-  /**
    * Returns a copy of project source files
    */
   toJSON() {
