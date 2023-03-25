@@ -104,6 +104,10 @@ if (error) {
   return
 }
 
+if (!config) {
+  return
+}
+
 if (config.errors) {
   const compilerHost = typescript.createCompilerHost({})
   console.log(
