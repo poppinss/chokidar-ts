@@ -7,16 +7,13 @@
  * file that was distributed with this source code.
  */
 
+import slash from 'slash'
 import ts from 'typescript'
 import { test } from '@japa/runner'
 import { join, normalize } from 'node:path'
 
 import { ConfigParser } from '../src/config_parser.js'
 import { SourceFilesManager } from '../src/source_files_manager.js'
-
-function joinUnix(...paths: string[]): string {
-  return join(...paths).replace(/\\/g, '/')
-}
 
 test.group('Source Files Manager', () => {
   test('return files based on the includes pattern', async ({ assert, fs }) => {
@@ -37,7 +34,7 @@ test.group('Source Files Manager', () => {
     })
 
     assert.deepEqual(sourceFilesManager.toJSON(), {
-      [joinUnix(fs.basePath, 'foo', 'bar', 'baz.ts')]: {
+      [slash(join(fs.basePath, 'foo', 'bar', 'baz.ts'))]: {
         version: 1,
       },
     })
@@ -84,7 +81,7 @@ test.group('Source Files Manager', () => {
 
     sourceFilesManager.add(join(fs.basePath, './foo', 'baz.ts'))
     assert.deepEqual(sourceFilesManager.toJSON(), {
-      [joinUnix(fs.basePath, './foo', 'baz.ts')]: { version: 1 },
+      [slash(join(fs.basePath, './foo', 'baz.ts'))]: { version: 1 },
     })
   })
 
@@ -107,7 +104,7 @@ test.group('Source Files Manager', () => {
 
     sourceFilesManager.bumpVersion(join(fs.basePath, './foo', 'bar', 'baz.ts'))
     assert.deepEqual(sourceFilesManager.toJSON(), {
-      [joinUnix(fs.basePath, './foo', 'bar', 'baz.ts')]: { version: 2 },
+      [slash(join(fs.basePath, './foo', 'bar', 'baz.ts'))]: { version: 2 },
     })
   })
 

@@ -18,6 +18,7 @@ import type { SourceFilesManagerOptions } from './types.js'
 
 /**
  * Exposes the API to manage the source files for a typescript project.
+ * All paths are stored with unix paths
  */
 export class SourceFilesManager {
   #appRoot: string

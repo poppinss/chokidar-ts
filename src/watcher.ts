@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  */
 
+import slash from 'slash'
 import chokidar from 'chokidar'
 import Emittery from 'emittery'
 import { join } from 'node:path'
@@ -90,10 +91,10 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
      */
     if (trigger === 'add') {
       this.#sourceFilesManager.add(absPath)
-      this.emit('source:add', { relativePath, absPath })
+      this.emit('source:add', { relativePath: slash(relativePath), absPath })
     } else {
       this.#sourceFilesManager.bumpVersion(absPath)
-      this.emit('source:change', { relativePath, absPath })
+      this.emit('source:change', { relativePath: slash(relativePath), absPath })
     }
   }
 
@@ -105,7 +106,7 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
 
     if (!this.#isScriptFile(filePath) || !this.#sourceFilesManager.isSourceFile(absPath)) {
       debug('new file added "%s"', filePath)
-      this.emit('add', { relativePath: filePath, absPath })
+      this.emit('add', { relativePath: slash(filePath), absPath })
       return
     }
 
@@ -122,7 +123,7 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
 
     if (!this.#isScriptFile(filePath) || !this.#sourceFilesManager.isSourceFile(absPath)) {
       debug('file changed "%s"', filePath)
-      this.emit('change', { relativePath: filePath, absPath })
+      this.emit('change', { relativePath: slash(filePath), absPath })
       return
     }
 
@@ -138,7 +139,7 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
 
     if (!this.#isScriptFile(filePath) || !this.#sourceFilesManager.isSourceFile(absPath)) {
       debug('file removed "%s"', filePath)
-      this.emit('unlink', { relativePath: filePath, absPath })
+      this.emit('unlink', { relativePath: slash(filePath), absPath })
       return
     }
 
@@ -152,7 +153,7 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
     /**
      * Notify subscribers
      */
-    this.emit('source:unlink', { relativePath: filePath, absPath })
+    this.emit('source:unlink', { relativePath: slash(filePath), absPath })
   }
 
   /**
