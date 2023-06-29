@@ -1,6 +1,6 @@
 {
 	"name": "@poppinss/chokidar-ts",
-	"version": "4.1.0-3",
+	"version": "4.1.0-4",
 	"description": "File watcher that creates a file watcher after parsing tsconfig.json file",
 	"main": "build/index.js",
 	"type": "module",
@@ -13,14 +13,14 @@
 		".": "./build/index.js",
 		"./types": "./build/src/types.js"
 	},
-  "engines": {
-    "node": ">=18.16.0"
-  },
+	"engines": {
+		"node": ">=18.16.0"
+	},
 	"scripts": {
 		"pretest": "npm run lint",
 		"test": "cross-env NODE_DEBUG=chokidar:ts c8 npm run quick:test",
 		"clean": "del-cli build",
-    "typecheck": "tsc --noEmit",
+		"typecheck": "tsc --noEmit",
 		"compile": "npm run lint && npm run clean && tsc",
 		"build": "npm run compile",
 		"release": "np",
