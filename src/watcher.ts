@@ -33,7 +33,7 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
     const outDir = config.raw.compilerOptions?.outDir
     const includes = config.raw.include || DEFAULT_INCLUDES
     const excludes =
-      config.raw.exclude || outDir ? DEFAULT_EXCLUDES.concat(outDir) : DEFAULT_EXCLUDES
+      config.raw.exclude || (outDir ? DEFAULT_EXCLUDES.concat(outDir) : DEFAULT_EXCLUDES)
 
     debug('initiating watcher %O', { includes, excludes, outDir, files: config.fileNames })
 
