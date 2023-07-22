@@ -17,6 +17,9 @@ import debug from './debug.js'
 import type { WatcherEvents } from './types.js'
 import { SourceFilesManager } from './source_files_manager.js'
 
+const DEFAULT_INCLUDES = ['**/*']
+const DEFAULT_EXCLUDES = ['node_modules/**', 'bower_components/**', 'jspm_packages/**']
+
 /**
  * Exposes the API to build the typescript project and then watch it
  * for changes.
@@ -27,15 +30,20 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
   #sourceFilesManager: SourceFilesManager
 
   constructor(cwd: string, config: tsStatic.ParsedCommandLine) {
-    debug('initiating watcher')
+    const outDir = config.raw.compilerOptions?.outDir
+    const includes = config.raw.include || DEFAULT_INCLUDES
+    const excludes =
+      config.raw.exclude || outDir ? DEFAULT_EXCLUDES.concat(outDir) : DEFAULT_EXCLUDES
+
+    debug('initiating watcher %O', { includes, excludes, outDir, files: config.fileNames })
 
     super()
     this.#cwd = cwd
     this.#config = config
     this.#sourceFilesManager = new SourceFilesManager(this.#cwd, {
-      includes: config!.raw.include,
-      excludes: config!.raw.exclude,
-      files: config!.fileNames,
+      includes,
+      excludes,
+      files: config.fileNames,
     })
   }
 
