@@ -1,7 +1,7 @@
 # Chokidar TS
 > A thin wrapper on top of [chokidar](https://github.com/paulmillr/chokidar) file watcher that relies on the `tsconfig.json` file to distinguish between the TypeScript source files and other files.
 
-[![gh-workflow-image]][gh-workflow-url] [![typescript-image]][typescript-url] [![npm-image]][npm-url] [![license-image]][license-url] [![synk-image]][synk-url]
+[![gh-workflow-image]][gh-workflow-url] [![typescript-image]][typescript-url] [![npm-image]][npm-url] [![license-image]][license-url]
 
 ## Why does this package exists?
 When running a Node.js backend development server with a file watcher, we need to know whether a newly added or changed file is part of our TypeScript project.
@@ -118,8 +118,8 @@ if (config.errors) {
 }
 ```
 
-[gh-workflow-image]: https://img.shields.io/github/actions/workflow/status/poppinss/chokidar-ts/test.yml?style=for-the-badge
-[gh-workflow-url]: https://github.com/poppinss/chokidar-ts/actions/workflows/test.yml "Github action"
+[gh-workflow-image]: https://img.shields.io/github/actions/workflow/status/poppinss/chokidar-ts/checks.yml?style=for-the-badge
+[gh-workflow-url]: https://github.com/poppinss/chokidar-ts/actions/workflows/checks.yml "Github action"
 
 [typescript-image]: https://img.shields.io/badge/Typescript-294E80.svg?style=for-the-badge&logo=typescript
 [typescript-url]: "typescript"
@@ -129,6 +129,3 @@ if (config.errors) {
 
 [license-image]: https://img.shields.io/npm/l/@poppinss/chokidar-ts?color=blueviolet&style=for-the-badge
 [license-url]: LICENSE.md 'license'
-
-[synk-image]: https://img.shields.io/snyk/vulnerabilities/github/poppinss/chokidar-ts?label=Synk%20Vulnerabilities&style=for-the-badge
-[synk-url]: https://snyk.io/test/github/poppinss/chokidar-ts?targetFile=package.json 'synk'
