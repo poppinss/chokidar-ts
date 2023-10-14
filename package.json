@@ -1,6 +1,6 @@
 {
 	"name": "@poppinss/chokidar-ts",
-	"version": "4.1.0-7",
+	"version": "4.1.0",
 	"description": "File watcher that creates a file watcher after parsing tsconfig.json file",
 	"main": "build/index.js",
 	"type": "module",
@@ -107,15 +107,15 @@
 		"extends": "@adonisjs/eslint-config/package"
 	},
 	"prettier": "@adonisjs/prettier-config",
-  "tsup": {
-    "entry": [
-      "./index.ts",
-      "./src/types.ts"
-    ],
-    "outDir": "./build",
-    "clean": true,
-    "format": "esm",
-    "dts": true,
-    "target": "esnext"
-  }
+	"tsup": {
+		"entry": [
+			"./index.ts",
+			"./src/types.ts"
+		],
+		"outDir": "./build",
+		"clean": true,
+		"format": "esm",
+		"dts": true,
+		"target": "esnext"
+	}
 }
