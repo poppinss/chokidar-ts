@@ -1,32 +1,21 @@
 /*
  * @poppinss/chokidar-ts
  *
- * (c) Harminder Virk <virk@adonisjs.com>
+ * (c) Poppinss
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
-import { join } from 'path'
+import slash from 'slash'
 import ts from 'typescript'
-import { Filesystem } from '@poppinss/dev-utils'
+import { join } from 'node:path'
+import { test } from '@japa/runner'
 
-import { ConfigParser } from '../src/ConfigParser'
-import { normalizeSlash } from '../test-helpers'
+import { ConfigParser } from '../src/config_parser.js'
 
-const fs = new Filesystem(join(__dirname, 'app'))
-
-test.group('Config Parser', (group) => {
-  group.afterEach(async () => {
-    await fs.cleanup()
-  })
-
-  group.beforeEach(async () => {
-    await fs.ensureRoot()
-  })
-
-  test('raise error when config file is missing', (assert) => {
+test.group('Config Parser', () => {
+  test('raise error when config file is missing', ({ fs, assert }) => {
     const configParser = new ConfigParser(fs.basePath, 'tsconfig.json', ts)
     const { error, config } = configParser.parse()
 
@@ -37,8 +26,8 @@ test.group('Config Parser', (group) => {
     )
   })
 
-  test('raise error when config file has unknown options', async (assert) => {
-    await fs.add(
+  test('raise error when config file has unknown options', async ({ fs, assert }) => {
+    await fs.create(
       'tsconfig.json',
       JSON.stringify({
         compilerOptions: {
@@ -55,26 +44,26 @@ test.group('Config Parser', (group) => {
     assert.equal(config!.errors[0].messageText, "Unknown compiler option 'foo'.")
   })
 
-  test('parse config file and populate include files', async (assert) => {
-    await fs.add(
+  test('parse config file and populate include files', async ({ fs, assert }) => {
+    await fs.create(
       'tsconfig.json',
       JSON.stringify({
         include: ['./**/*'],
       })
     )
 
-    await fs.add('bar/foo.ts', '')
+    await fs.create('bar/foo.ts', '')
 
     const configParser = new ConfigParser(fs.basePath, 'tsconfig.json', ts)
     const { error, config } = configParser.parse()
 
     assert.isNull(error)
     assert.lengthOf(config!.errors, 0)
-    assert.deepEqual(config!.fileNames, [normalizeSlash(join(fs.basePath, 'bar/foo.ts'))])
+    assert.deepEqual(config!.fileNames, [slash(join(fs.basePath, 'bar/foo.ts'))])
   })
 
-  test('parse config file and respect exclude pattern', async (assert) => {
-    await fs.add(
+  test('parse config file and respect exclude pattern', async ({ fs, assert }) => {
+    await fs.create(
       'tsconfig.json',
       JSON.stringify({
         include: ['./**/*'],
@@ -82,7 +71,7 @@ test.group('Config Parser', (group) => {
       })
     )
 
-    await fs.add('bar/foo.ts', '')
+    await fs.create('bar/foo.ts', '')
 
     const configParser = new ConfigParser(fs.basePath, 'tsconfig.json', ts)
     const { error, config } = configParser.parse()
@@ -92,8 +81,8 @@ test.group('Config Parser', (group) => {
     assert.deepEqual(config!.fileNames, [])
   })
 
-  test('parse config file and respect explicit files array', async (assert) => {
-    await fs.add(
+  test('parse config file and respect explicit files array', async ({ fs, assert }) => {
+    await fs.create(
       'tsconfig.json',
       JSON.stringify({
         include: ['./**/*'],
@@ -102,13 +91,13 @@ test.group('Config Parser', (group) => {
       })
     )
 
-    await fs.add('bar/foo.ts', '')
+    await fs.create('bar/foo.ts', '')
 
     const configParser = new ConfigParser(fs.basePath, 'tsconfig.json', ts)
     const { error, config } = configParser.parse()
 
     assert.isNull(error)
     assert.lengthOf(config!.errors, 0)
-    assert.deepEqual(config!.fileNames, [normalizeSlash(join(fs.basePath, 'bar/foo.ts'))])
+    assert.deepEqual(config!.fileNames, [slash(join(fs.basePath, 'bar/foo.ts'))])
   })
 })
