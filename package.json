@@ -1,13 +1,13 @@
 {
 	"name": "@poppinss/chokidar-ts",
-	"version": "4.1.0",
+	"version": "4.1.1",
 	"description": "File watcher that creates a file watcher after parsing tsconfig.json file",
 	"main": "build/index.js",
 	"type": "module",
 	"files": [
 		"build",
-    "!build/bin",
-    "!build/tests"
+		"!build/bin",
+		"!build/tests"
 	],
 	"exports": {
 		".": "./build/index.js",
@@ -21,7 +21,7 @@
 		"test": "cross-env NODE_DEBUG=chokidar:ts c8 npm run quick:test",
 		"clean": "del-cli build",
 		"typecheck": "tsc --noEmit",
-    "precompile": "npm run lint && npm run clean",
+		"precompile": "npm run lint && npm run clean",
 		"compile": "tsup-node && tsc --emitDeclarationOnly --declaration",
 		"build": "npm run compile",
 		"release": "np",
@@ -119,7 +119,7 @@
 		"clean": true,
 		"format": "esm",
 		"dts": false,
-    "sourcemap": true,
+		"sourcemap": true,
 		"target": "esnext"
 	}
 }
