@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import mem from 'mem'
 import slash from 'slash'
+import memoize from 'memoize'
 import { join } from 'node:path'
 import picomatch from 'picomatch'
 import type tsStatic from 'typescript'
@@ -36,7 +36,7 @@ export class SourceFilesManager {
    * A memoized function to match the file path against included and excluded
    * picomatch patterns
    */
-  #matchAgainstPattern = mem((filePath: string) => {
+  #matchAgainstPattern = memoize((filePath: string) => {
     filePath = slash(filePath)
 
     if (!this.#included(filePath)) {
