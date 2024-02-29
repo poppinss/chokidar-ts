@@ -68,7 +68,7 @@
 		"chokidar": "^3.5.3",
 		"emittery": "^1.0.1",
 		"memoize": "^10.0.0",
-		"picomatch": "^3.0.1",
+		"picomatch": "^4.0.1",
 		"slash": "^5.1.0"
 	},
 	"peerDependencies": {
