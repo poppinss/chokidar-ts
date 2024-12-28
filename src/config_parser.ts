@@ -8,8 +8,8 @@
  */
 
 import { join } from 'node:path'
-import { fileURLToPath } from 'node:url'
 import type tsStatic from 'typescript'
+import { fileURLToPath } from 'node:url'
 
 import debug from './debug.js'
 

@@ -1,17 +1,17 @@
 /*
  * @poppinss/chokidar-ts
  *
- * (c) Harminder Virk <virk@adonisjs.com>
+ * (c) Poppinss
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
 import slash from 'slash'
-import chokidar from 'chokidar'
 import Emittery from 'emittery'
 import { join } from 'node:path'
 import tsStatic from 'typescript'
+import chokidar, { type ChokidarOptions } from 'chokidar'
 
 import debug from './debug.js'
 import type { WatcherEvents } from './types.js'
@@ -68,10 +68,7 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
   /**
    * Initiates chokidar watcher
    */
-  #initiateWatcher(
-    watchPattern: string | string[] = ['.'],
-    watcherOptions?: chokidar.WatchOptions
-  ) {
+  #initiateWatcher(watchPattern: string | string[] = ['.'], watcherOptions?: ChokidarOptions) {
     watcherOptions = Object.assign(
       {
         ignored: this.#config.raw.exclude,
@@ -167,7 +164,7 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
   /**
    * Build and watch project for changes
    */
-  watch(watchPattern: string | string[] = ['.'], watcherOptions?: chokidar.WatchOptions) {
+  watch(watchPattern: string | string[] = ['.'], watcherOptions?: ChokidarOptions) {
     const watcher = this.#initiateWatcher(watchPattern, watcherOptions)
 
     watcher.on('ready', () => {
