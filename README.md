@@ -14,7 +14,15 @@ This is precisely what this package does. It will create a file watcher using ch
 Install the package from the npm packages registry. In addition, the package has a peer dependency on the `typescript` package, so make sure to install that as well.
 
 ```sh
-npm i @poppinss/chokidar-ts@next
+npm i @poppinss/chokidar-ts
+```
+
+```sh
+yarn add @poppinss/chokidar-ts
+```
+
+```sh
+pnpm add @poppinss/chokidar-ts
 ```
 
 And use it as follows.

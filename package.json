@@ -1,7 +1,7 @@
 {
 	"name": "@poppinss/chokidar-ts",
 	"version": "4.1.4",
-	"description": "File watcher that creates a file watcher after parsing tsconfig.json file",
+	"description": "File watcher for TypeScript projects",
 	"main": "build/index.js",
 	"type": "module",
 	"files": [
