@@ -18,6 +18,7 @@ import type { WatcherEvents } from './types.js'
 import { SourceFilesManager } from './source_files_manager.js'
 
 const DEFAULT_INCLUDES = ['**/*']
+const ALWAYS_EXCLUDE = ['.git/**', 'coverage/**', '.github/**']
 const DEFAULT_EXCLUDES = ['node_modules/**', 'bower_components/**', 'jspm_packages/**']
 
 /**
@@ -32,10 +33,16 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
   constructor(cwd: string, config: tsStatic.ParsedCommandLine) {
     const outDir = config.raw.compilerOptions?.outDir
     const includes = config.raw.include || DEFAULT_INCLUDES
-    const excludes =
+    const excludes = ALWAYS_EXCLUDE.concat(
       config.raw.exclude || (outDir ? DEFAULT_EXCLUDES.concat(outDir) : DEFAULT_EXCLUDES)
+    )
 
-    debug('initiating watcher %O', { includes, excludes, outDir, files: config.fileNames })
+    debug('initiating watcher %O', {
+      includes: includes,
+      excludes: excludes,
+      outDir,
+      files: config.fileNames,
+    })
 
     super()
     this.#cwd = cwd
@@ -71,7 +78,9 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
   #initiateWatcher(watchPattern: string | string[] = ['.'], watcherOptions?: ChokidarOptions) {
     watcherOptions = Object.assign(
       {
-        ignored: this.#config.raw.exclude,
+        ignored: (filePath: string) => {
+          return !this.#sourceFilesManager.isSourceFile(filePath)
+        },
         cwd: this.#cwd,
         ignoreInitial: true,
       },

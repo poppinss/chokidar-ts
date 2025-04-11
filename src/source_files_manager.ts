@@ -40,10 +40,12 @@ export class SourceFilesManager {
     filePath = slash(filePath)
 
     if (!this.#included(filePath)) {
+      debug('file rejected by includes %s', filePath)
       return false
     }
 
     if (this.#excluded(filePath)) {
+      debug('file rejected by excludes %s', filePath)
       return false
     }
 
@@ -108,8 +110,15 @@ export class SourceFilesManager {
    * them against `includes`, `excludes` and custom set of `files`.
    */
   isSourceFile(filePath: string): boolean {
+    debug('matching for watched file %s', filePath)
     filePath = slash(filePath)
-    return !!this.#projectFiles[filePath] || this.#matchAgainstPattern(filePath)
+
+    return (
+      !!this.#projectFiles[filePath] ||
+      filePath === this.#appRoot ||
+      `${filePath}/` === this.#appRoot ||
+      this.#matchAgainstPattern(filePath)
+    )
   }
 
   /**
