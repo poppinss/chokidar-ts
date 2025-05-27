@@ -11,14 +11,13 @@ import slash from 'slash'
 import memoize from 'memoize'
 import { join } from 'node:path'
 import picomatch from 'picomatch'
-import type tsStatic from 'typescript'
 
 import debug from './debug.js'
 import type { SourceFilesManagerOptions } from './types.js'
 
 /**
  * Exposes the API to manage the source files for a typescript project.
- * All paths are stored with unix paths
+ * All paths are stored as unix paths
  */
 export class SourceFilesManager {
   #appRoot: string
@@ -26,11 +25,9 @@ export class SourceFilesManager {
   #excluded: picomatch.Matcher
 
   /**
-   * A collection of project files collected as part of the first scan. We need
-   * an object here, so that we can share it by reference with the
-   * typescript language server.
+   * A collection of project files collected as part of the first scan.
    */
-  #projectFiles: tsStatic.MapLike<{ version: number }> = {}
+  #projectFiles: Record<string, boolean> = {}
 
   /**
    * A memoized function to match the file path against included and excluded
@@ -71,29 +68,12 @@ export class SourceFilesManager {
   }
 
   /**
-   * Add a new source file to the list of project files. This is helpful
-   * when new source files are added after the initial typescript
-   * build.
+   * Track a new source file
    */
   add(filePath: string): void {
     filePath = slash(filePath)
-    this.#projectFiles[filePath] = this.#projectFiles[filePath] || { version: 1 }
+    this.#projectFiles[filePath] = true
     debug('adding new source file "%s"', filePath)
-  }
-
-  /**
-   * Bumps the project file version. This is required to tell the
-   * typescript compiler that file has been changed.
-   */
-  bumpVersion(filePath: string) {
-    filePath = slash(filePath)
-    const projectFile = this.#projectFiles[filePath]
-    if (!projectFile) {
-      return
-    }
-
-    projectFile.version++
-    debug('source file version bump "%s:%d"', filePath, projectFile.version)
   }
 
   /**

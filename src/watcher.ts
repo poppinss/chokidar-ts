@@ -92,27 +92,6 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
   }
 
   /**
-   * Process the source file
-   */
-  async #processSourceFile(absPath: string, relativePath: string, trigger: 'add' | 'change') {
-    /**
-     * Update the source files manager to add the new file or
-     * bump it's version.
-     *
-     * Bumping the version is important, so that the typescript compiler
-     * referencing the source files manager should re-read the file
-     * from disk
-     */
-    if (trigger === 'add') {
-      this.#sourceFilesManager.add(absPath)
-      this.emit('source:add', { relativePath: slash(relativePath), absPath })
-    } else {
-      this.#sourceFilesManager.bumpVersion(absPath)
-      this.emit('source:change', { relativePath: slash(relativePath), absPath })
-    }
-  }
-
-  /**
    * Invoked when chokidar notifies for a new file addtion
    */
   #onNewFile(filePath: string) {
@@ -125,7 +104,8 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
     }
 
     debug('new source file added "%s"', filePath)
-    this.#processSourceFile(absPath, filePath, 'add')
+    this.#sourceFilesManager.add(absPath)
+    this.emit('source:add', { relativePath: slash(filePath), absPath })
   }
 
   /**
@@ -142,7 +122,7 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
     }
 
     debug('source file changed "%s"', filePath)
-    this.#processSourceFile(absPath, filePath, 'change')
+    this.emit('source:change', { relativePath: slash(filePath), absPath })
   }
 
   /**
