@@ -34,9 +34,7 @@ test.group('Source Files Manager', () => {
     })
 
     assert.deepEqual(sourceFilesManager.toJSON(), {
-      [slash(join(fs.basePath, 'foo', 'bar', 'baz.ts'))]: {
-        version: 1,
-      },
+      [slash(join(fs.basePath, 'foo', 'bar', 'baz.ts'))]: true,
     })
   })
 
@@ -81,30 +79,7 @@ test.group('Source Files Manager', () => {
 
     sourceFilesManager.add(join(fs.basePath, './foo', 'baz.ts'))
     assert.deepEqual(sourceFilesManager.toJSON(), {
-      [slash(join(fs.basePath, './foo', 'baz.ts'))]: { version: 1 },
-    })
-  })
-
-  test('bump version for existing source file', async ({ assert, fs }) => {
-    await fs.create(
-      'tsconfig.json',
-      JSON.stringify({
-        include: ['./**/*'],
-      })
-    )
-    await fs.create('foo/bar/baz.ts', "import path from 'path'")
-
-    const { config } = new ConfigParser(fs.basePath, 'tsconfig.json', ts).parse()
-
-    const sourceFilesManager = new SourceFilesManager(fs.basePath, {
-      includes: config!.raw.include,
-      excludes: config!.raw.exclude,
-      files: config!.fileNames.map((fileName) => normalize(fileName)),
-    })
-
-    sourceFilesManager.bumpVersion(join(fs.basePath, './foo', 'bar', 'baz.ts'))
-    assert.deepEqual(sourceFilesManager.toJSON(), {
-      [slash(join(fs.basePath, './foo', 'bar', 'baz.ts'))]: { version: 2 },
+      [slash(join(fs.basePath, './foo', 'baz.ts'))]: true,
     })
   })
 
