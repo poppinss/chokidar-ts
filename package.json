@@ -1,6 +1,6 @@
 {
 	"name": "@poppinss/chokidar-ts",
-	"version": "4.1.6",
+	"version": "4.1.7",
 	"description": "File watcher for TypeScript projects",
 	"main": "build/index.js",
 	"type": "module",
