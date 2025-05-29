@@ -178,4 +178,42 @@ test.group('Source Files Manager', () => {
 
     assert.isTrue(sourceFilesManager.isSourceFile(join(fs.basePath, './foo', 'bar', 'baz.ts')))
   })
+
+  test('test if a file or folder should be watched', async ({ assert, fs }) => {
+    await fs.create(
+      'tsconfig.json',
+      JSON.stringify({
+        include: ['./**/*'],
+        exclude: ['./foo/bar/baz.ts'],
+      })
+    )
+
+    const { config } = new ConfigParser(fs.basePath, 'tsconfig.json', ts).parse()
+    const sourceFilesManager = new SourceFilesManager(fs.basePath, {
+      includes: config!.raw.include,
+      excludes: config!.raw.exclude,
+      files: config!.fileNames.map((fileName) => normalize(fileName)),
+    })
+
+    /**
+     * Should watch the app root
+     */
+    assert.isTrue(sourceFilesManager.shouldWatch(fs.basePath))
+    assert.isTrue(sourceFilesManager.shouldWatch(slash(fs.basePath)))
+
+    /**
+     * Should watch included script files
+     */
+    assert.isTrue(sourceFilesManager.shouldWatch(join(fs.basePath, './foo', 'baz.ts')))
+
+    /**
+     * Should watch included directories
+     */
+    assert.isTrue(sourceFilesManager.shouldWatch(join(fs.basePath, './foo', 'bar')))
+
+    /**
+     * Should not watch excluded file
+     */
+    assert.isFalse(sourceFilesManager.shouldWatch(join(fs.basePath, './foo', 'bar', 'baz.ts')))
+  })
 })

@@ -34,8 +34,6 @@ export class SourceFilesManager {
    * picomatch patterns
    */
   #matchAgainstPattern = memoize((filePath: string) => {
-    filePath = slash(filePath)
-
     if (!this.#included(filePath)) {
       debug('file rejected by includes %s', filePath)
       return false
@@ -50,7 +48,7 @@ export class SourceFilesManager {
   })
 
   constructor(appRoot: string, options: SourceFilesManagerOptions) {
-    this.#appRoot = appRoot
+    this.#appRoot = slash(appRoot).replace(/\/$/, '')
 
     options.files.forEach((file) => this.add(file))
 
