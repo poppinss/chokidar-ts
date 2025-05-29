@@ -196,9 +196,9 @@ test.group('Source Files Manager', () => {
     })
 
     /**
-     * Should watch the app root
+     * Should watch the app root. Since chokidar ignore paths are in unix, we
+     * must convert the input path to unix as well.
      */
-    assert.isTrue(sourceFilesManager.shouldWatch(fs.basePath))
     assert.isTrue(sourceFilesManager.shouldWatch(slash(fs.basePath)))
 
     /**
