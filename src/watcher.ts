@@ -79,7 +79,7 @@ export class Watcher extends Emittery<WatcherEvents & { 'watcher:ready': undefin
     watcherOptions = Object.assign(
       {
         ignored: (filePath: string) => {
-          return !this.#sourceFilesManager.isSourceFile(filePath)
+          return !this.#sourceFilesManager.shouldWatch(filePath)
         },
         cwd: this.#cwd,
         ignoreInitial: true,

@@ -93,12 +93,21 @@ export class SourceFilesManager {
     debug('matching for watched file %s', filePath)
     filePath = slash(filePath)
 
-    return (
-      !!this.#projectFiles[filePath] ||
-      filePath === this.#appRoot ||
-      `${filePath}/` === this.#appRoot ||
-      this.#matchAgainstPattern(filePath)
-    )
+    return !!this.#projectFiles[filePath] || this.#matchAgainstPattern(filePath)
+  }
+
+  /**
+   * Returns true if the file should be watched
+   */
+  shouldWatch(filePath: string) {
+    /**
+     * Always watch the project root
+     */
+    if (filePath === this.#appRoot) {
+      return true
+    }
+
+    return this.isSourceFile(filePath)
   }
 
   /**
